@@ -11,27 +11,16 @@
                 <!-- Website Analytics -->
 
 
-                {{-- <?php $jmlh_akun = 0 ?>
+                <?php $jmlh_akun = 0 ?>
                 @foreach ($t_akun as $item)
                     <?php $jmlh_akun = $jmlh_akun + 1 ?>
                 @endforeach
             
             
-                <?php $jmlh_lahan = 0 ?>
-                @foreach ($t_lahan as $item)
-                    <?php $jmlh_lahan = $jmlh_lahan + 1 ?>
+                <?php $jmlh_firebase = 0 ?>
+                @foreach ($t_firebase as $item)
+                    <?php $jmlh_firebase = $jmlh_firebase + 1 ?>
                 @endforeach
-
-                <?php $jmlh_pere = 0 ?>
-                @foreach ($t_pere as $item)
-                    <?php $jmlh_pere = $jmlh_pere + 1 ?>
-                @endforeach
-
-
-                <?php $jmlh_kopi = 0 ?>
-                @foreach ($t_kopi as $item)
-                    <?php $jmlh_kopi = $jmlh_kopi + 1 ?>
-                @endforeach --}}
 
 
 <!-- Subscriber Gained -->
@@ -44,7 +33,7 @@
                           <i class="ti ti-users ti-sm"></i>
                         </span>
                         <h3 class="card-title mb-0 mt-2">
-                            {{-- {{$jmlh_akun}} --}} 9999
+                            {{$jmlh_akun}}
                         </h3>
                         </div>
 
@@ -62,14 +51,14 @@
                       <div class="card-icon mb-2">
                         <div class="d-flex">
                           <span class="badge me-3 bg-label-danger rounded-pill p-3">
-                            <i class="ti ti-shopping-cart ti-sm"></i>
+                            <i class="ti ti-user ti-sm"></i>
                           </span>
                           <h3 class="card-title mb-0 mt-2">
                             {{-- {{$jmlh_kopi}} --}} 99999
                         </h3>
                         </div>
                       </div>
-                      <h5>Total Produk Kopi</h5>
+                      <h5>Total Mitra</h5>
                     </div>
                     <div id="quarterlySales"></div>
                   </div>
@@ -82,14 +71,14 @@
                       <div class="card-icon mb-2">
                         <div class="d-flex">
                           <span class="badge me-3 bg-label-warning rounded-pill p-3">
-                            <i class="ti ti-package ti-sm"></i>
+                            <i class="ti ti-shopping-cart ti-sm"></i>
                           </span>
                           <h3 class="card-title mb-0 mt-2">
                             {{-- {{$jmlh_pere}} --}} 999999
                         </h3>
                         </div>
                       </div>
-                      <h5>Total Peremajaan</h5>
+                      <h5>Total Pembelian</h5>
                     </div>
                     <div id="orderReceived"></div>
                   </div>
@@ -102,14 +91,14 @@
                       <div class="card-icon mb-2">
                         <div class="d-flex">
                           <span class="badge me-3 bg-label-success rounded-pill p-3">
-                            <i class="ti ti-credit-card ti-sm"></i>
+                            <i class="ti ti-link ti-sm"></i>
                           </span>
                           <h3 class="card-title mb-0 mt-2">
-                            {{-- {{$jmlh_lahan}} --}} 999999
+                            {{$jmlh_firebase}}
                         </h3>
                         </div>
                       </div>
-                      <h5 >Total Lahan</h5>
+                      <h5 >Total Link Firebase</h5>
                     </div>
                     <div id="revenueGenerated"></div>
                   </div>

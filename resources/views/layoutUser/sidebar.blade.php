@@ -1,57 +1,36 @@
 <ul class="menu-inner py-1">
     <!-- Dashboards -->
-    <br>
-    <li class="menu-item {{ Request::is('dashboard') ? 'active' : '' }}">
-        <a href="/dashboard" class="menu-link ">
+
+        <!-- Apps & Pages -->
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Data User</span>
+        </li>
+
+    <li class="menu-item {{ Request::is('dashboard/user') ? 'active' : '' }}">
+        <a href="/dashboard/user" class="menu-link ">
             <i class="menu-icon tf-icons ti ti-smart-home"></i>
             <div data-i18n="Dashboards">Dashboards</div>
             {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
         </a>
     </li>
-    <br>
-    <!-- Apps & Pages -->
-    <li class="menu-header small text-uppercase">
-        <span class="menu-header-text">Data User &amp; Kopi</span>
-    </li>
-
-    {{-- akun --}}
-    <li class="mb-2 menu-item {{ Request::is('akun/*') ? 'active open' : '' }}">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons ti ti-users"></i>
-            <div data-i18n="Data User">Data User</div>
+<div class="mt-1"></div>
+<li class="menu-item {{ Request::is('dashboard/user/*') ? 'active' : '' }}">
+    <a href="/dashboard/user/upgrade" class="menu-link ">
+        <i class="menu-icon tf-icons ti ti-star"></i>
+        <div data-i18n="Langganan">Langganan</div>
+        {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
+    </a>
+</li>
+<div class="mt-1"></div>
+    <li class="menu-item {{ Request::is('dashboard/user/*') ? 'active' : '' }}">
+        <a href="/dashboard/user/upgrade" class="menu-link ">
+            <i class="menu-icon tf-icons ti ti-star"></i>
+            <div data-i18n="Langganan">Langganan</div>
+            {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
         </a>
-        <ul class="menu-sub">
-            <li class="menu-item {{ Request::is('akun/user*') ? 'active' : '' }}">
-                <a href="/akun/user" class="menu-link">
-                    <div data-i18n="Data User">Data User</div>
-                </a>
-            </li>
-        </ul>
-
-        <ul class="menu-sub">
-            <li class="menu-item {{ Request::is('akun/mitra*') ? 'active' : '' }}">
-                <a href="/akun/mitra" class="menu-link">
-                    <div data-i18n="Data Mitra">Data Mitra</div>
-                </a>
-            </li>
-        </ul>
-
     </li>
 
-    {{-- Firebase --}}
-    <li class="mb-2 menu-item {{ Request::is('DataLink/*') ? 'active open' : '' }}">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons ti ti-link"></i>
-            <div data-i18n="Link Firebase">Link Firebase</div>
-        </a>
-        <ul class="menu-sub">
-            <li class="menu-item {{ Request::is('DataLink/Firebase*') ? 'active' : '' }}">
-                <a href="/DataLink/Firebase" class="menu-link">
-                    <div data-i18n="Data Firebase">Data Firebase</div>
-                </a>
-            </li>
-        </ul>
-    </li>
+   
 
     
     

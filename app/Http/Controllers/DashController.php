@@ -52,4 +52,10 @@ class DashController extends Controller
 // }
 // }
 
+
+public function apistatus(){
+
+    return view('Api.api');
+}
+
 }

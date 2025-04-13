@@ -22,6 +22,7 @@ use App\Http\Controllers\DashUserController;
 // Route::get('/akses/logout',[AuthController::class,'logout']);
 
 Route::get('/dashboard', [DashController::class, 'index']);
+Route::get('/api/link', [DashController::class, 'apistatus']);
 
 // DATA AKUN
 Route::get('/akun/user', [AkunUserController::class, 'index'])->name('akunuser');

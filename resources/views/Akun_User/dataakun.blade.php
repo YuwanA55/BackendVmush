@@ -265,12 +265,12 @@
 
 
                   <!-- Detail Modal -->
-                  {{-- @foreach ($alldata as $p)
-                  <div class="modal fade" id="largeModal{{$p->user}}" tabindex="-1" aria-hidden="true">
+                  @foreach ($alldata as $p)
+                  <div class="modal fade" id="largeModal{{$p->id_user}}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel3">Detail Akun</h5>
+                          <h3 class="modal-title" id="exampleModalLabel3">Detail Akun</h3>
                           <button
                             type="button"
                             class="btn-close"
@@ -290,8 +290,8 @@
                   </div>
                           <div class="row">
                             <div class="col mb-3">
-                              <label for="nameLarge" class="form-label">Username</label>
-                              <input type="text" readonly class="form-control" placeholder="" value="{{$p->user}}" />
+                              <label for="nameLarge" class="form-label">id_user</label>
+                              <input type="text" readonly class="form-control" placeholder="" value="{{$p->id_user}}" />
                             </div>
                           </div>
                           <div class="row g-2 mb-3">
@@ -310,16 +310,16 @@
                               <input type="number" value="62{{$p->nohp}}" readonly class="form-control" placeholder="" />
                             </div>
                             <div class="col mb-0">
-                              <label for="emailLarge" class="form-label">Lokasi</label>
-                              <input type="text" value="{{$p->lokasi}}" readonly class="form-control" placeholder="" />
+                              <label for="emailLarge" class="form-label">alamat</label>
+                              <input type="text" value="{{$p->alamat}}" readonly class="form-control" placeholder="" />
                             </div>
 
                             </div>
                            
                             <div class="row g-2 mb-3">
                             <div class="col mb-0">
-                              <label for="emailLarge" class="form-label">Level</label>
-                              <input type="text" value="{{$p->level}}" readonly class="form-control" placeholder="" />
+                              <label for="emailLarge" class="form-label">Status</label>
+                              <input type="text" value="{{$p->status}}" readonly class="form-control" placeholder="" />
                             </div>
                             <div class="col mb-0">
                               <label for="emailLarge" class="form-label">Tanggal Regis</label>
@@ -337,7 +337,7 @@
                       </div>
                     </div>
                   </div>
-                  @endforeach --}}
+                  @endforeach
                
 
 

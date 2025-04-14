@@ -28,15 +28,15 @@ class ApiAkun extends Model
     // }
 
 
-    public function byekode($id_user){
-        return DB::table('akun_user')->where('id_user', $id_user)->first();
+    public function byekode($username){
+        return DB::table('akun_user')->where('username', $username)->first();
     } 
     public function byekodeemail($email){
         return DB::table('akun_user')->where('email', $email)->first();
     } 
 
-    public function ubahdata($id_user, $data){
-        DB::table('akun_user')->where('id_user', $id_user)->update($data);
+    public function ubahdata($username, $data){
+        DB::table('akun_user')->where('username', $username)->update($data);
      }
     
     // public function ubahdata($user, $data){
@@ -44,10 +44,10 @@ class ApiAkun extends Model
     //  }
 
     protected $table = 'akun_user';
-    protected $primaryKey = 'id_user';
+    protected $primaryKey = 'username';
 public $incrementing = false;
     protected $fillable = [
-        'id_user',
+        'username',
         'nama',
         'email',
         'password',

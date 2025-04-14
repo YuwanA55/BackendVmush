@@ -22,8 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // API Akun
 Route::get('/akun/tampil', [AkunController::class, 'index']);
-Route::get('/akun/tampil/{id_user}', [AkunController::class, 'showid']);
+Route::get('/akun/tampil/{username}', [AkunController::class, 'showid']);
 Route::get('/akun/tampil/email/{email}', [AkunController::class, 'showemail']);
 Route::post('/akun/tambah-akun', [AkunController::class, 'store']);
-Route::put('/akun/edit-akun/{id_user}', [AkunController::class, 'updatee']);
-Route::delete('/akun/hapus-akun/{id_user}', [AkunController::class, 'delete']);
+Route::put('/akun/edit-akun/{username}', [AkunController::class, 'updatee']);
+Route::delete('/akun/hapus-akun/{username}', [AkunController::class, 'delete']);

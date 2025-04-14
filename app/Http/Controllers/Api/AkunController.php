@@ -22,10 +22,10 @@ class AkunController extends Controller
         return response()->json($alldata);
     }
 
-    public function showid($id_user){
+    public function showid($username){
 
         $datakunn = [
-            $this->ApiAkun->byekode($id_user),
+            $this->ApiAkun->byekode($username),
         ];
         if (!$datakunn) {
             return response()->json(['message' => 'Data email not found'], 404);
@@ -47,9 +47,6 @@ class AkunController extends Controller
     public function store(Request $request)
     {
         try {
-            $lastApiAkun = ApiAkun::max('id_user');
-            $newKodeKopi = 'USER' . str_pad((int) substr($lastApiAkun, 4) + 1, 4, '0', STR_PAD_LEFT);
-    
             $gambarUrl = ''; 
         
             // Cek apakah ada file gambar yang diunggah
@@ -64,7 +61,7 @@ class AkunController extends Controller
     
             // Melanjutkan dengan menyimpan data produk kopi
             $ApiAkun = new ApiAkun();
-            $ApiAkun->id_user = $newKodeKopi;
+            $ApiAkun->username = $request->input('username');
             $ApiAkun->nama = $request->input('nama');
             $ApiAkun->email = $request->input('email');
             $ApiAkun->password = $request->input('password');
@@ -84,11 +81,11 @@ class AkunController extends Controller
 
 
         // edit
-        public function updatee(Request $request, $id_user)
+        public function updatee(Request $request, $username)
         {
             try {
                 // Temukan data pengguna berdasarkan user
-                $ApiAkun = ApiAkun::where('id_user', $id_user)->first();
+                $ApiAkun = ApiAkun::where('username', $username)->first();
         
                 // Simpan path gambar lama untuk nantinya dihapus (jika ada)
                 $gambarLamaPath = public_path('GambarProfile/' . basename($ApiAkun->gambar));
@@ -111,6 +108,7 @@ class AkunController extends Controller
                 }
         
                 // Update data pengguna dengan data yang diterima dari request
+                $ApiAkun->username = $request->input('username');
                 $ApiAkun->nama = $request->input('nama');
                 $ApiAkun->email = $request->input('email');
                 $ApiAkun->password = $request->input('password');
@@ -127,10 +125,10 @@ class AkunController extends Controller
         }
 
             // hapus
-    public function delete($id_user){
+    public function delete($username){
         try {
             // Temukan data pengguna berdasarkan ID
-            $ApiAkun = ApiAkun::findOrFail($id_user);
+            $ApiAkun = ApiAkun::findOrFail($username);
     
             // Hapus gambar dari folder dataprofile
             $gambarPath = public_path('GambarProfile/' . basename($ApiAkun->gambar));

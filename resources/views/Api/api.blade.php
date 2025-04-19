@@ -157,42 +157,42 @@
                                     <tr>
                                         <td>1</td>
                                         <td>Get ALL</td>
-                                        <td>http://127.0.0.1:8000/api/akun/tampil</td>
+                                        <td>http://127.0.0.1:8000/api/akun/user/tampil</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>2</td>
                                         <td>Get By ID</td>
-                                        <td>http://127.0.0.1:8000/api/akun/tampil/{id_user}</td>
+                                        <td>http://127.0.0.1:8000/api/akun/user/tampil/{username}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>3</td>
                                         <td>Get By Email</td>
-                                        <td>http://127.0.0.1:8000/api/akun/tampil/email/{email}</td>
+                                        <td>http://127.0.0.1:8000/api/akun/user/tampil/email/{email}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>4</td>
                                         <td>Post</td>
-                                        <td>http://127.0.0.1:8000/api/akun/tambah-akun</td>
+                                        <td>http://127.0.0.1:8000/api/akun/user/tambah-akun</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>5</td>
                                         <td>Put</td>
-                                        <td>http://127.0.0.1:8000/api/akun/edit-akun/{id_user}</td>
+                                        <td>http://127.0.0.1:8000/api/akun/user/edit-akun/{username}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>6</td>
                                         <td>Delete</td>
-                                        <td>http://127.0.0.1:8000/api/akun/hapus-akun/{id_user}</td>
+                                        <td>http://127.0.0.1:8000/api/akun/user/hapus-akun/{username}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
@@ -208,11 +208,11 @@
                     <div class="card mb-3">
                         <div class="card-header">
                             <div class="d-flex">
-                                <h3 class="">API Lahan</h3>
+                                <h3 class="">API Link Firebase</h3>
                             </div>
 
                             <button type="button" class="btn text-end btn-info" data-bs-toggle="modal" data-bs-target="#modallahan">
-                                Meta Data Lahan
+                                Meta Data Link Firebase
                             </button>
                         </div>
                         <!-- Modal -->
@@ -222,7 +222,7 @@
                                     <div class="modal-body">
                                         <pre class='prettyprint lang-html'>
     {
-      "kode_lahan": "{datakode}",
+      {{-- "kode_lahan": "{datakode}",
       "user": "{data}",
       "varietas_pohon": "{data}",
       "total_bibit": {data},
@@ -231,7 +231,7 @@
       "ketinggian_tanam": {data},
       "lokasi_lahan": "{data}",
       "longtitude": "{data}",
-      "latitude": "{data}"
+      "latitude": "{data}" --}}
     },
                                 </pre>
                                     </div>
@@ -254,47 +254,40 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                    {{-- <tr>
+                                    <tr>
                                         <td>1</td>
                                         <td>Get ALL</td>
-                                        <td>https://dev.sipkopi.com/api/lahan/tampil</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Link-Firebase/tampil</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>2</td>
-                                        <td>Get By Kode</td>
-                                        <td>https://dev.sipkopi.com/api/lahan/tampil/{kode}</td>
+                                        <td>Get By Username</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Link-Firebase/tampil/{username}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>3</td>
-                                        <td>Get By user</td>
-                                        <td>https://dev.sipkopi.com/api/lahan/tampil/user/{user}</td>
-                                        <td><span class="badge bg-label-primary me-1">Active</span></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Post</td>
-                                        <td>https://dev.sipkopi.com/api/lahan/tambah</td>
+                                        <td>Post (Tambah Data)</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Link-Firebase/tambah-Data</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>5</td>
                                         <td>Edit</td>
-                                        <td>https://dev.sipkopi.com/api/lahan/update/{kode}?</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Link-Firebase/edit-Data/{id}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>6</td>
                                         <td>Delete</td>
-                                        <td>https://dev.sipkopi.com/api/lahan/hapus/{kode}</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Link-Firebase/hapus-Data/{id}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
-                                    </tr> --}}
+                                    </tr>
 
                                 </tbody>
                             </table>
@@ -308,11 +301,11 @@
                     <div class="card mb-3">
                         <div class="card-header">
                             <div class="d-flex">
-                                <h3 class="">API Peremajaan</h3>
+                                <h3 class="">API Paket</h3>
                             </div>
 
                             <button type="button" class="btn text-end btn-info" data-bs-toggle="modal" data-bs-target="#modalpere">
-                                Meta Data Peremajaan
+                                Meta Data Paket
                             </button>
                         </div>
                         <!-- Modal -->
@@ -321,14 +314,14 @@
                                 <div class="modal-content">
                                     <div class="modal-body">
                                         <pre class='prettyprint lang-html'>
-    {
+    {{-- {
       "kode_peremajaan": "{kode}",
       "kode_lahan": "{kode}",
       "perlakuan": "{data}",
       "tanggal": "{date}",
       "kebutuhan": {data},
       "pupuk": "NPK {data}"
-    },
+    }, --}}
                                 </pre>
                                     </div>
                                     <div class="modal-footer">
@@ -350,47 +343,20 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                    {{-- <tr>
+                                    <tr>
                                         <td>1</td>
                                         <td>Get ALL</td>
-                                        <td>https://dev.sipkopi.com/api/pere/tampil</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Paket/tampil</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>2</td>
-                                        <td>Get By Kode Pere</td>
-                                        <td>https://dev.sipkopi.com/api/pere/tampil/{kode}</td>
+                                        <td>Get By Kode Id</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Paket/tampil/{id}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Get By Lahan</td>
-                                        <td>https://dev.sipkopi.com/api/pere/tampil/lahan/{kodelahan}</td>
-                                        <td><span class="badge bg-label-primary me-1">Active</span></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Post</td>
-                                        <td>https://dev.sipkopi.com/api/pere/tambah</td>
-                                        <td><span class="badge bg-label-primary me-1">Active</span></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Delete</td>
-                                        <td>https://dev.sipkopi.com/api/pere/hapus/{kode}</td>
-                                        <td><span class="badge bg-label-primary me-1">Active</span></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Get</td>
-                                        <td>https://dev.sipkopi.com/api/pere/tampil/user/(username)</td>
-                                        <td><span class="badge bg-label-primary me-1">Active</span></td>
-                                    </tr> --}}
                                 </tbody>
                             </table>
                         </div>
@@ -403,11 +369,11 @@
                     <div class="card mb-3">
                       <div class="card-header">
                           <div class="d-flex">
-                              <h3 class="">API Kopi</h3>
+                              <h3 class="">API Pembelian</h3>
                           </div>
 
                           <button type="button" class="btn text-end btn-info" data-bs-toggle="modal" data-bs-target="#modalkopi">
-                              Meta Data Kopi
+                              Meta Data Pembelian
                           </button>
                       </div>
                       <!-- Modal -->
@@ -416,7 +382,7 @@
                               <div class="modal-content">
                                   <div class="modal-body">
                                       <pre class='prettyprint lang-html'>
-    {
+    {{-- {
       "kode_kopi": "{kode}",
       "kode_peremajaan": "{kode_pere}",
       "varietas_kopi": "{data}",
@@ -430,7 +396,7 @@
       "stok": {data},
       "gambar1": "{data}",
       "gambarqr": "{data}"
-    }
+    } --}}
                               </pre>
                                   </div>
                                   <div class="modal-footer">
@@ -452,53 +418,53 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                    {{-- <tr>
+                                    <tr>
                                         <td>1</td>
                                         <td>Get ALL</td>
-                                        <td>https://dev.sipkopi.com/api/kopi/tampil</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Pembelian/Paket/tampil</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                       <td>2</td>
                                       <td>Get by Kode</td>
-                                      <td>https://dev.sipkopi.com/api/kopi/tampil/{kode}</td>
+                                      <td>http://127.0.0.1:8000/api/Data/Pembelian/Paket/tampil/id/{id}</td>
                                       <td><span class="badge bg-label-primary me-1">Active</span></td>
                                   </tr>
                                 
 
                                     <tr>
                                         <td>3</td>
-                                        <td>Get By Peremajaan.</td>
-                                        <td>https://dev.sipkopi.com/api/kopi/tampil/pere/{kode}</td>
+                                        <td>Get By username.</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Pembelian/Paket/tampil/{username}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>4</td>
                                         <td>Post</td>
-                                        <td>https://dev.sipkopi.com/api/kopi/tambah</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Pembelian/Paket/tambah-Data</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                       <td>5</td>
                                       <td>Put</td>
-                                      <td>https://dev.sipkopi.com/api/kopi/update/{kode}</td>
-                                      <td><span class="badge bg-label-danger me-1">Off</span></td>
+                                      <td>http://127.0.0.1:8000/api/Data/Pembelian/Paket/edit-Data/{id}</td>
+                                      <td><span class="badge bg-label-primary me-1">Active</span></td>
                                   </tr>
 
                                     <tr>
                                       <td>6</td>
                                       <td>Delete</td>
-                                      <td>https://dev.sipkopi.com/api/kopi/hapus/{kode}</td>
+                                      <td>http://127.0.0.1:8000/api/Data/Pembelian/Paket/hapus-Data/{id}</td>
                                       <td><span class="badge bg-label-primary me-1">Active</span></td>
                                   </tr>
 
-                                  <tr>
+                                  {{-- <tr>
                                     <td>7</td>
                                     <td>Get</td>
-                                    <td>https://dev.sipkopi.com/api/kopi/tampil/user/(username)</td>
+                                    <td>http://127.0.0.1:8000/api/Data/Paket/tampil/{id}</td>
                                     <td><span class="badge bg-label-primary me-1">Active</span></td>
                                 </tr> --}}
 
@@ -508,7 +474,7 @@
                     </div>
                     <!--/ Basic Bootstrap Table -->
 
-
+<br>
                     <div class="card mb-3">
                         <div class="card-header">
                             <div class="d-flex">

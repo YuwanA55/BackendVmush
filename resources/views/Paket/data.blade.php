@@ -2,22 +2,22 @@
 @section('konten')
 
 <?php
-$query = DB::select("SELECT * FROM firebase");
-$lastCode = "FRB0000";
+$query = DB::select("SELECT * FROM paket");
+$lastCode = "PKT0000";
 
 if ($query) {
-    $lastCode = $query[count($query) - 1]->id;
+    $lastCode = $query[count($query) - 1]->id_paket;
 }
 
 $lastNumber = (int)substr($lastCode, 3);
 $newNumber = $lastNumber + 1;
 
 if ($newNumber < 10) {
-    $newCode = "FRB000" . $newNumber;
+    $newCode = "PKT000" . $newNumber;
 } elseif ($newNumber < 100) {
-    $newCode = "FRB00" . $newNumber;
+    $newCode = "PKT00" . $newNumber;
 } else {
-    $newCode = "FRB0" . $newNumber;
+    $newCode = "PKT0" . $newNumber;
 }
 
 ?>
@@ -72,7 +72,7 @@ if ($newNumber < 10) {
 <div class="card">
     <div class="card-header">
 <div class=" d-flex flex-column mb-3 flex-md-row justify-content-between align-items-center"> <!-- Menambahkan class align-items-center -->
-<h2>Data Link Firebase</h2>
+<h2>Data Paket</h2>
 <div >
 
 
@@ -100,10 +100,8 @@ if ($newNumber < 10) {
 <thead class="table-light">
   <tr>
     <th>Id</th>
-    <th>Username</th>
-    <th>Nama</th>
-    <th>Link</th>
-    <th>Tanggal</th>
+    <th>Nama Paket</th>
+    <th>Harga</th>
     <th>Aksi</th>
   </tr>
 </thead>
@@ -111,32 +109,25 @@ if ($newNumber < 10) {
   @foreach ($alldata as $p)
     <tr>
       {{-- <th scope="row">{{$loop->iteration}}</th> --}}
-      <td class="p-3">{{$p->id}}</td>
-      <td>{{$p->username}}</td>
-      <td>{{$p->nama}}</td>
-      <td>
-        <a href="{{$p->Link}}" class="btn btn-success" target="_blank">Data</a>
-        
-    </td>
+      <td class="p-3">{{$p->id_paket}}</td>
+      <td>{{$p->nama_paket}}</td>
+      <td>{{$p->harga}}K</td>
 
-      <td>{{$p->tanggal_create}}</td>
-        <!-- <img src="gambar" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px;"> -->
-      
       <td>
         <div class="dropdown">
           <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
             <i class="ti ti-dots-vertical"></i>
           </button>
           <div class="dropdown-menu">
-          {{-- <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#largeModal{{$p->id}}"
+          <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#largeModal{{$p->id_paket}}"
               >
-              <i class="ti ti-list-details me-1"></i></i> Detail Data</button> --}}
-            <a class="dropdown-item ssedtt" href="/dashboard/admin/DataLink/Firebase/edit/{{$p->id}}"
+              <i class="ti ti-list-details me-1"></i></i> Detail Data</button>
+            <a class="dropdown-item ssedtt" href="/DataLink/Firebase/edit/{{$p->id_paket}}"
            
               ><i class="ti ti-pencil me-1"></i> Edit Data</a>
               <a class="dropdown-item ssdele" href="javascript:void(0);"
-            data-id="{{$p->id}}"
-            data-nama="{{$p->nama}}">
+            data-id="{{$p->id_paket}}"
+            data-nama="{{$p->nama_paket}}">
             <i class="ti ti-trash me-1"></i> Hapus Data
             </a>
           </div>
@@ -158,10 +149,10 @@ if ($newNumber < 10) {
                   <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
                       <div class="modal-content">
-                        <form  method="POST" action="/dashboard/admin/DataLink/Firebase/save" enctype="multipart/form-data">
+                        <form  method="POST" action="/dashboard/admin/Produk/Paket-save" enctype="multipart/form-data">
                           @csrf
                         <div class="modal-header">
-                          <h3 class="modal-title fw-bold" id="exampleModalLabel3">Tambah Link Firebase</h3>
+                          <h3 class="modal-title fw-bold" id="exampleModalLabel3">Tambah Data Paket</h3>
                           <br>
                          
                           <button
@@ -172,34 +163,72 @@ if ($newNumber < 10) {
                         </div>
                         <div class="modal-body">
                         <div class="row">
-                          <hr class="my-0 mb-4" />
+                          <hr class="my-0 mb-2" />
                         <div class="d-flex align-items-start align-items-sm-center mb-3 gap-4">
-
-                      
-
                   </div>
                       
                             <div class="col mb-3">
                               <label for="nameLarge" class="form-label">Username</label>
-                              <input type="text" name="id" readonly value="{{ $newCode }}" required class="form-control" placeholder="{{ $newCode }}" />
+                              <input type="text" name="id_paket" readonly value="{{ $newCode }}" required class="form-control" placeholder="{{ $newCode }}" />
                             </div>
                           </div>
                           
-                          
-                            <div class="col mb-0">
-                              <label for="dobLarge" class="form-label">User</label>
-                              <select name="username" class="select2 form-select">
-                                @foreach ($alluser as $p)
-                                <option value="{{$p->username}}">{{$p->nama}}</option>
-                                @endforeach
-                              </select>
+                              <div class="row g-2 mb-3">
+                                <div class="col mb-0">
+                                  <label for="dobLarge" class="form-label">Nama Paket</label>
+                                  <input type="text" id="inputHuruf" oninput="validateInput(this)" name="nama_paket" required class="form-control" placeholder="Paket Basic" />
+                                   <span id="error-message" style="color: cyan;"></span>
+                                </div>
+                                <div class="col mb-0">
+                                  <label for="emailLarge" class="form-label">Harga ( K )</label>
+                                  <input type="number" name="harga" required class="form-control" placeholder="99" />
+                                </div>
                               </div>
 
-                          
+                              <div class="row g-2 mb-3">
+                                <div class="col mb-0">
+                                    <label for="emailLarge" class="form-label">Jumlah Sensor</label>
+                                    <input type="number" name="jumlah_sensor" required class="form-control" placeholder="3" />
+                                </div>
+                                <div class="col mb-0">
+                                    <label for="emailLarge" class="form-label">Kontrol</label>
+                                    <select name="kontrol_app" class="select2 form-select">
+                                      <option value=""></option>
+                                        <option value="Kontrol Basic Via App">Kontrol Basic Via App</option>
+                                        <option value="Kontrol Premium Via App">Kontrol Premium Via App</option>
+                                        <option value="Kontrol Ultimate Via App">Kontrol Ultimate Via App</option>
+                                      </select>
+                                </div>
+                              </div>
 
-                          <div class="row g-2 mb-2 mt-2">
-                            <label for="exampleFormControlTextarea1">Link Firebase</label>
-                            <textarea type="text" name="Link" class="form-control mt-1 mb-4" rows="3"> </textarea>
+                              <div class="row g-2 mb-3">
+                                <div class="col mb-0">
+                                    <label for="emailLarge" class="form-label">Support ( Hari )</label>
+                                    <select name="support" class="select2 form-select">
+                                        <option value="8/3">8/3</option>
+                                        <option value="8/5">8/5</option>
+                                        <option value="24/7">24/7</option>
+                                      </select>
+                                </div>
+                                <div class="col mb-0">
+                                    <label for="emailLarge" class="form-label">Analisis Data</label>
+                                    <select name="analisisdata" class="select2 form-select">
+                                      <option value=""></option>
+                                        <option value="Analisis Data Basic">Analisis Data Basic</option>
+                                        <option value="Analisis Data Advanced">Analisis Data Advanced</option>
+                                        <option value="Analisis Data Expert">Analisis Data Expert</option>
+                                      </select>
+                                </div>
+                              </div>
+
+                              <div class="col mb-0">
+                                <label for="emailLarge" class="form-label">Konsultasi</label>
+                                <select name="konsultasi" class="select2 form-select">
+                                  <option value=""></option>
+                                    <option value="Konsultasi Basic">Konsultasi Basic</option>
+                                    <option value="Konsultasi Advanced">Konsultasi Advanced</option>
+                                    <option value="Konsultasi Expert">Konsultasi Expert</option>
+                                  </select>
                             </div>
 
                             
@@ -331,7 +360,7 @@ $(document).ready(function() {
           if (result.isConfirmed) {
               $.ajax({
                   type: 'DELETE', // Ubah method menjadi DELETE
-                  url: '/dashboard/admin/DataLink/Firebase/hapus/' + id,
+                  url: '/dashboard/admin/Produk/hapus/' + id,
                   data: {
                       _token: '{{ csrf_token() }}'
                   },
@@ -352,7 +381,7 @@ $(document).ready(function() {
                             showConfirmButton: false,
                             timer: 1800
                         }).then(() => {
-                            window.location.href = "{{ route('datafirebase') }}";
+                            window.location.href = "{{ route('datapaket') }}";
                         });
                     }
                 },

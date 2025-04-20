@@ -15,7 +15,7 @@
 
 
                     <div class="card mb-4">
-                    <h3 class="card-header">Edit Link Firebase</h3>
+                    <h3 class="card-header">Edit Data Pembelian</h3>
                     <hr class="my-0" />
                     <!-- Account -->
                     {{-- <form id="formAccountSettings" action="/DataLink/simpan-Link/{{$main->id}}" method="POST" enctype="multipart/form-data" data-kode-lahan="{{ $main->id }}"> --}}
@@ -27,7 +27,7 @@
                         <div class="row">
 
                           <div class="mb-3 ">
-                            <label for="firstName" class="form-label">Kode Id</label>
+                            <label for="firstName" class="form-label">Kode Pembelian</label>
                             <input
                               class="form-control"
                               type="text"
@@ -36,22 +36,30 @@
                           </div>
 
                           <div class="mb-3 ">
-                            <label for="lastName" class="form-label">Nama User</label>
+                            <label for="lastName" class="form-label">Username </label>
                             <select name="username" placeholder=""  class="select2 form-select">
                               
-                            {{-- <option value="{{$main->id}}">{{$main->nama}}</option> --}}
-                            {{-- <option hidden value=""></option> --}}
-                            <option selected value="{{$main->username}}">{{$main->username}}</option>
+                            <option value="{{$main->username}}">{{$main->nama}}</option>
+                            <option hidden value=""></option>
+                            {{-- <option selected value="{{$main->username}}">{{$main->nama}}</option> --}}
                             @foreach ($alluser as $p)
-                            <option value="{{$p->username}}">{{$p->username}}</option>
+                            <option value="{{$p->username}}">{{$p->nama}}</option>
                             @endforeach
                                 </select>
                           </div>
 
                           <div class="mb-3 ">
-                        <label for="exampleFormControlTextarea1">Link Firebase</label>
-                            <textarea type="text" name="Link" class="form-control mt-1 mb-4" rows="3">{{$main->Link}}</textarea> 
-                        </div>
+                            <label for="lastName" class="form-label">Paket</label>
+                            <select name="paket" placeholder=""  class="select2 form-select">
+                              
+                            <option value="{{$main->id_paket}}">{{$main->nama_paket}}</option>
+                            <option hidden value=""></option>
+                            {{-- <option selected value="{{$main->username}}">{{$main->nama}}</option> --}}
+                            @foreach ($allpaket as $p)
+                            <option value="{{$p->id_paket}}">{{$p->nama_paket}}</option>
+                            @endforeach
+                                </select>
+                          </div>
 
                           <div class="row mb-3 mt-1">
 
@@ -59,7 +67,7 @@
                         <div class="mt-5 text-end">
                           
                           <button type="submit" id="accountActivation" class="btn btn-primary me-3">Edit Data</button>
-                          <a class="btn btn-danger" href="/dashboard/admin/DataLink/Firebase">Kembali </a>
+                          <a class="btn btn-danger" href="/dashboard/admin/Pembelian/Paket">Kembali </a>
 
                         </div>
                         </form>
@@ -134,7 +142,7 @@ $(document).ready(function() {
             if (result.isConfirmed) {
                 // Jika pengguna menekan tombol "Ya", lanjutkan dengan penyimpanan data
                 var id = "{{ $main->id }}";
-                var url = "{{ route('simpan.link', ['id' => ':id']) }}".replace(':id', id);
+                var url = "{{ route('simpan.paket', ['id' => ':id']) }}".replace(':id', id);
                 var formData = new FormData($(this)[0]);
 
                 $.ajax({
@@ -155,7 +163,7 @@ $(document).ready(function() {
                             timer: 1700
                         }).then(() => {
                             // Setelah 1.7 detik, arahkan kembali ke halaman /data/lahan
-                            window.location.href = "{{ route('datafirebase') }}";
+                            window.location.href = "{{ route('datapembelian') }}";
                         });
                     },
                     error: function(xhr, status, error) {

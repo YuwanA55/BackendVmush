@@ -6,29 +6,28 @@
             <span class="menu-header-text">Data User</span>
         </li>
 
-    <li class="menu-item {{ Request::is('dashboard/user') ? 'active' : '' }}">
-        <a href="/dashboard/user" class="menu-link ">
+    <li class="menu-item {{ Request::is('dashboard') ? 'active' : '' }}">
+        <a href="/dashboard" class="menu-link ">
             <i class="menu-icon tf-icons ti ti-smart-home"></i>
             <div data-i18n="Dashboards">Dashboards</div>
             {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
         </a>
     </li>
 <div class="mt-1"></div>
-<li class="menu-item {{ Request::is('dashboard/user/*') ? 'active' : '' }}">
+
+<li class="menu-item {{ Request::is('dashboard/user/upgrade*') ? 'active' : '' }}">
     <a href="/dashboard/user/upgrade" class="menu-link ">
         <i class="menu-icon tf-icons ti ti-star"></i>
         <div data-i18n="Langganan">Langganan</div>
         {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
     </a>
 </li>
+
 <div class="mt-1"></div>
-    <li class="menu-item {{ Request::is('dashboard/user/*') ? 'active' : '' }}">
-        <a href="/dashboard/user/upgrade" class="menu-link ">
-            <i class="menu-icon tf-icons ti ti-star"></i>
-            <div data-i18n="Langganan">Langganan</div>
-            {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
-        </a>
-    </li>
+
+
+<div class="mt-1"></div>
+
 
    
 

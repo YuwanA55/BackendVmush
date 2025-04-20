@@ -79,7 +79,7 @@
 <thead class="table-light">
   <tr>
     <th>Id</th>
-    {{-- <th>Username</th> --}}
+    <th>Username</th>
     <th>Nama</th>
     <th>Email</th>
     <th>Level</th>
@@ -89,8 +89,8 @@
 <tbody class="table-border-bottom-0 mb-5">
   @foreach ($alldata as $p)
     <tr>
-      {{-- <th scope="row">{{$loop->iteration}}</th> --}}
-      <td class="p-3">{{$p->id_user}}</td>
+      <th scope="row">{{$loop->iteration}}</th>
+      <td class="p-3">{{$p->username}}</td>
       <td>{{$p->nama}}</td>
       <td>{{$p->email}}</td>
 
@@ -103,13 +103,13 @@
             <i class="ti ti-dots-vertical"></i>
           </button>
           <div class="dropdown-menu">
-          <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#largeModal{{$p->id_user}}"
+          <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#largeModal{{$p->username}}"
               ><i class="ti ti-list-details me-1"></i></i> Detail Data</button>
-            <a class="dropdown-item ssedtt" href="/akun/edit/{{$p->id_user}}"
+            <a class="dropdown-item ssedtt" href="/akun/edit/{{$p->username}}"
            
               ><i class="ti ti-pencil me-1"></i> Edit Data</a>
               <a class="dropdown-item ssdele" href="javascript:void(0);"
-            data-user="{{$p->id_user}}"
+            data-user="{{$p->username}}"
             data-nama="{{$p->nama}}">
             <i class="ti ti-trash me-1"></i> Hapus Data
             </a>
@@ -132,7 +132,7 @@
                   <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
                       <div class="modal-content">
-                        <form  method="POST" action="/data/akun/save" enctype="multipart/form-data">
+                        <form  method="POST" action="/dashboard/admin/akun/user-save" enctype="multipart/form-data">
                           @csrf
                         <div class="modal-header">
                           <h3 class="modal-title fw-bold" id="exampleModalLabel3">Tambah Akun</h3>
@@ -178,7 +178,7 @@
                       
                             <div class="col mb-3">
                               <label for="nameLarge" class="form-label">Username</label>
-                              <input type="text" name="user" required class="form-control" placeholder="namakamu12" />
+                              <input type="text" name="username" required class="form-control" placeholder="namakamu12" />
                             </div>
                           </div>
                           
@@ -193,6 +193,7 @@
                               <input type="email" name="email" required class="form-control" placeholder="emailkamu@gmail.com" />
                             </div>
                           </div>
+                          
                           <div class="row g-2 mb-3">
                           <div class="col mb-0">
                               
@@ -219,12 +220,17 @@
 
                             <div class="row g-2 mb-3">
                             <div class="col mb-0">
-                              <label for="emailLarge" class="form-label">Level</label>
-                              <input type="text"  class="form-control bg-secondary text-white" name="level" readonly placeholder="Petani" value="Petani" />
+                              <label for="emailLarge" class="form-label">Status Level</label>
+                              <select name="status" class="select2 form-select">
+                                
+                                <option value="User">User</option>
+                                <option value="Admin">Admin</option>
+                                
+                              </select>
                             </div>
                             <div class="col mb-0">
-                              <label for="emailLarge" class="form-label">Lokasi</label>
-                              <input type="text" name="lokasi" required class="form-control"  placeholder="Jember" />
+                              <label for="emailLarge" class="form-label">Alamat</label>
+                              <input type="text" name="alamat" required class="form-control"  placeholder="Jember" />
                             </div>
                             </div>
                             
@@ -266,7 +272,7 @@
 
                   <!-- Detail Modal -->
                   @foreach ($alldata as $p)
-                  <div class="modal fade" id="largeModal{{$p->id_user}}" tabindex="-1" aria-hidden="true">
+                  <div class="modal fade" id="largeModal{{$p->username}}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
@@ -290,8 +296,8 @@
                   </div>
                           <div class="row">
                             <div class="col mb-3">
-                              <label for="nameLarge" class="form-label">id_user</label>
-                              <input type="text" readonly class="form-control" placeholder="" value="{{$p->id_user}}" />
+                              <label for="nameLarge" class="form-label">username</label>
+                              <input type="text" readonly class="form-control" placeholder="" value="{{$p->username}}" />
                             </div>
                           </div>
                           <div class="row g-2 mb-3">
@@ -438,7 +444,7 @@ $(document).ready(function() {
       var nama = $(this).data('nama');
 
       Swal.fire({
-  title: 'Apakah Anda yakin ingin menghapus data ' + nama + '?',
+  title: 'Apakah Anda yakin ingin menghapus data nama ' + user + '?',
   text: "Tindakan ini tidak dapat dibatalkan!",
   icon: 'warning',
   showCancelButton: true,
@@ -457,7 +463,7 @@ $(document).ready(function() {
           if (result.isConfirmed) {
               $.ajax({
                   type: 'DELETE', // Ubah method menjadi DELETE
-                  url: '/hapus-akun/' + user,
+                  url: '/dashboard/admin/akun/user/hapus-akun/' + user,
                   data: {
                       _token: '{{ csrf_token() }}'
                   },

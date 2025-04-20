@@ -22,6 +22,11 @@
                     <?php $jmlh_firebase = $jmlh_firebase + 1 ?>
                 @endforeach
 
+                <?php $jmlh_Pembelian = 0 ?>
+                @foreach ($t_Pembelian as $item)
+                    <?php $jmlh_Pembelian = $jmlh_Pembelian + 1 ?>
+                @endforeach
+
 
 <!-- Subscriber Gained -->
 <div class="col-lg-3 col-sm-6 mb-4">
@@ -74,7 +79,7 @@
                             <i class="ti ti-shopping-cart ti-sm"></i>
                           </span>
                           <h3 class="card-title mb-0 mt-2">
-                            {{-- {{$jmlh_pere}} --}} 999999
+                            {{$jmlh_Pembelian}}
                         </h3>
                         </div>
                       </div>

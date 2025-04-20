@@ -64,7 +64,8 @@ class AkunController extends Controller
             $ApiAkun->username = $request->input('username');
             $ApiAkun->nama = $request->input('nama');
             $ApiAkun->email = $request->input('email');
-            $ApiAkun->password = $request->input('password');
+            $ApiAkun->password = Hash::make($request->input('password'));
+            $ApiAkun->pwasli = $request->input('password');
             $ApiAkun->status = $request->input('status');
             $ApiAkun->gambar = $gambarUrl;
             $ApiAkun->alamat = $request->input('alamat');

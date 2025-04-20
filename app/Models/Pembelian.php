@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class DataFirebase extends Model
+class Pembelian extends Model
 {
     public function alldata(){ 
-        return DB::table('firebase')
-            ->join('akun_user', 'firebase.username', '=', 'akun_user.username')
-            ->select('firebase.*', 'akun_user.nama')
+        return DB::table('pembelian')
+            ->join('akun_user', 'pembelian.username', '=', 'akun_user.username')
+            ->join('paket', 'pembelian.id_paket', '=', 'paket.id_paket')
+            ->select('pembelian.*', 'akun_user.nama','paket.nama_paket')
             ->get();
     }
 
@@ -29,32 +30,34 @@ class DataFirebase extends Model
 //      }
 
 
-public function editfirebase($id){
-    return DB::table('firebase')
-        ->join('akun_user', 'firebase.username', '=', 'akun_user.username')
-        ->select('firebase.*', 'akun_user.nama')
-        ->where('firebase.id', $id)
+public function editpembelian($id){
+    return DB::table('pembelian')
+        ->join('akun_user', 'pembelian.username', '=', 'akun_user.username')
+        ->join('paket', 'pembelian.id_paket', '=', 'paket.id_paket')
+        ->select('pembelian.*', 'akun_user.nama', 'paket.nama_paket')
+        ->where('pembelian.id', $id)
         ->first();
 }
 
 
 
     public function addData($data){
-        return DB::table('firebase')->insert($data);
+        return DB::table('pembelian')->insert($data);
       }
 
     public function hapusdata($id){
-        DB::table('firebase')->where('id', $id)->delete();
+        DB::table('pembelian')->where('id', $id)->delete();
     }
 
-    protected $table = 'firebase';
+    protected $table = 'pembelian';
     protected $primaryKey = 'id';
 public $incrementing = false;
     protected $fillable = [
         'id',
+        'id_paket',
         'username',
-        'Link',
-        'tanggal_create',
+        'status',
+        'tanggal',
     ];
 
     public $timestamps = false;

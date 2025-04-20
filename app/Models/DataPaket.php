@@ -6,13 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class DataFirebase extends Model
+class DataPaket extends Model
 {
     public function alldata(){ 
-        return DB::table('firebase')
-            ->join('akun_user', 'firebase.username', '=', 'akun_user.username')
-            ->select('firebase.*', 'akun_user.nama')
-            ->get();
+        return DB::table('paket')->get();
     }
 
 
@@ -29,32 +26,37 @@ class DataFirebase extends Model
 //      }
 
 
-public function editfirebase($id){
-    return DB::table('firebase')
-        ->join('akun_user', 'firebase.username', '=', 'akun_user.username')
-        ->select('firebase.*', 'akun_user.nama')
-        ->where('firebase.id', $id)
-        ->first();
-}
+// public function editfirebase($id){
+//     return DB::table('firebase')
+//         ->join('akun_user', 'firebase.id_user', '=', 'akun_user.id_user')
+//         ->select('firebase.*', 'akun_user.nama')
+//         ->where('firebase.id', $id)
+//         ->first();
+// }
 
 
 
     public function addData($data){
-        return DB::table('firebase')->insert($data);
+        return DB::table('paket')->insert($data);
       }
 
     public function hapusdata($id){
-        DB::table('firebase')->where('id', $id)->delete();
+        DB::table('paket')->where('id', $id)->delete();
     }
 
-    protected $table = 'firebase';
-    protected $primaryKey = 'id';
+    protected $table = 'paket';
+    protected $primaryKey = 'id_paket';
 public $incrementing = false;
     protected $fillable = [
-        'id',
-        'username',
-        'Link',
-        'tanggal_create',
+        'id_paket',
+        'nama_paket',
+        'harga',
+        'jumlah_sensor',
+        'kontrol_app',
+        'support',
+        'analisisdata',
+        'konsultasi',
+        'gambar',
     ];
 
     public $timestamps = false;

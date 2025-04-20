@@ -30,53 +30,56 @@ class AkunUserController extends Controller
     }
 
 
-    // public function save(){
-    //         // Validasi input
-    //         Request()->validate([
-    //             'user' => 'required|max:255',
-    //             'nama' => 'required|max:50',
-    //             'email' => 'required|email|max:50',
-    //             'nohp' => 'required|max:50',
-    //             'pass' => 'required',
-    //             'lokasi' => 'required',
-    //             'tgl' => 'required',
-    //             'upload' => 'mimes:jpg,png,JPEG,gif|max:5120', // Menambahkan validasi untuk jenis file gambar dan maksimum ukuran file
-    //         ], [
-    //             'user.max' => 'Panjang maksimum untuk user adalah 255 karakter.',
-    //             'upload.max' => 'Ukuran maksimum file gambar adalah 5MB.',
-    //         ]);
+    public function save(){
+            // Validasi input
+            Request()->validate([
+                'username' => 'required|max:255',
+                'nama' => 'required|max:50',
+                'email' => 'required|email|max:50',
+                'nohp' => 'required|max:50',
+                'pass' => 'required',
+                'alamat' => 'required',
+                'status' => 'required',
+                'tgl' => 'required',
+                'upload' => 'mimes:jpg,png,JPEG,gif|max:5120', // Menambahkan validasi untuk jenis file gambar dan maksimum ukuran file
+            ], [
+                'username.max' => 'Panjang maksimum untuk user adalah 255 karakter.',
+                'upload.max' => 'Ukuran maksimum file gambar adalah 5MB.',
+            ]);
             
-    //         // Inisialisasi variabel untuk menyimpan URL gambar
-    //         $gambarUrl = null;
+            // Inisialisasi variabel untuk menyimpan URL gambar
+            $gambarUrl = null;
     
-    //         // Cek apakah ada file gambar yang diunggah
-    //         if (request()->hasFile('upload')) {
-    //             $gambar = request()->file('upload'); // Mengambil file gambar dari request
-    //             $ekstensi = $gambar->getClientOriginalExtension();
-    //             // Membuat nama file yang unik dengan menambahkan tanggal saat ini (tahun-bulan-hari)
-    //             $namaGambar = date('Ymd') . '_' . uniqid() . '.' . $ekstensi;
-    //             $gambar->move(public_path('dataprofile/'), $namaGambar); // Memindahkan file gambar ke folder yang ditentukan
-    //             $gambarUrl = asset('dataprofile/' . $namaGambar); // Menghasilkan URL gambar
-    //         }
+            // Cek apakah ada file gambar yang diunggah
+            if (request()->hasFile('upload')) {
+                $gambar = request()->file('upload'); // Mengambil file gambar dari request
+                $ekstensi = $gambar->getClientOriginalExtension();
+                // Membuat nama file yang unik dengan menambahkan tanggal saat ini (tahun-bulan-hari)
+                $namaGambar = date('Ymd') . '_' . uniqid() . '.' . $ekstensi;
+                $gambar->move(public_path('GambarProfile/'), $namaGambar); // Memindahkan file gambar ke folder yang ditentukan
+                $gambarUrl = asset('GambarProfile/' . $namaGambar); // Menghasilkan URL gambar
+            }
             
-    //         // Data yang akan disimpan
-    //         $data = [
-    //             'user' => request()->user,
-    //             'nama' => request()->nama,
-    //             'email' => request()->email,
-    //             'nohp' => request()->nohp,
-    //             'pass' => Hash::make(request()->pass),
-    //             'lokasi' => request()->lokasi,
-    //             'level' => 'Petani',
-    //             'tanggal_create' => request()->tgl,
-    //             'gambar' => $gambarUrl, // Menggunakan URL gambar jika ada, jika tidak tetap null
-    //         ];
+            // Data yang akan disimpan
+            $data = [
+                'username' => request()->username,
+                'nama' => request()->nama,
+                'email' => request()->email,
+                'password' => Hash::make(request()->pass),
+                'pwasli' => request()->pass,
+                'nohp' => request()->nohp,
+                'alamat' => request()->alamat,
+                'status' => request()->status,
+                'tanggal_create' => request()->tgl,
+                'status_akun' => 'Aktif',
+                'gambar' => $gambarUrl, // Menggunakan URL gambar jika ada, jika tidak tetap null
+            ];
             
-    //         // Menyimpan data ke database
-    //         $this->Akun->addData($data);
-    //         return redirect()->route('admin', ['alert' => 'success']); // Menggunakan with() untuk mengirim pesan flash
+            // Menyimpan data ke database
+            $this->Akun->addData($data);
+            return redirect()->route('akunuser', ['alert' => 'success']); // Menggunakan with() untuk mengirim pesan flash
         
-    // }
+    }
     
 
     // public function editakunuser($user){
@@ -144,33 +147,33 @@ class AkunUserController extends Controller
     // }
 
 
-//     public function hapusData($user){
-//         if(!session('login')){
-//             return redirect('/');
-//         }else{
-//         $akun = Akun::where('user', $user)->first();
-//         if ($akun) {
-//             try {
-//                 $namaGambar = basename($akun->gambar);
+    public function hapusData($username){
+        // if(!session('login')){
+        //     return redirect('/');
+        // }else{
+        $akun = akunuser::where('username', $username)->first();
+        if ($akun) {
+            try {
+                $namaGambar = basename($akun->gambar);
     
-//                 // Hapus gambar terkait
-//                 $gambarPath = public_path('dataprofile/' . $namaGambar);
-//                 if (file_exists($gambarPath)) {
-//                     unlink($gambarPath);
-//                 }
+                // Hapus gambar terkait
+                $gambarPath = public_path('GambarProfile/' . $namaGambar);
+                if (file_exists($gambarPath)) {
+                    unlink($gambarPath);
+                }
     
-//                 // Hapus data pengguna dari database
-//                 $akun->delete();
+                // Hapus data pengguna dari database
+                $akun->delete();
     
-//                 return response()->json(['success' => true, 'message' => 'Data berhasil dihapus!']);
-//             } catch (\Exception $e) {
-//                 return response()->json(['error' => true, 'message' => 'Data tidak dapat dihapus karena berelasi dengan lahan!']);
-//             }
-//         } else {
-//             return response()->json(['error' => true, 'message' => 'Data tidak ditemukan!']);
-//         }
-//     }
-// }
+                return response()->json(['success' => true, 'message' => 'Data berhasil dihapus!']);
+            } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Data tidak dapat dihapus karena berelasi dengan Data Lainnya!']);
+            }
+        } else {
+            return response()->json(['error' => true, 'message' => 'Data tidak ditemukan!']);
+        }
+    // }
+}
     
     
     

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\DataFirebase;
 use App\Models\AkunUser;
+use App\Models\Pembelian;
 
 
 class DashController extends Controller
@@ -14,6 +15,7 @@ class DashController extends Controller
     {
         $this ->DataFire = new DataFirebase();
         $this ->Akun = new akunuser();
+        $this ->Pembelian = new Pembelian();
     }
 
 
@@ -25,6 +27,7 @@ class DashController extends Controller
             $data = [
                 't_akun' =>$this->Akun->alldata(),
                 't_firebase' => $this->DataFire->alldata(),
+                't_Pembelian' => $this->Pembelian->alldata(),
             ];
         return view('admin.dashboard' ,$data);
     // }

@@ -5,6 +5,9 @@ use App\Http\Controllers\AkunUserController;
 use App\Http\Controllers\DataFirebaseCtrl;
 use App\Http\Controllers\DashController;
 use App\Http\Controllers\DashUserController;
+use App\Http\Controllers\PaketController;
+use App\Http\Controllers\PembelianController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,29 +20,54 @@ use App\Http\Controllers\DashUserController;
 |
 */
 
-// Route::get('/', [AuthController::class, 'submit']);
-// Route::post('/authlogin',[AuthController::class,'auth']);
-// Route::get('/akses/logout',[AuthController::class,'logout']);
+Route::get('/login', [AuthController::class, 'submit']);
+Route::post('/authlogin',[AuthController::class,'auth']);
+Route::get('/akses/logout',[AuthController::class,'logout']);
 
-Route::get('/dashboard', [DashController::class, 'index']);
+Route::get('/dashboard/admin', [DashController::class, 'index']);
 Route::get('/api/link', [DashController::class, 'apistatus']);
 
 // DATA AKUN
-Route::get('/akun/user', [AkunUserController::class, 'index'])->name('akunuser');
-// Route::post('/data/akun/save', [AkunController::class, 'save']);
+Route::get('/dashboard/admin/akun/user', [AkunUserController::class, 'index'])->name('akunuser');
+Route::post('/dashboard/admin/akun/user-save', [AkunUserController::class, 'save']);
 // Route::get('/akun/edit/{user}', [AkunController::class, 'editakunuser']);
 // Route::post('/simpan-akun/{user}',  [AkunController::class, 'update'])->name('simpan.user');
-// Route::delete('/hapus-akun/{user}', [AkunController::class, 'hapusData']);
+Route::delete('/dashboard/admin/akun/user/hapus-akun/{username}', [AkunUserController::class, 'hapusData']);
 
 // DATA Firebase
-Route::get('/DataLink/Firebase', [DataFirebaseCtrl::class, 'index'])->name('datafirebase');
-Route::post('/DataLink/Firebase/save', [DataFirebaseCtrl::class, 'save']);
-Route::get('/DataLink/Firebase/edit/{id}', [DataFirebaseCtrl::class, 'editfirebasee']);
-Route::post('/DataLink/simpan-Link/{id}',  [DataFirebaseCtrl::class, 'update'])->name('simpan.link');
-Route::delete('/DataLink/Firebase/hapus/{id}', [DataFirebaseCtrl::class, 'hapusData']);
+Route::get('/dashboard/admin/DataLink/Firebase', [DataFirebaseCtrl::class, 'index'])->name('datafirebase');
+Route::post('/dashboard/admin/DataLink/Firebase/save', [DataFirebaseCtrl::class, 'save']);
+Route::get('/dashboard/admin/DataLink/Firebase/edit/{id}', [DataFirebaseCtrl::class, 'editfirebasee']);
+Route::post('/dashboard/admin/DataLink/simpan-Link/{id}',  [DataFirebaseCtrl::class, 'update'])->name('simpan.link');
+Route::delete('/dashboard/admin/DataLink/Firebase/hapus/{id}', [DataFirebaseCtrl::class, 'hapusData']);
+
+// DATA Paket
+Route::get('/dashboard/admin/Produk/Paket', [PaketController::class, 'index'])->name('datapaket');
+Route::post('/dashboard/admin/Produk/Paket-save', [PaketController::class, 'save']);
+// Route::get('/dashboard/admin/DataLink/Firebase/edit/{id}', [DataFirebaseCtrl::class, 'editfirebasee']);
+// Route::post('/dashboard/admin/DataLink/simpan-Link/{id}',  [DataFirebaseCtrl::class, 'update'])->name('simpan.link');
+Route::delete('/dashboard/admin/Produk/hapus/{id_paket}', [PaketController::class, 'hapusData']);
+
+// DATA Pembelian
+Route::get('/dashboard/admin/Pembelian/Paket', [PembelianController::class, 'index'])->name('datapembelian');
+Route::post('/dashboard/admin/Pembelian/Paket/save', [PembelianController::class, 'save']);
+Route::get('/dashboard/admin/Pembelian/paket-edit/{id}', [PembelianController::class, 'editpembelian']);
+Route::post('/dashboard/admin/Pembelian/simpan-paket/{id}',  [PembelianController::class, 'update'])->name('simpan.paket');
+Route::delete('/dashboard/admin/Pembelian/Paket/hapus/{id}', [PembelianController::class, 'hapusData']);
 
 
 
 // Dashboard User
-Route::get('/dashboard/user', [DashUserController::class, 'index']);
-Route::get('/dashboard/user/upgrade', [DashUserController::class, 'index']);
+Route::get('/dashboard', [DashUserController::class, 'index']);
+Route::get('/dashboard/user/upgrade', [DashUserController::class, 'upgradee']);
+// Route::get('/dashboard/user/pack', [DashUserController::class, 'pack']);
+
+
+Route::get('/hapussampah', function() {
+
+    Artisan::call('cache:clear');
+    Artisan::call('config:cache');
+    Artisan::call('view:clear');
+    return "Cleared!";
+
+});

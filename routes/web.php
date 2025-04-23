@@ -20,6 +20,10 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+Route::get('/', function () {
+    return view('Frontend.Frontend');
+});
+
 Route::get('/login', [AuthController::class, 'submit']);
 Route::post('/authlogin',[AuthController::class,'auth']);
 Route::get('/akses/logout',[AuthController::class,'logout']);

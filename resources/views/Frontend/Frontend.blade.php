@@ -388,15 +388,17 @@
             <nav>
                 
                 <ul>
-        <li><a href="#home">Beranda</a></li>
-        <li><a href="#features">Fitur</a></li>
-        <li><a href="#pricing">Harga</a></li>
-        <li><a href="#pricing">Tentang Kami</a></li>
-        <li class="dropdown">
-            <a href="#about" class="dropbtn">Layanan ▼</a>
-            <div class="dropdown-content">
-                <a href="#team">monitoring System</a>
-                <a href="#vision">Market</a>
+                <nav>
+              <ul>
+                <li><a href="#home">Beranda</a></li>
+                <li><a href="#features">Fitur</a></li>
+                <li><a href="#pricing">Harga</a></li>
+                <li><a href="#about">Tentang Kami</a></li>
+                <li><a href="#monitoring">Monitoring System</a></li>
+                <li><a href="#market">Market</a></li>
+                  </ul>
+                 </nav>
+
             </div>
         </li>
     </ul> 

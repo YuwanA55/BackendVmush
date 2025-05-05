@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <link href="{{ asset('images/logo.png') }}" rel="icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vmush - Sistem IoT Penyiraman Otomatis untuk Pertanian</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #2d9f60;
@@ -14,103 +17,88 @@
             --white: #ffffff;
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
         body {
             color: var(--text);
             line-height: 1.6;
-            background-color: #ffffff;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 76px; /* For fixed navbar */
         }
         
         /* Header */
-        header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background-color: #ffffff;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000; /* Pastikan berada di atas elemen lain */
-    /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); Tambahkan bayangan agar terlihat lebih jelas */
-}
-        
-        .logo {
+        .navbar {
+            background-color: var(--white);
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
             font-weight: bold;
             font-size: 24px;
-            color: var(--primary);
+            color: var(--primary) !important;
         }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        nav ul li {
-            margin-left: 30px;
-        }
-        
-        nav ul li a {
-            text-decoration: none;
-            color: var(--text);
+
+        .nav-link {
+            color: var(--text) !important;
             font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+        }
+
+        .nav-link:hover {
+            color: var(--primary) !important;
         }
         
         /* Hero Section */
         .hero {
-            display: flex;
-            align-items: center;
-            padding: 60px 0;
             background-color: #f0fffa;
+            padding: 60px 0;
         }
         
-        .hero-content {
-            flex: 1;
-        }
-        
-        .hero-content h1 {
+        .hero h1 {
             font-size: 32px;
             color: var(--primary);
             margin-bottom: 20px;
         }
         
-        .hero-content p {
+        /* Market Section */
+        .market {
+            background-color: var(--white);
+            padding: 60px 0;
+        }
+        
+        .market h2 {
+            color: var(--primary);
             margin-bottom: 30px;
-            font-size: 16px;
         }
         
-        .hero-image {
-            flex: 1;
+        .market-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+        
+        .market-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .market-stat {
             text-align: center;
+            margin-bottom: 20px;
         }
         
-        .btn {
-            display: inline-block;
-            background-color: var(--primary);
-            color: var(--white);
-            padding: 12px 24px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
+        .market-stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+            display: block;
         }
         
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(45, 159, 96, 0.2);
+        .market-stat-label {
+            color: var(--light-text);
+            font-size: 14px;
         }
         
         /* Features */
@@ -120,15 +108,8 @@
             text-align: center;
         }
         
-        .features-grid {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 40px;
-        }
-        
         .feature-item {
-            flex: 1;
-            margin: 0 15px;
+            margin-bottom: 30px;
         }
         
         .feature-icon {
@@ -148,31 +129,25 @@
             font-size: 32px;
         }
         
-        .pricing-grid {
-            display: flex;
-            justify-content: space-between;
-            margin: 40px 0;
-        }
-        
-        .pricing-card {
-            flex: 1;
-            margin: 0 15px;
-            border-radius: 10px;
-            border: 1px solid #e0e0e0;
-            padding: 30px;
+        .card {
+            height: 100%;
             transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
         }
         
-        .pricing-card:hover {
+        .card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
         
-        .pricing-header {
-            margin-bottom: 20px;
+        .card-header {
+            background-color: var(--white);
+            border-bottom: 1px solid #e0e0e0;
+            padding: 20px;
         }
         
-        .pricing-header h3 {
+        .card-title {
             font-size: 24px;
             margin-bottom: 10px;
         }
@@ -184,14 +159,14 @@
             margin-bottom: 20px;
         }
         
-        .pricing-features {
-            list-style: none;
-            margin-bottom: 30px;
+        .card-body {
+            padding: 30px;
         }
         
-        .pricing-features li {
-            margin-bottom: 10px;
+        .list-group-item {
+            border: none;
             color: var(--light-text);
+            padding: 10px 0;
         }
         
         /* Testimonials */
@@ -206,15 +181,12 @@
             font-size: 32px;
         }
         
-        .testimonial-grid {
-            display: flex;
-            justify-content: space-between;
-        }
-        
         .testimonial-card {
-            flex: 1;
-            margin: 0 15px;
+            background-color: var(--white);
             padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: 100%;
         }
         
         .testimonial-author {
@@ -239,6 +211,7 @@
         .author-info p {
             font-size: 14px;
             color: var(--light-text);
+            margin-bottom: 0;
         }
         
         /* About Us */
@@ -247,34 +220,10 @@
             background-color: #f0fffa;
         }
         
-        .about .container {
-            display: flex;
-            align-items: center;
-        }
-        
-        .about-image {
-            flex: 1;
-            padding-right: 30px;
-        }
-        
-        .about-image img {
-            max-width: 100%;
-            border-radius: 5px;
-        }
-        
-        .about-content {
-            flex: 1;
-        }
-        
-        .about-content h2 {
+        .about h2 {
             color: var(--primary);
             margin-bottom: 20px;
             font-size: 28px;
-        }
-        
-        .about-content p {
-            margin-bottom: 15px;
-            line-height: 1.7;
         }
         
         .social-icons {
@@ -295,6 +244,11 @@
             text-decoration: none;
         }
         
+        .social-icon:hover {
+            background-color: #248a50;
+            color: var(--white);
+        }
+        
         /* Footer */
         footer {
             background-color: var(--primary);
@@ -302,39 +256,30 @@
             padding: 50px 0 20px;
         }
         
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-        }
-        
-        .footer-column {
-            flex: 1;
-            margin-right: 30px;
-        }
-        
-        .footer-column h3 {
+        footer h3 {
             margin-bottom: 20px;
             font-size: 20px;
         }
         
-        .footer-column ul {
+        footer ul {
             list-style: none;
+            padding-left: 0;
         }
         
-        .footer-column ul li {
+        footer ul li {
             margin-bottom: 10px;
         }
         
-        .footer-column ul li a {
+        footer ul li a {
             color: var(--white);
             text-decoration: none;
             opacity: 0.8;
             transition: all 0.3s ease;
         }
         
-        .footer-column ul li a:hover {
+        footer ul li a:hover {
             opacity: 1;
+            color: var(--white);
         }
         
         .copyright {
@@ -344,102 +289,172 @@
             font-size: 14px;
             opacity: 0.8;
         }
+        
+        /* Custom Buttons */
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #248a50;
+            border-color: #248a50;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(45, 159, 96, 0.2);
+        }
 
-        .dropdown {
-        position: relative;
-        display: inline-block;
-    }
-    .dropbtn {
-        text-decoration: none;
-        color: var(--text);
-        font-weight: 500;
-        padding: 10px;
-    }
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: var(--white);
-        min-width: 160px;
-        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
-        z-index: 1;
-    }
-    .dropdown-content a {
-        color: var(--text);
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-    }
-    .dropdown-content a:hover {
-        background-color: var(--secondary);
-    }
-    .dropdown:hover .dropdown-content {
-        display: block;
-    }
-
+        /* Market metrics */
+        .market-metric {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        
+        .market-metric .label {
+            font-size: 14px;
+            color: var(--light-text);
+        }
+        
+        .market-metric .value {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .badge-custom {
+            background-color: #e8f5ef;
+            color: var(--primary);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="container">
-        <header>
-            <div class="logo">
-            <img src="images/val2.png" alt="Vmush Logo" style="width: 100px; height: auto;">
-            </div>
-            <nav>
-                
-                <ul>
-                <nav>
-              <ul>
-                <li><a href="#home">Beranda</a></li>
-                <li><a href="#features">Fitur</a></li>
-                <li><a href="#pricing">Harga</a></li>
-                <li><a href="#about">Tentang Kami</a></li>
-                <li><a href="#monitoring">Monitoring System</a></li>
-                <li><a href="#market">Market</a></li>
-                  </ul>
-                 </nav>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <img src="images/val2.png" alt="Vmush Logo" style="width: 100px; height: auto;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#market">Pasar Jamur</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Fitur</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pricing">Harga</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Tentang Kami</a>
+                    </li>
+                 <!-- Sebelumnya: <li class="nav-item dropdown"> ... </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#market">Market</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-primary" onclick="location.href='#monitoring'">Login</button>
+                    </li>
 
+                </ul>
             </div>
-        </li>
-    </ul> 
-
-            </nav>
-        </header>
-    </div>
+        </div>
+    </nav>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-    <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
-        <div class="hero-content" style="flex: 1;">
-            <h1>Sistem IoT Penyiraman Otomatis untuk Pertanian</h1>
-            <p>Vmush menawarkan solusi irigasi otomatis dengan teknologi IoT untuk pertanian yang lebih efisien dan hasil panen yang melimpah.</p>
-            <a href="https://wa.link/b66myh" class="btn">Mulai Sekarang</a>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1>Sistem IoT Penyiraman Otomatis untuk Pertanian</h1>
+                    <p>Kelola budidaya jamur tiram Anda dengan lebih mudah, cepat, dan efisien melalui sistem permintaan stok, monitoring, dan penyewaan alat berbasis aplikasi mobile dan website. Dengan teknologi ini, Anda dapat memantau kondisi suhu, kelembaban, serta ketersediaan stok secara real-time, langsung dari genggaman tangan.</p>
+                    <a href="#pricing" class="btn btn-primary mt-3">Pilih Paket</a>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img src="images/logo.png" alt="Vmush Mascot" class="img-fluid" style="max-width: 80%;">
+                </div>
+            </div>
         </div>
-        <div class="hero-image" style="flex: 1; text-align: right;">
-            <img src="{{ asset('images/logo.png') }}" alt="ByteSoil Mascot" style="max-width: 80%;">
-        </div>
-    </div>
-</section>
+    </section>
 
+    <!-- Market Section -->
+    <section id="market" class="market">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h2>Mushroom Market</h2>
+                    <p>Pembaruan langsung yang terhubung dengan pembeli dan pasar lokal - permintaan pasar secara langsung untuk produk jamur Anda.</p>
+                    <a href="#" class="btn btn-primary mt-2">Kunjungi <i class="fas fa-arrow-right ms-2"></i></a>
+                </div>
+                <div class="col-md-6">
+                    <div class="card market-card">
+                        <h5 class="mb-4">Market Overview <span class="badge badge-custom float-end">Live Updates</span></h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="market-metric">
+                                    <div class="label">Permintaan Pasar</div>
+                                    <div class="value text-success">Tinggi</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="market-metric">
+                                    <div class="label">Pembeli Aktif</div>
+                                    <div class="value">50</div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="market-metric">
+                                    <div class="label">Rata-rata harga/kg</div>
+                                    <div class="value">Rp. 16.500</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Features -->
     <section id="features" class="features">
         <div class="container">
-            <div class="features-grid">
-                <div class="feature-item">
-                    <div class="feature-icon">💧</div>
-                    <h3>Hemat Air</h3>
-                    <p>Mengoptimalkan penggunaan air berdasarkan kebutuhan tanaman</p>
+            <h2 class="mb-5">Fitur Utama</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-item">
+                        <div class="feature-icon">💧</div>
+                        <h3>Hemat Air</h3>
+                        <p>Mengoptimalkan penggunaan air berdasarkan kebutuhan tanaman</p>
+                    </div>
                 </div>
-                <div class="feature-item">
-                    <div class="feature-icon">📱</div>
-                    <h3>Kontrol via Aplikasi</h3>
-                    <p>Pantau dan atur sistem irigasi dari smartphone Anda kapan saja</p>
+                <div class="col-md-4">
+                    <div class="feature-item">
+                        <div class="feature-icon">📱</div>
+                        <h3>Kontrol via Aplikasi</h3>
+                        <p>Pantau dan atur sistem irigasi dari smartphone Anda kapan saja</p>
+                    </div>
                 </div>
-                <div class="feature-item">
-                    <div class="feature-icon">📊</div>
-                    <h3>Laporan Data</h3>
-                    <p>Lacak dan analisis penggunaan air untuk mengoptimalkan proses</p>
+                <div class="col-md-4">
+                    <div class="feature-item">
+                        <div class="feature-icon">📊</div>
+                        <h3>Laporan Data</h3>
+                        <p>Lacak dan analisis penggunaan air untuk mengoptimalkan proses</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -447,92 +462,122 @@
 
     <!-- Pricing -->
     <section id="pricing" class="pricing">
-        <div class="container">
-            <h2>Pilih Paket yang Sesuai</h2>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>Paket Rakyat</h3>
+    <div class="container">
+        <h2>Pilih Paket yang Sesuai</h2>
+        <div class="row">
+            <!-- Paket Rakyat -->
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h3 class="card-title">Paket Rakyat</h3>
                         <div class="price">Rp 199K</div>
                     </div>
-                    <ul class="pricing-features">
-                        <li>1 Sensor Kelembaban</li>
-                        <li>Kontrol basic via App </li>
-                        <li>Support 8/5</li>
-                    </ul>
-                    <a href="#" class="btn">Beli Sekarang</a>
+                    <div class="card-body d-flex flex-column">
+                        <ul class="list-group list-group-flush mb-4">
+                            <li class="list-group-item">1 Sensor Kelembaban</li>
+                            <li class="list-group-item">Kontrol basic via App</li>
+                            <li class="list-group-item">Support 8/5</li>
+                        </ul>
+                        <div class="mt-auto text-center">
+                            <a href="/pembayaran" class="btn btn-success rounded-pill px-4 w-100">Beli Sekarang</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>Paket Raden</h3>
+            </div>
+
+            <!-- Paket Raden -->
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h3 class="card-title">Paket Raden</h3>
                         <div class="price">Rp 399K</div>
                     </div>
-                    <ul class="pricing-features">
-                        <li>3 Sensor Kelembaban</li>
-                        <li>Kontrol premium via App</li>
-                        <li>Support 24/7</li>
-                        <li>Analisis fata basic</li>
-                    </ul>
-                    <a href="#" class="btn">Beli Sekarang</a>
+                    <div class="card-body d-flex flex-column">
+                        <ul class="list-group list-group-flush mb-4">
+                            <li class="list-group-item">3 Sensor Kelembaban</li>
+                            <li class="list-group-item">Kontrol premium via App</li>
+                            <li class="list-group-item">Support 24/7</li>
+                            <li class="list-group-item">Analisis data basic</li>
+                        </ul>
+                        <div class="mt-auto text-center">
+                            <a href="/pembayaran" class="btn btn-success rounded-pill px-4 w-100">Beli Sekarang</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>Paket Sultan</h3>
+            </div>
+
+            <!-- Paket Sultan -->
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h3 class="card-title">Paket Sultan</h3>
                         <div class="price">Rp 599K</div>
                     </div>
-                    <ul class="pricing-features">
-                        <li>5 Sensor Kelembaban</li>
-                        <li>Kontrol ultimate via App</li>
-                        <li>Support 24/7</li>
-                        <li>Analisis data advanced</li>
-                        <li>Konsultasi Expert</li>
-                    </ul>
-                    <a href="#" class="btn">Beli Sekarang</a>
+                    <div class="card-body d-flex flex-column">
+                        <ul class="list-group list-group-flush mb-4">
+                            <li class="list-group-item">5 Sensor Kelembaban</li>
+                            <li class="list-group-item">Kontrol ultimate via App</li>
+                            <li class="list-group-item">Support 24/7</li>
+                            <li class="list-group-item">Analisis data advanced</li>
+                            <li class="list-group-item">Konsultasi Expert</li>
+                        </ul>
+                        <div class="mt-auto text-center">
+                            <a href="/pembayaran" class="btn btn-success rounded-pill px-4 w-100">Beli Sekarang</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
 
     <!-- Testimonials -->
     <section id="testimonials" class="testimonials">
         <div class="container">
             <h2>Testimoni Pengguna</h2>
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-author">
-                        <div class="author-image">
-                            <img src="/api/placeholder/50/50" alt="User Avatar">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-author">
+                            <div class="author-image">
+                                <img src="/api/placeholder/50/50" alt="User Avatar" class="img-fluid">
+                            </div>
+                            <div class="author-info">
+                                <h4>Ahmad Budiman</h4>
+                                <p>Petani Sayuran, Bandung</p>
+                            </div>
                         </div>
-                        <div class="author-info">
-                            <h4>Ahmad Budiman</h4>
-                            <p>Petani Sayuran, Bandung</p>
-                        </div>
+                        <p>"Vmush membantu saya menghemat hingga 30% penggunaan air, dan hasil panen juga meningkat!"</p>
                     </div>
-                    <p>"Vmush membantu saya menghemat hingga 30% penggunaan air, dan hasil panen juga meningkat!"</p>
                 </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-author">
-                        <div class="author-image">
-                            <img src="{{ asset('images/logo2.png') }}" alt="ByteSoil Mascot" style="max-width: 100%; border-radius: 5px;">
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-author">
+                            <div class="author-image">
+                                <img src="/api/placeholder/50/50" alt="User Avatar" class="img-fluid">
+                            </div>
+                            <div class="author-info">
+                                <h4>Dewi Santoso</h4>
+                                <p>Pengusaha Pertanian, Surabaya</p>
+                            </div>
                         </div>
-                        <div class="author-info">
-                            <h4>Dewi Santoso</h4>
-                            <p>Pengusaha Pertanian, Surabaya</p>
-                        </div>
+                        <p>"Kemudahan monitoring dari jarak jauh membuat manajemen lahan pertanian saya jauh lebih efisien."</p>
                     </div>
-                    <p>"Kemudahan monitoring dari jarak jauh membuat manajemen lahan pertanian saya jauh lebih efisien."</p>
                 </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-author">
-                        <div class="author-image">
-                            <img src="/api/placeholder/50/50" alt="User Avatar">
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-author">
+                            <div class="author-image">
+                                <img src="/api/placeholder/50/50" alt="User Avatar" class="img-fluid">
+                            </div>
+                            <div class="author-info">
+                                <h4>Budi Hartono</h4>
+                                <p>Petani Buah, Malang</p>
+                            </div>
                         </div>
-                        <div class="author-info">
-                            <h4>Budi Hartono</h4>
-                            <p>Petani Buah, Malang</p>
-                        </div>
+                        <p>"Data yang disediakan sangat membantu dalam mengambil keputusan untuk pertanian berbasis data."</p>
                     </div>
-                    <p>"Data yang disediakan sangat membantu dalam mengambil keputusan untuk pertanian berbasis data."</p>
                 </div>
             </div>
         </div>
@@ -541,18 +586,20 @@
     <!-- About Us -->
     <section id="about" class="about">
         <div class="container">
-            <div class="about-image">
-            <img src="{{ asset('images/logo2.png') }}" alt="ByteSoil Mascot">
-            </div>
-            <div class="about-content">
-                <h2>Tentang Kami</h2>
-                <p>Vmush adalah startup teknologi pertanian yang berfokus pada pengembangan solusi irigasi cerdas berbasis Internet of Things (IoT). Misi kami adalah membantu petani meningkatkan produktivitas pertanian dengan teknologi yang terjangkau.</p>
-                <p>Tim kami terdiri dari ahli teknologi dan pertanian yang berkomitmen untuk menciptakan solusi berkelanjutan bagi masa depan pertanian Indonesia.</p>
-                <a href="#contact" class="btn">Pelajari Lebih Lanjut</a>
-                <div class="social-icons">
-                    <a href="#" class="social-icon">f</a>
-                    <a href="#" class="social-icon">in</a>
-                    <a href="https://www.instagram.com/p/DGnnmxbzEKe/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" class="social-icon">ig</a>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="images/logo2.png" alt="Vmush Team" class="img-fluid rounded">
+                </div>
+                <div class="col-lg-6">
+                    <h2>Tentang Kami</h2>
+                    <p>Vmush adalah startup teknologi pertanian yang berfokus pada pengembangan solusi irigasi cerdas berbasis Internet of Things (IoT). Misi kami adalah membantu petani meningkatkan produktivitas pertanian dengan teknologi yang terjangkau.</p>
+                    <p>Tim kami terdiri dari ahli teknologi dan pertanian yang berkomitmen untuk menciptakan solusi berkelanjutan bagi masa depan pertanian Indonesia.</p>
+                    <a href="#contact" class="btn btn-primary mt-3">Pelajari Lebih Lanjut</a>
+                    <div class="social-icons mt-4">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.instagram.com/p/DGnnmxbzEKe/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -561,21 +608,22 @@
     <!-- Footer -->
     <footer id="contact">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
                     <h3>Vmush</h3>
                     <p>Solusi irigasi cerdas untuk pertanian modern</p>
                 </div>
-                <div class="footer-column">
+                <div class="col-md-4 mb-4 mb-md-0">
                     <h3>Menu</h3>
                     <ul>
                         <li><a href="#home">Beranda</a></li>
+                        <li><a href="#market">Pasar Jamur</a></li>
                         <li><a href="#features">Fitur</a></li>
                         <li><a href="#pricing">Harga</a></li>
                         <li><a href="#about">Tentang</a></li>
                     </ul>
                 </div>
-                <div class="footer-column">
+                <div class="col-md-4">
                     <h3>Kontak</h3>
                     <ul>
                         <li>info@Vmush.com</li>
@@ -583,26 +631,31 @@
                     </ul>
                 </div>
             </div>
-            <div class="copyright">
+            <div class="copyright mt-4">
                 © 2025 Vmush.com. All rights reserved.
             </div>
         </div>
     </footer>
 
+    <!-- Bootstrap JS with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Smooth scrolling for navbar links
         document.querySelectorAll('nav a, footer a').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 70, // Offset for header height
-                        behavior: 'smooth'
-                    });
+                const href = this.getAttribute('href');
+                if (href.startsWith('#') && href !== '#') {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 76, // Offset for header height
+                            behavior: 'smooth'
+                        });
+                    }
                 }
             });
         });

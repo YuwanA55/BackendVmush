@@ -18,18 +18,31 @@
 <li class="menu-item {{ Request::is('dashboard/user/upgrade*') ? 'active' : '' }}">
     <a href="/dashboard/user/upgrade" class="menu-link ">
         <i class="menu-icon tf-icons ti ti-star"></i>
-        <div data-i18n="Langganan">Langganan</div>
+        <div data-i18n="Adds On">Adds On</div>
         {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
     </a>
 </li>
 
 <div class="mt-1"></div>
 
+<li class="menu-item {{ Request::is('dashboard/user/PembelianHistory*') ? 'active' : '' }}">
+    <a href="/dashboard/user/PembelianHistory" class="menu-link ">
+        <i class="menu-icon tf-icons ti ti-star"></i>
+        <div data-i18n="History Pembelian">History Pembelian</div>
+        {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
+    </a>
+</li>
 
 <div class="mt-1"></div>
 
+<li class="menu-item {{ Request::is('dashboard/user/permintaanstok*') ? 'active' : '' }}">
+    <a href="/dashboard/user/permintaanstok" class="menu-link ">
+        <i class="menu-icon tf-icons ti ti-package"></i>
+        <div data-i18n="Permintaan Stok">Permintaan Stok</div>
+        {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
+    </a>
+</li>
 
-   
 
     
     

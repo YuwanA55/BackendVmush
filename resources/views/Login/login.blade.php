@@ -106,18 +106,17 @@
               </a>
             </div>
             <!-- /Logo -->
-            <h3 class="mb-1 fw-bold">Welcome to Sip-Kopi! 👋</h3>
-            <p class="mb-4">Mohon Login dengan akun ADMIN dan rasakan pengalaman baru!</p>
+            <h3 class="mb-1 fw-bold">Welcome to Vmush! 👋</h3>
+            <p class="mb-4">Mohon Login dengan akun kamu dan rasakan pengalaman baru!</p>
             <form class="user" action="/authlogin" method="POST">
               @csrf
-              
               <div class="mb-3">
                 <label for="email" class="form-label">Username</label>
                 <input
                   type="text"
                   class="form-control"
                   id="email"
-                  name="user"
+                  name="username"
                   placeholder="Enter your username"
                   autofocus
                   required
@@ -135,7 +134,7 @@
                     type="password"
                     id="password"
                     class="form-control"
-                    name="pass"
+                    name="password"
                     required
                     placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                     aria-describedby="password" />

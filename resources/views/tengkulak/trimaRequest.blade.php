@@ -29,8 +29,8 @@
     <header class="p-6 bg-white shadow-md">
         <div class="flex justify-between items-center">
             <div class="text-2xl font-bold text-green-700">Jamur<span class="text-black">Market</span></div>
-            <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow-md">+ Tambah
-                Permintaan</button>
+            {{-- <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow-md">+ Tambah
+                Permintaan</button> --}}
         </div>
     </header>
 
@@ -72,7 +72,7 @@
                     <p><span class="font-semibold">Alamat:</span> Pasar Induk, Bondowoso</p>
                     <p><span class="font-semibold">Dibutuhkan:</span> Besok</p>
                 </div>
-                <button class="w-full bg-green-600 text-white py-2 rounded">Ambil Stok</button>
+                <a href="/dashboard/user/permintaanstok/detail" class="text-center w-full bg-green-600 text-white py-2 rounded">Ambil Stok</a>
             </div>
 
             <!-- Request 2 -->
@@ -90,7 +90,7 @@
                     <p><span class="font-semibold">Alamat:</span> Jl. Kalimantan, Jember</p>
                     <p><span class="font-semibold">Dibutuhkan:</span> Hari Ini</p>
                 </div>
-                <button class="w-full bg-green-600 text-white py-2 rounded">Ambil Stok</button>
+                <a href="/dashboard/user/permintaanstok/detail" class="text-center w-full bg-green-600 text-white py-2 rounded">Ambil Stok</a>
             </div>
 
             <!-- Request 3 -->
@@ -108,7 +108,7 @@
                     <p><span class="font-semibold">Alamat:</span> Kademangan, Bondowoso</p>
                     <p><span class="font-semibold">Dibutuhkan:</span> 2 Hari</p>
                 </div>
-                <button class="w-full bg-green-600 text-white py-2 rounded">Ambil Stok</button>
+                <a href="/dashboard/user/permintaanstok/detail" class="text-center w-full bg-green-600 text-white py-2 rounded">Ambil Stok</a>
             </div>
         </div>
     </div>

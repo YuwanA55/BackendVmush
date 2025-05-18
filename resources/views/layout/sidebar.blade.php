@@ -90,6 +90,22 @@
                         </li>
                     </ul>
                 </li>
+
+
+                               {{-- Firebase --}}
+                <li class="mb-2 menu-item {{ Request::is('dashboard/admin/databank*') ? 'active open' : '' }}">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons ti ti-credit-card"></i>
+                        <div data-i18n="Data Bank">Data Bank</div>
+                    </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item {{ Request::is('dashboard/admin/databank/data*') ? 'active' : '' }}">
+                            <a href="/dashboard/admin/databank/data" class="menu-link">
+                                <div data-i18n="Data Bank">Data Bank</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
     
     
 

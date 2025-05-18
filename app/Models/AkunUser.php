@@ -17,9 +17,9 @@ class akunuser extends Model
         return DB::table('akun_user')->where('status', '<>', 'Admin')->get();
     }
 
-//     public function authlogin($user){
-//         return DB::table('data_user')->where('user',$user)->first();
-//     }
+    public function authlogin($username){
+        return DB::table('akun_user')->where('username',$username)->first();
+    }
 
 //     public function detailadmin($user){
 //         return DB::table('data_user')->where('user', $user)->first();

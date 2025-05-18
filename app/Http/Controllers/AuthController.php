@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-// use App\Models\akun;
+use App\Models\AkunUser;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     public function __construct(){
 
-        // $this ->akun = new akun();
+        $this ->akunuser = new akunuser();
     }
 
     public function submit(){
@@ -18,38 +18,43 @@ class AuthController extends Controller
         return view('Login.login');
 }
 
-    // public function auth()
-    // {
-    //     request()->validate([
-    //         'user' => 'required',
-    //         'pass' => 'required',
-    //     ]);
-    
-    //     $data = $this->akun->authlogin(request()->user);
-    
-    //     if (!$data) {
-    //         return redirect('/')->with('error', 'Username atau password salah.');
-    //     } else {
-    //         if (Hash::check(request()->pass, $data->pass) && $data->level === 'Admin') {
-    //             session()->put([
-    //                 'user' => $data->user,
-    //                 'nama' => $data->nama,
-    //                 'email' => $data->email,
-    //                 'nohp' => $data->nohp,
-    //                 'pass' => $data->pass,
-    //                 'lokasi' => $data->lokasi,
-    //                 'level' => $data->level,
-    //                 'tanggal_create' => $data->tanggal_create,
-    //                 'gambar' => $data->gambar,
-    //                 'login' => true,     
-    //             ]);
-    //             return redirect('/dashboard'); //ke dashboard
-    //         } else {
-    //             // Jika level bukan admin atau password tidak cocok
-    //             return redirect('/')->with('error', 'Username atau password salah.');
-    //         }
-    //     }
-    // }
+public function auth()
+{
+    request()->validate([
+        'username' => 'required',
+        'password' => 'required',
+    ]);
+
+    $data = $this->akunuser->authlogin(request()->username);
+
+    if (!$data) {
+        return redirect('/login')->with('error', 'Username atau password salah.');
+    }
+
+    if (Hash::check(request()->password, $data->password)) {
+        // Simpan data ke session
+        session()->put([
+            'username' => $data->username,
+            'nama' => $data->nama,
+            'email' => $data->email,
+            'status' => $data->status,
+            'gambar' => $data->gambar,
+            'alamat' => $data->alamat,
+            'nohp' => $data->nohp,
+            'tanggal_create' => $data->tanggal_create,
+            'login' => true,
+        ]);
+
+        // Redirect berdasarkan status
+        if ($data->status === 'Admin') {
+            return redirect('/dashboard/admin');
+        } elseif ($data->status === 'User') {
+            return redirect('/dashboard');
+        }
+    }
+
+    return redirect('/login')->with('error', 'Username atau password salah.');
+}
 
 
     public function logout(){

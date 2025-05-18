@@ -8,6 +8,7 @@ use App\Http\Controllers\DashUserController;
 use App\Http\Controllers\PaketController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BankController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,28 @@ use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
     return view('Frontend.Frontend');
+});
+
+Route::get('/pembayaran', function () {
+    return view('Frontend.Pembayaran');
+});
+
+
+Route::get('pembayaran/tagihan', function () {
+    return view('Frontend.tagihan');
+});
+
+
+Route::get('/detailtengkulak', function () {
+    return view('tengkulak.detailtengkulak');
+});
+
+Route::get('/permintaan/jamur', function () {
+    return view('tengkulak.reqtengkulak');
+});
+
+Route::get('/PermintaanStok', function () {
+    return view('tengkulak.trimaRequest');
 });
 
 Route::get('/login', [AuthController::class, 'submit']);
@@ -45,6 +68,13 @@ Route::get('/dashboard/admin/DataLink/Firebase/edit/{id}', [DataFirebaseCtrl::cl
 Route::post('/dashboard/admin/DataLink/simpan-Link/{id}',  [DataFirebaseCtrl::class, 'update'])->name('simpan.link');
 Route::delete('/dashboard/admin/DataLink/Firebase/hapus/{id}', [DataFirebaseCtrl::class, 'hapusData']);
 
+// DATA Bank /edit belum
+Route::get('/dashboard/admin/databank/data', [BankController::class, 'index'])->name('databank');
+Route::post('/dashboard/admin/databank/data-save', [BankController::class, 'save']);
+Route::get('/dashboard/admin/databank/edit/{id}', [BankController::class, 'editfirebasee']);
+Route::post('/dashboard/admin/databank/simpan-Link/{id}',  [BankController::class, 'update'])->name('simpan.bank');
+Route::delete('/dashboard/admin/databank/hapus/{id}', [BankController::class, 'hapusData']);
+
 // DATA Paket
 Route::get('/dashboard/admin/Produk/Paket', [PaketController::class, 'index'])->name('datapaket');
 Route::post('/dashboard/admin/Produk/Paket-save', [PaketController::class, 'save']);
@@ -64,6 +94,8 @@ Route::delete('/dashboard/admin/Pembelian/Paket/hapus/{id}', [PembelianControlle
 // Dashboard User
 Route::get('/dashboard', [DashUserController::class, 'index']);
 Route::get('/dashboard/user/upgrade', [DashUserController::class, 'upgradee']);
+Route::get('/dashboard/user/permintaanstok', [DashUserController::class, 'permintaanstok']);
+Route::get('/dashboard/user/permintaanstok/detail', [DashUserController::class, 'detailstok']);
 // Route::get('/dashboard/user/pack', [DashUserController::class, 'pack']);
 
 

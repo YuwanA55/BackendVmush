@@ -478,11 +478,11 @@
                     <div class="card mb-3">
                         <div class="card-header">
                             <div class="d-flex">
-                                <h3 class="">API Harga Kopi</h3>
+                                <h3 class="">API Penjadwalan</h3>
                             </div>
   
                             <button type="button" class="btn text-end btn-info" data-bs-toggle="modal" data-bs-target="#modalhargakopi">
-                                Meta Data Harga Kopi
+                                Meta Data Penjadwalan
                             </button>
                         </div>
                         <!-- Modal -->
@@ -491,13 +491,13 @@
                                 <div class="modal-content">
                                     <div class="modal-body">
                                         <pre class='prettyprint lang-html'>
-      {
+      {{-- {
         "id": "{kode}",
         "nama_varietas": "{kode_pere}",
         "harga": "{data}",
         "sumber": "{data}",
       }
-                                </pre>
+                                </pre> --}}
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -518,20 +518,68 @@
                                       </tr>
                                   </thead>
                                   <tbody class="table-border-bottom-0">
-                                      {{-- <tr>
+                                      <tr>
                                           <td>1</td>
                                           <td>Get ALL</td>
-                                          <td>https://dev.sipkopi.com/api/hargakopi/tampil</td>
+                                          <td>http://127.0.0.1:8000/api/Data/Penjadwalan/data-tampil</td>
                                           <td><span class="badge bg-label-primary me-1">Active</span></td>
                                       </tr>
   
                                       <tr>
                                         <td>2</td>
-                                        <td>Get by Kode</td>
-                                        <td>https://dev.sipkopi.com/api/hargakopi/{id}</td>
+                                        <td>Get by Username</td>
+                                          <td>http://127.0.0.1:8000/api/Data/Penjadwalan/data-tampil/{username}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
-                                    </tr> --}}
+                                    </tr>
+
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Get by Username/Tanggal</td>
+                                          <td>http://127.0.0.1:8000/api/Data/Penjadwalan/data-tampil/{username}/{tanggal}</td>
+                                        <td><span class="badge bg-label-primary me-1">Active</span></td>
+                                    </tr>
                                   
+
+                                     <tr>
+                                        <td>2</td>
+                                        <td>Tambah Data</td>
+                                          <td>http://127.0.0.1:8000/api/Data/Penjadwalan/tambah-Data</td>
+                                        <td><span class="badge bg-label-primary me-1">Active</span></td>
+                                    </tr>
+
+
+
+                                 <tr>
+                                        <td>2</td>
+                                        <td>Edit by Id</td>
+                                          <td>http://127.0.0.1:8000/api/Data/Penjadwalan/edit-Data/{id_penjadwalan}</td>
+                                        <td><span class="badge bg-label-primary me-1">Active</span></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Edit by Username</td>
+                                          <td>http://127.0.0.1:8000/api/Data/Penjadwalan/edit-Data/user/{username}</td>
+                                        <td><span class="badge bg-label-primary me-1">Active</span></td>
+                                    </tr>
+
+
+                                     <tr>
+                                        <td>2</td>
+                                        <td>Delete by Id</td>
+                                          <td>http://127.0.0.1:8000/api/Data/Penjadwalan/hapus-Data/{id_penjadwalan}</td>
+                                        <td><span class="badge bg-label-primary me-1">Active</span></td>
+                                    </tr>
+
+
+                               <tr>
+                                        <td>2</td>
+                                        <td>Delete by Username</td>
+                                          <td>http://127.0.0.1:8000/api/Data/Penjadwalan/hapus-Data/user/{username}</td>
+                                        <td><span class="badge bg-label-primary me-1">Active</span></td>
+                                    </tr>
+
+
                                   </tbody>
                               </table>
                           </div>

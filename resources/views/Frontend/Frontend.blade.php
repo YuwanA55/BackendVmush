@@ -368,7 +368,7 @@
                         <a class="nav-link" href="#market">Market</a>
                     </li>
                     <li class="nav-item">
-                        <button class="btn btn-primary" onclick="location.href='#monitoring'">Login</button>
+                        <a href="/login" class="btn btn-primary">Login</a>
                     </li>
 
                 </ul>
@@ -399,7 +399,7 @@
                 <div class="col-md-6">
                     <h2>Mushroom Market</h2>
                     <p>Pembaruan langsung yang terhubung dengan pembeli dan pasar lokal - permintaan pasar secara langsung untuk produk jamur Anda.</p>
-                    <a href="#" class="btn btn-primary mt-2">Kunjungi <i class="fas fa-arrow-right ms-2"></i></a>
+                    <a href="/permintaan/jamur" class="btn btn-primary mt-2">Kunjungi <i class="fas fa-arrow-right ms-2"></i></a>
                 </div>
                 <div class="col-md-6">
                     <div class="card market-card">
@@ -408,19 +408,19 @@
                             <div class="col-md-6 mb-3">
                                 <div class="market-metric">
                                     <div class="label">Permintaan Pasar</div>
-                                    <div class="value text-success">Tinggi</div>
+                                    <div class="value text-success">Sedang</div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="market-metric">
                                     <div class="label">Pembeli Aktif</div>
-                                    <div class="value">50</div>
+                                    <div class="value">999999</div>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="market-metric">
                                     <div class="label">Rata-rata harga/kg</div>
-                                    <div class="value">Rp. 16.500</div>
+                                    <div class="value">Rp. 16.000 - Rp 33.900</div>
                                 </div>
                             </div>
                         </div>

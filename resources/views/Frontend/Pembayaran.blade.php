@@ -271,7 +271,7 @@
                         </a>
                     </div>
                     
-                    <button class="btn-continue">Continue</button>
+                    <a href="/pembayaran/tagihan" class="btn-continue">Continue</a>
                 </div>
             </div>
         </div>

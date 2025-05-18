@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\AkunController;
 use App\Http\Controllers\Api\FirebaseController;
 use App\Http\Controllers\Api\PaketController;
 use App\Http\Controllers\Api\PembelianController;
+use App\Http\Controllers\Api\PenjadwalanController;
+use App\Http\Controllers\Api\TengkulakController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,3 +53,28 @@ Route::get('/Data/Pembelian/Paket/tampil/id/{id}', [PembelianController::class, 
 Route::post('/Data/Pembelian/Paket/tambah-Data', [PembelianController::class, 'store']);
 Route::put('/Data/Pembelian/Paket/edit-Data/{id}', [PembelianController::class, 'updatee']);
 Route::delete('/Data/Pembelian/Paket/hapus-Data/{id}', [PembelianController::class, 'delete']);
+
+
+// API Penjadwalan
+Route::get('/Data/Penjadwalan/data-tampil', [PenjadwalanController::class, 'index']);
+Route::get('/Data/Penjadwalan/data-tampil/{username}', [PenjadwalanController::class, 'showid']);
+Route::get('/Data/Penjadwalan/data-tampil/{username}/{tanggal}', [PenjadwalanController::class, 'showtanggal']);
+// Route::get('/Data/Pembelian/Paket/tampil/id/{id}', [PenjadwalanController::class, 'showidd']);
+// Route::get('/Data/Link-Firebase/tampil/{email}', [PenjadwalanController::class, 'showemail']);
+Route::post('/Data/Penjadwalan/tambah-Data', [PenjadwalanController::class, 'store']);
+Route::put('/Data/Penjadwalan/edit-Data/{id_penjadwalan}', [PenjadwalanController::class, 'updatee']);
+Route::put('/Data/Penjadwalan/edit-Data/user/{username}', [PenjadwalanController::class, 'updateeuser']);
+Route::delete('/Data/Penjadwalan/hapus-Data/{id_penjadwalan}', [PenjadwalanController::class, 'delete']);
+Route::delete('/Data/Penjadwalan/hapus-Data/user/{username}', [PenjadwalanController::class, 'delete']);
+
+
+// API Tengkulak
+// Route::get('/Data/Penjadwalan/data-tampil', [TengkulakController::class, 'index']);
+// Route::get('/Data/Penjadwalan/data-tampil/{username}', [TengkulakController::class, 'showid']);
+// // Route::get('/Data/Pembelian/Paket/tampil/id/{id}', [TengkulakController::class, 'showidd']);
+// // Route::get('/Data/Link-Firebase/tampil/{email}', [TengkulakController::class, 'showemail']);
+// Route::post('/Data/Penjadwalan/tambah-Data', [TengkulakController::class, 'store']);
+// Route::put('/Data/Penjadwalan/edit-Data/{id_penjadwalan}', [TengkulakController::class, 'updatee']);
+// Route::put('/Data/Penjadwalan/edit-Data/user/{username}', [TengkulakController::class, 'updateeuser']);
+// Route::delete('/Data/Penjadwalan/hapus-Data/{id_penjadwalan}', [TengkulakController::class, 'delete']);
+// Route::delete('/Data/Penjadwalan/hapus-Data/user/{username}', [TengkulakController::class, 'delete']);

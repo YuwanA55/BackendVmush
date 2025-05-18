@@ -19,18 +19,23 @@ class DashController extends Controller
     }
 
 
-    public function index(){
-        // if(!session('login')){
-        //     return redirect('/');
-        // }else{
+public function index()
+{
+    if (!session('login')) {
+        return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+    }
 
-            $data = [
-                't_akun' =>$this->Akun->alldata(),
-                't_firebase' => $this->DataFire->alldata(),
-                't_Pembelian' => $this->Pembelian->alldata(),
-            ];
-        return view('admin.dashboard' ,$data);
-    // }
+    if (session('status') !== 'Admin') {
+        abort(404); // Jika bukan Admin, tampilkan 404
+    }
+
+    $data = [
+        't_akun' => $this->Akun->alldata(),
+        't_firebase' => $this->DataFire->alldata(),
+        't_Pembelian' => $this->Pembelian->alldata(),
+    ];
+
+    return view('admin.dashboard', $data);
 }
 
 // public function detailadmin($user){

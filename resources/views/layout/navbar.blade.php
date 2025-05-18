@@ -437,7 +437,7 @@
                           </div>
                           <div class="flex-grow-1">
                             <span class="fw-semibold d-block">{{session('nama')}}</span>
-                            <small class="text-muted">{{session('level')}}</small>
+                            <small class="text-muted">{{session('status')}}</small>
                           </div>
                         </div>
                       </a>
@@ -447,7 +447,7 @@
                     </li>
                     <li>
                     
-                      <a class="dropdown-item" href="/detail/admin/{{session('user')}}">
+                      <a class="dropdown-item" href="/detail/admin/{{session('username')}}">
                         <i class="ti ti-user-check me-2 ti-sm"></i>
                         <span class="align-middle">My Profile</span>
                       </a>

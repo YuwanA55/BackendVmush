@@ -18,29 +18,45 @@ class DashUserController extends Controller
 
 
     public function index(){
-        // if(!session('login')){
-        //     return redirect('/');
-        // }else{
+    if (!session('login')) {
+        return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+    }
 
-            // $data = [
-            //     't_akun' =>$this->Akun->alldata(),
-            //     't_firebase' => $this->DataFire->alldata(),
-            // ];
-        return view('User.DashUser' );
+    if (session('status') !== 'User') {
+        abort(404); // Jika bukan Admin, tampilkan 404
+    }
+        return view('User.dashboardnew' );
     // }
 }
 
 public function upgradee(){
-    // if(!session('login')){
-    //     return redirect('/');
-    // }else{
 
         // $data = [
         //     't_akun' =>$this->Akun->alldata(),
         //     't_firebase' => $this->DataFire->alldata(),
         // ];
     return view('User.upgrade' );
-// }
+
+}
+
+public function permintaanstok(){
+
+        // $data = [
+        //     't_akun' =>$this->Akun->alldata(),
+        //     't_firebase' => $this->DataFire->alldata(),
+        // ];
+    return view('tengkulak.trimaRequest' );
+
+}
+
+public function detailstok(){
+
+        // $data = [
+        //     't_akun' =>$this->Akun->alldata(),
+        //     't_firebase' => $this->DataFire->alldata(),
+        // ];
+    return view('tengkulak.detailtengkulak' );
+
 }
 
 

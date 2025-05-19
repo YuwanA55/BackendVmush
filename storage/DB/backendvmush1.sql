@@ -31,7 +31,7 @@ CREATE TABLE `admin` (
   `id` varchar(20) NOT NULL,
   `username` varchar(150) NOT NULL,
   `password` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=COLLATE=utf8mb4_unicode_ci;
+);
 
 -- --------------------------------------------------------
 
@@ -40,18 +40,18 @@ CREATE TABLE `admin` (
 --
 
 CREATE TABLE `akun_user` (
-  `username` varchar(10) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci NOT NULL,
-  `nama` varchar(150) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(150) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(150) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `pwasli` varchar(150) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `gambar` varchar(150) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `alamat` varchar(150) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `nohp` varchar(15) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
+  `username` varchar(10) CHARACTER SET NOT NULL,
+  `nama` varchar(150) CHARACTER SET DEFAULT NULL,
+  `email` varchar(150) CHARACTER SET NOT NULL,
+  `password` varchar(150) CHARACTER SET DEFAULT NULL,
+  `pwasli` varchar(150) CHARACTER SET DEFAULT NULL,
+  `status` varchar(10) CHARACTER SET DEFAULT NULL,
+  `gambar` varchar(150) CHARACTER SET DEFAULT NULL,
+  `alamat` varchar(150) CHARACTER SET DEFAULT NULL,
+  `nohp` varchar(15) CHARACTER SET DEFAULT NULL,
   `tanggal_create` datetime DEFAULT NULL,
-  `status_akun` varchar(20) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=COLLATE=utf8mb4_unicode_ci;
+  `status_akun` varchar(20) CHARACTER SET DEFAULT NULL
+);
 
 --
 -- Dumping data for table `akun_user`
@@ -77,7 +77,7 @@ CREATE TABLE `bank` (
   `bank` varchar(200) DEFAULT NULL,
   `norek` varchar(200) DEFAULT NULL,
   `tanggal_create` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=COLLATE=utf8mb4_unicode_ci;
+);
 
 --
 -- Dumping data for table `bank`
@@ -94,10 +94,10 @@ INSERT INTO `bank` (`id`, `nama`, `bank`, `norek`, `tanggal_create`) VALUES
 
 CREATE TABLE `firebase` (
   `id` varchar(20) NOT NULL,
-  `username` varchar(200) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(200) CHARACTER SET NOT NULL,
   `Link` varchar(200) NOT NULL,
   `tanggal_create` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=COLLATE=utf8mb4_unicode_ci;
+);
 
 --
 -- Dumping data for table `firebase`
@@ -116,15 +116,15 @@ INSERT INTO `firebase` (`id`, `username`, `Link`, `tanggal_create`) VALUES
 
 CREATE TABLE `paket` (
   `id_paket` varchar(10) NOT NULL,
-  `nama_paket` varchar(150) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `harga` varchar(150) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `jumlah_sensor` varchar(150) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `kontrol_app` varchar(150) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `support` varchar(150) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `analisisdata` varchar(150) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `konsultasi` varchar(150) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `gambar` varchar(250) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=COLLATE=utf8mb4_unicode_ci;
+  `nama_paket` varchar(150) CHARACTER SET DEFAULT NULL,
+  `harga` varchar(150) CHARACTER SET DEFAULT NULL,
+  `jumlah_sensor` varchar(150) CHARACTER SET DEFAULT NULL,
+  `kontrol_app` varchar(150) CHARACTER SET DEFAULT NULL,
+  `support` varchar(150) CHARACTER SET DEFAULT NULL,
+  `analisisdata` varchar(150) CHARACTER SET DEFAULT NULL,
+  `konsultasi` varchar(150) CHARACTER SET DEFAULT NULL,
+  `gambar` varchar(250) CHARACTER SET DEFAULT NULL
+);
 
 --
 -- Dumping data for table `paket`
@@ -141,11 +141,11 @@ INSERT INTO `paket` (`id_paket`, `nama_paket`, `harga`, `jumlah_sensor`, `kontro
 
 CREATE TABLE `pembelian` (
   `id` varchar(20) NOT NULL,
-  `id_paket` varchar(20) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
+  `id_paket` varchar(20) CHARACTER SET DEFAULT NULL,
   `username` varchar(250) DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
   `tanggal` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=COLLATE=utf8mb4_unicode_ci;
+);
 
 --
 -- Dumping data for table `pembelian`
@@ -163,12 +163,12 @@ INSERT INTO `pembelian` (`id`, `id_paket`, `username`, `status`, `tanggal`) VALU
 --
 
 CREATE TABLE `penjadwalan` (
-  `id_penjadwalan` varchar(20) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci NOT NULL,
+  `id_penjadwalan` varchar(20) CHARACTER SET NOT NULL,
   `username` varchar(150) NOT NULL,
   `tanggal` date NOT NULL,
   `keterangan` varchar(150) NOT NULL,
-  `sub_keterangan` varchar(250) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=COLLATE=utf8mb4_unicode_ci;
+  `sub_keterangan` varchar(250) CHARACTER SET NOT NULL
+);
 
 --
 -- Dumping data for table `penjadwalan`
@@ -185,12 +185,12 @@ INSERT INTO `penjadwalan` (`id_penjadwalan`, `username`, `tanggal`, `keterangan`
 --
 
 CREATE TABLE `permintaan_stok` (
-  `id_stok` varchar(10) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `id_tengkulak` varchar(10) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `jumlah_stok` varchar(10) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
+  `id_stok` varchar(10) CHARACTER SET DEFAULT NULL,
+  `id_tengkulak` varchar(10) CHARACTER SET DEFAULT NULL,
+  `jumlah_stok` varchar(10) CHARACTER SET DEFAULT NULL,
+  `status` varchar(20) CHARACTER SET DEFAULT NULL,
   `tanggal` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=COLLATE=utf8mb4_unicode_ci;
+);
 
 -- --------------------------------------------------------
 
@@ -199,15 +199,15 @@ CREATE TABLE `permintaan_stok` (
 --
 
 CREATE TABLE `tengkulak` (
-  `id_tengku` varchar(10) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `username` varchar(150) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
+  `id_tengku` varchar(10) CHARACTER SET DEFAULT NULL,
+  `username` varchar(150) CHARACTER SET DEFAULT NULL,
   `nama` varchar(250) NOT NULL,
-  `password` varchar(150) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `alamat` varchar(200) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
-  `nohp` varchar(20) CHARACTER SET utf8mb4 COLLATE COLLATE=utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(150) CHARACTER SET DEFAULT NULL,
+  `alamat` varchar(200) CHARACTER SET DEFAULT NULL,
+  `nohp` varchar(20) CHARACTER SET DEFAULT NULL,
   `gambar` varchar(250) NOT NULL,
   `tanggal_create` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=COLLATE=utf8mb4_unicode_ci;
+);
 
 --
 -- Indexes for dumped tables

@@ -31,7 +31,7 @@ CREATE TABLE `admin` (
   `id` varchar(20) NOT NULL,
   `username` varchar(150) NOT NULL,
   `password` varchar(150) NOT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -51,7 +51,7 @@ CREATE TABLE `akun_user` (
   `nohp` varchar(15) CHARACTER SET DEFAULT NULL,
   `tanggal_create` datetime DEFAULT NULL,
   `status_akun` varchar(20) CHARACTER SET DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `akun_user`
@@ -77,7 +77,7 @@ CREATE TABLE `bank` (
   `bank` varchar(200) DEFAULT NULL,
   `norek` varchar(200) DEFAULT NULL,
   `tanggal_create` datetime DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `bank`
@@ -97,7 +97,7 @@ CREATE TABLE `firebase` (
   `username` varchar(200) CHARACTER SET NOT NULL,
   `Link` varchar(200) NOT NULL,
   `tanggal_create` datetime DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `firebase`
@@ -124,7 +124,7 @@ CREATE TABLE `paket` (
   `analisisdata` varchar(150) CHARACTER SET DEFAULT NULL,
   `konsultasi` varchar(150) CHARACTER SET DEFAULT NULL,
   `gambar` varchar(250) CHARACTER SET DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `paket`
@@ -145,7 +145,7 @@ CREATE TABLE `pembelian` (
   `username` varchar(250) DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
   `tanggal` datetime DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `pembelian`
@@ -168,7 +168,7 @@ CREATE TABLE `penjadwalan` (
   `tanggal` date NOT NULL,
   `keterangan` varchar(150) NOT NULL,
   `sub_keterangan` varchar(250) CHARACTER SET NOT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `penjadwalan`
@@ -190,7 +190,7 @@ CREATE TABLE `permintaan_stok` (
   `jumlah_stok` varchar(10) CHARACTER SET DEFAULT NULL,
   `status` varchar(20) CHARACTER SET DEFAULT NULL,
   `tanggal` datetime DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -207,7 +207,7 @@ CREATE TABLE `tengkulak` (
   `nohp` varchar(20) CHARACTER SET DEFAULT NULL,
   `gambar` varchar(250) NOT NULL,
   `tanggal_create` datetime DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Indexes for dumped tables

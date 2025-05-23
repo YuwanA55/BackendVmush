@@ -1,30 +1,26 @@
-# Gunakan image PHP dengan Apache
-FROM php:8.0-apache
+# Gunakan image PHP 8.1 dengan FPM
+FROM php:8.1-fpm
 
-# Install dependencies
-RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev zip git && \
-    docker-php-ext-configure gd --with-freetype --with-jpeg && \
-    docker-php-ext-install gd && \
-    docker-php-ext-install pdo pdo_mysql && \
-    a2enmod rewrite
+# Install ekstensi PHP yang dibutuhkan oleh Laravel
+RUN docker-php-ext-install pdo pdo_mysql
 
-# Salin file aplikasi ke dalam container
-COPY . /var/www/html/
+# Copy aplikasi Laravel ke dalam container
+COPY . /var/www/html
 
-# Set root directory untuk aplikasi Laravel
+# Set direktori kerja
 WORKDIR /var/www/html
 
-# Install Composer
+# Install Composer untuk Laravel
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install dependencies Laravel
+# Install dependensi Laravel
 RUN composer install
 
-# Salin konfigurasi virtual host Apache
-COPY nginx/000-default.conf /etc/apache2/sites-available/000-default.conf
+# Set izin untuk Laravel
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Expose port 80 untuk akses web
-EXPOSE 80
+# Expose port 9000 untuk Nginx
+EXPOSE 9000
 
-# Jalankan Apache di foreground
-CMD ["apache2-foreground"]
+# Jalankan PHP-FPM
+CMD ["php-fpm"]

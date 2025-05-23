@@ -2,39 +2,40 @@ pipeline {
     agent any
 
     environment {
-        DEPLOY_DIR = '/var/www/dev-laravel' // ubah sesuai lokasi deploy di server kamu
-        BRANCH = 'development' // ubah sesuai cabang GitHub
+        DOCKER_IMAGE = 'username/laravel-app'
+        DOCKER_CREDENTIALS = 'docker-hub-credentials'  // Jenkins credentials ID
     }
 
     stages {
-        stage('Clone Code') {
+        stage('Clone Repository') {
             steps {
-                git branch: "${BRANCH}", url: 'https://github.com/YuwanA55/BackendVmush.git'
+                git 'https://github.com/username/laravel-repo.git'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Build Docker Image') {
             steps {
-                sh 'composer install --no-interaction --prefer-dist --optimize-autoloader'
+                script {
+                    docker.build(DOCKER_IMAGE)
+                }
             }
         }
 
-        stage('Environment Setup') {
+        stage('Push Docker Image to Docker Hub') {
             steps {
-                sh 'cp .env.example .env || true'
-                sh 'php artisan key:generate'
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIALS) {
+                        docker.image(DOCKER_IMAGE).push()
+                    }
+                }
             }
         }
 
-        stage('Run Migrations') {
+        stage('Deploy to Kubernetes') {
             steps {
-                sh 'php artisan migrate --force'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                sh "rsync -avz --delete ./ ${DEPLOY_DIR}"
+                script {
+                    sh 'kubectl apply -f laravel-deployment.yaml'
+                }
             }
         }
     }

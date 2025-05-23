@@ -19,21 +19,26 @@ class FirebaseController extends Controller
 
     public function index(){
         $alldata = [
-            'Data Link Firebase'=>$this->ApiFirebase->alldata(),
+            'DataLinkFirebase'=>$this->ApiFirebase->alldata(),
         ];
         return response()->json($alldata);
     }
 
-    public function showid($username)
-    {
-        $data = $this->ApiFirebase->byekode($username);
-    
-        if (!$data) {
-            return response()->json(['message' => 'Data Lahan not found'], 404);
-        }
-    
-        return response()->json(['data' => $data], 200);
+public function showid($username)
+{
+    // Ambil data berdasarkan username
+    $data = $this->ApiFirebase->byekode($username);
+
+    // Jika data tidak ditemukan
+    if (!$data) {
+        return response()->json(['message' => 'Data id not found'], 404);
     }
+
+    // Mengembalikan data dengan menambahkan 'DataLinkFirebase'
+    return response()->json([
+        'DataLinkFirebase' => $data,
+    ], 200);
+}
     
 
 

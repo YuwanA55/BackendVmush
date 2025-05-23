@@ -155,9 +155,9 @@
             <br>
 
             <p class="text-center">
-              <span>New on our platform?</span>
-              <a class="text-primary ssse" onclick="showAlerte()">
-                <span>Create an account</span>
+              <span>Belum memiliki akun?</span>
+              <a class="text-primary ssse" href="/register">
+                <span>Register</span>
               </a>
             </p>
 

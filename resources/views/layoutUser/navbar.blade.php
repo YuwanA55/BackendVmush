@@ -437,7 +437,7 @@
                           </div>
                           <div class="flex-grow-1">
                             <span class="fw-semibold d-block">{{session('nama')}}</span>
-                            <small class="text-muted">{{session('level')}}</small>
+                            <small class="text-muted">{{session('status')}}</small>
                           </div>
                         </div>
                       </a>

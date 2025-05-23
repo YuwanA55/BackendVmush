@@ -26,13 +26,11 @@ class DataPaket extends Model
 //      }
 
 
-// public function editfirebase($id){
-//     return DB::table('firebase')
-//         ->join('akun_user', 'firebase.id_user', '=', 'akun_user.id_user')
-//         ->select('firebase.*', 'akun_user.nama')
-//         ->where('firebase.id', $id)
-//         ->first();
-// }
+public function editfipaketfr($id_paket){
+    return DB::table('paket')
+        ->where('id_paket', $id_paket)
+        ->first();
+}
 
 
 

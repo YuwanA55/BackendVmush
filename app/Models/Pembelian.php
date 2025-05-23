@@ -15,6 +15,14 @@ class Pembelian extends Model
             ->select('pembelian.*', 'akun_user.nama','paket.nama_paket')
             ->get();
     }
+    
+
+        public function alldatad(){
+        return DB::table('penyewaan')
+        ->join('akun_user', 'penyewaan.username', '=', 'akun_user.username')
+        ->join('paket', 'penyewaan.id_paket', '=', 'paket.id_paket')
+        ->get();
+    }
 
 
 //     public function datadb(){

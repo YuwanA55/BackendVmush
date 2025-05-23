@@ -28,13 +28,13 @@
             </li>
         </ul>
 
-        <ul class="menu-sub">
+        {{-- <ul class="menu-sub">
             <li class="menu-item {{ Request::is('dashboard/admin/akun/mitra*') ? 'active' : '' }}">
                 <a href="/dashboard/admin/akun/mitra" class="menu-link">
                     <div data-i18n="Data Mitra">Data Mitra</div>
                 </a>
             </li>
-        </ul>
+        </ul> --}}
 
         <ul class="menu-sub">
             <li class="menu-item {{ Request::is('dashboard/admin/akun/Tengkulak*') ? 'active' : '' }}">
@@ -62,7 +62,7 @@
     </li>
 
         {{-- Firebase --}}
-        <li class="mb-2 menu-item {{ Request::is('dashboard/admin/Produk*') ? 'active open' : '' }}">
+        {{-- <li class="mb-2 menu-item {{ Request::is('dashboard/admin/Produk*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-rocket"></i>
                 <div data-i18n="Produk">Produk</div>
@@ -74,18 +74,18 @@
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> --}}
 
                 {{-- Firebase --}}
-                <li class="mb-2 menu-item {{ Request::is('dashboard/admin/Pembelian*') ? 'active open' : '' }}">
+                <li class="mb-2 menu-item {{ Request::is('dashboard/admin/Penyewaan/*') ? 'active open' : '' }}">
                     <a href="javascript:void(0);" class="menu-link menu-toggle">
                         <i class="menu-icon tf-icons ti ti-shopping-cart"></i>
-                        <div data-i18n="Pembelian">Pembelian</div>
+                        <div data-i18n="Penyewaan">Penyewaan</div>
                     </a>
                     <ul class="menu-sub">
-                        <li class="menu-item {{ Request::is('dashboard/admin/Pembelian/Paket*') ? 'active' : '' }}">
-                            <a href="/dashboard/admin/Pembelian/Paket" class="menu-link">
-                                <div data-i18n="Pembelian Paket">Pembelian Paket</div>
+                        <li class="menu-item {{ Request::is('dashboard/admin/Penyewaan/Paket*') ? 'active' : '' }}">
+                            <a href="/dashboard/admin/Penyewaan/Paket" class="menu-link">
+                                <div data-i18n="Penyewaan Alat">Penyewaan Alat</div>
                             </a>
                         </li>
                     </ul>

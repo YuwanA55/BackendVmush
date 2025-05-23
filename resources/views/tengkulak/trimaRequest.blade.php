@@ -1,17 +1,7 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layoutUser.body')
+@section('konten')
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JamurMarket - Permintaan Stok</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        select:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.4);
-        }
-
         /* Hover effect for the card */
         .request-card {
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -21,33 +11,30 @@
             transform: translateY(-5px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
+
+        /* Focus effect for select */
+        select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.4);
+        }
     </style>
-</head>
 
-<body class="bg-gray-50 font-sans">
-    <!-- Header -->
-    <header class="p-6 bg-white shadow-md">
-        <div class="flex justify-between items-center">
-            <div class="text-2xl font-bold text-green-700">Jamur<span class="text-black">Market</span></div>
-            {{-- <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow-md">+ Tambah
-                Permintaan</button> --}}
-        </div>
-    </header>
 
+<div class="mb-3"></div>
     <!-- Main content -->
-    <div class="p-6">
-        <div class="mb-4 flex items-center justify-between">
-            <div class="flex items-center">
-                <span class="text-lg font-semibold">Beranda &gt; Permintaan Stok</span>
+   
+        <div class="d-flex justify-content-between mb-4">
+            <div class="d-flex align-items-center">
+                <h4 class=""> Permintaan Stok</h4>
             </div>
-            <div class="flex gap-4">
-                <input type="text" placeholder="Cari permintaan stok..." class="border border-gray-300 rounded px-4 py-2">
-                <select class="border border-gray-300 bg-white rounded px-4 py-2 cursor-pointer hover:border-green-500">
+            <div class="d-flex gap-3">
+                <input type="text" placeholder="Cari permintaan stok..." class="form-control">
+                <select class="form-select">
                     <option>Semua Lokasi</option>
                     <option>Bondowoso</option>
                     <option>Jember</option>
                 </select>
-                <select class="border border-gray-300 bg-white rounded px-4 py-2 cursor-pointer hover:border-green-500">
+                <select class="form-select">
                     <option>Urutkan</option>
                     <option>Terbaru</option>
                     <option>Jumlah Stok</option>
@@ -56,67 +43,72 @@
         </div>
 
         <!-- Request Cards -->
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             <!-- Request 1 -->
-           <div class="request-card bg-white p-4 rounded shadow-lg h-[350px] flex flex-col justify-between">
-
-                <div class="flex items-center gap-4 mb-5">
-                    <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="avatar" class="w-12 h-12 rounded-full">
-                    <div>
-                        <p class="text-lg font-semibold">Sarah Putri</p>
-                        <p class="text-sm text-gray-500">5 menit yang lalu</p>
+            <div class="col">
+                <div class="card request-card h-100">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="avatar" class="rounded-circle" style="width: 48px; height: 48px;">
+                            <div class="ms-3">
+                                <p class="h6 mb-0">Sarah Putri</p>
+                                <p class="text-muted small">5 menit yang lalu</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <p><strong>Permintaan:</strong> 50 kg</p>
+                            <p><strong>Alamat:</strong> Pasar Induk, Bondowoso</p>
+                            <p><strong>Dibutuhkan:</strong> Besok</p>
+                        </div>
+                        <a href="/dashboard/user/permintaanstok/detail" class="btn btn-success w-100">Ambil Stok</a>
                     </div>
                 </div>
-                <div class="mb-6">
-                    <p><span class="font-semibold">Permintaan:</span> 50 kg</p>
-                    <p><span class="font-semibold">Alamat:</span> Pasar Induk, Bondowoso</p>
-                    <p><span class="font-semibold">Dibutuhkan:</span> Besok</p>
-                </div>
-                <a href="/dashboard/user/permintaanstok/detail" class="text-center w-full bg-green-600 text-white py-2 rounded">Ambil Stok</a>
             </div>
 
             <!-- Request 2 -->
-           <div class="request-card bg-white p-4 rounded shadow-lg h-[350px] flex flex-col justify-between">
-
-                <div class="flex items-center gap-4 mb-5">
-                    <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="avatar" class="w-12 h-12 rounded-full">
-                    <div>
-                        <p class="text-lg font-semibold">Budi Santoso</p>
-                        <p class="text-sm text-gray-500">15 menit yang lalu</p>
+            <div class="col">
+                <div class="card request-card h-100">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="avatar" class="rounded-circle" style="width: 48px; height: 48px;">
+                            <div class="ms-3">
+                                <p class="h6 mb-0">Budi Santoso</p>
+                                <p class="text-muted small">15 menit yang lalu</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <p><strong>Permintaan:</strong> 30 kg</p>
+                            <p><strong>Alamat:</strong> Jl. Kalimantan, Jember</p>
+                            <p><strong>Dibutuhkan:</strong> Hari Ini</p>
+                        </div>
+                        <a href="/dashboard/user/permintaanstok/detail" class="btn btn-success w-100">Ambil Stok</a>
                     </div>
                 </div>
-                <div class="mb-6">
-                    <p><span class="font-semibold">Permintaan:</span> 30 kg</p>
-                    <p><span class="font-semibold">Alamat:</span> Jl. Kalimantan, Jember</p>
-                    <p><span class="font-semibold">Dibutuhkan:</span> Hari Ini</p>
-                </div>
-                <a href="/dashboard/user/permintaanstok/detail" class="text-center w-full bg-green-600 text-white py-2 rounded">Ambil Stok</a>
             </div>
 
             <!-- Request 3 -->
-           <div class="request-card bg-white p-4 rounded shadow-lg h-[350px] flex flex-col justify-between">
-
-                <div class="flex items-center gap-4 mb-5">
-                    <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="avatar" class="w-12 h-12 rounded-full">
-                    <div>
-                        <p class="text-lg font-semibold">Linda Wijaya</p>
-                        <p class="text-sm text-gray-500">30 menit yang lalu</p>
+            <div class="col">
+                <div class="card request-card h-100">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="avatar" class="rounded-circle" style="width: 48px; height: 48px;">
+                            <div class="ms-3">
+                                <p class="h6 mb-0">Linda Wijaya</p>
+                                <p class="text-muted small">30 menit yang lalu</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <p><strong>Permintaan:</strong> 75 kg</p>
+                            <p><strong>Alamat:</strong> Kademangan, Bondowoso</p>
+                            <p><strong>Dibutuhkan:</strong> 2 Hari</p>
+                        </div>
+                        <a href="/dashboard/user/permintaanstok/detail" class="btn btn-success w-100">Ambil Stok</a>
                     </div>
                 </div>
-                <div class="mb-6">
-                    <p><span class="font-semibold">Permintaan:</span> 75 kg</p>
-                    <p><span class="font-semibold">Alamat:</span> Kademangan, Bondowoso</p>
-                    <p><span class="font-semibold">Dibutuhkan:</span> 2 Hari</p>
-                </div>
-                <a href="/dashboard/user/permintaanstok/detail" class="text-center w-full bg-green-600 text-white py-2 rounded">Ambil Stok</a>
             </div>
         </div>
-    </div>
+    
 
-    <!-- Footer -->
-    <footer class="bg-white p-4 text-center text-gray-500 text-sm">
-        <p>© 2025 JamurMarket. Semua hak dilindungi.</p>
-    </footer>
-</body>
 
-</html>
+
+    @endsection

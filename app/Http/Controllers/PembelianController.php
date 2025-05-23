@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Models\DataPaket;
 use App\Models\AkunUser;
 use App\Models\Pembelian;
+use App\Models\DataSewa;
 use Illuminate\Support\Facades\Hash;
 
 class PembelianController extends Controller
@@ -20,20 +21,21 @@ class PembelianController extends Controller
         $this ->DataPBL = new Pembelian();
         $this ->DataPaket = new DataPaket();
         $this ->Akun = new akunuser();
+        $this ->DataSewa = new DataSewa();
     }
 
     public function index(){
-        // if(!session('login')){
-        //     return redirect('/');
-        // }else{
+
         $alldata = [
-            'alldata'=>$this->DataPBL->alldata(),
-            'alluser'=>$this->Akun->alldata(),
-            'allpaket'=>$this->DataPaket->alldata(),
+            'allpaket'=>$this->DataSewa->alldatad(),
         ];
-        return view('Pembelian.data', $alldata);
+        return view('Pembelian.tesdata', $alldata);
     // }
     }
+
+
+
+    
 
 
     public function save(){
@@ -68,42 +70,37 @@ class PembelianController extends Controller
     
     
 
-    public function editpembelian($id){
-        // if(!session('login')){
-        //     return redirect('/');
-        // }else{
+    public function editpembelian($id_sewa){
+
         $data = [
-            'alluser'=>$this->Akun->alldata(),
-            'allpaket'=>$this->DataPaket->alldata(),
-            'main' => $this->DataPBL->editpembelian($id),
+            'main' => $this->DataSewa->sewabyuser($id_sewa),
         ];
-        return view('Pembelian.edit', $data);
-    // }
+        return view('Pembelian.editdata', $data);
     }
 
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id_sewa){
         // Validasi data jika diperlukan
         $request->validate([
             // Tambahkan aturan validasi di sini sesuai kebutuhan Anda
         ]);
     
         // Cari data lahan berdasarkan kode_lahan
-        $Pembelian = Pembelian::where('id', $id)->first();
+        $DataSewa = DataSewa::where('id_sewa', $id_sewa)->first();
     
         // Periksa apakah data lahan ditemukan
-        if (!$Pembelian) {
-            return response()->json(['success' => false, 'message' => 'Data Pembelian tidak ditemukan']);
+        if (!$DataSewa) {
+            return response()->json(['success' => false, 'message' => 'Data Penyewaan tidak ditemukan']);
         }
     
-        // Update data Pembelian
-        $Pembelian->id = $request->id;
-        $Pembelian->username = $request->username;
-        $Pembelian->id_paket = $request->paket;
-        $Pembelian->save();
+        // Update data DataSewa
+        $DataSewa->status_sewa = $request->status_sewa;
+        $DataSewa->tanggal_sewa = $request->tanggal_sewa;
+        $DataSewa->tanggal_akhir = $request->tanggal_akhir;
+        $DataSewa->save();
     
         // Kirim respons
-        return response()->json(['success' => true, 'message' => 'Data Pembelian berhasil diupdate']);
+        return response()->json(['success' => true, 'message' => 'Data Penyewaan berhasil diupdate']);
     }
     
     

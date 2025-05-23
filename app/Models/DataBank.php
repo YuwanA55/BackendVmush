@@ -20,9 +20,9 @@ class DataBank extends Model
 //         return DB::table('data_user')->where('user',$user)->first();
 //     }
 
-//     public function detailadmin($user){
-//         return DB::table('data_user')->where('user', $user)->first();
-//      }
+    public function detailbank($id_bank){
+        return DB::table('bank')->where('id_bank', $id_bank)->first();
+     }
 
 
 // public function editbank($id){

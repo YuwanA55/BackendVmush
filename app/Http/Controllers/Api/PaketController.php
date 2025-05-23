@@ -19,7 +19,7 @@ class PaketController extends Controller
 
     public function index(){
         $alldata = [
-            'Data Link Firebase'=>$this->Paket->alldata(),
+            'DataPaket'=>$this->Paket->alldata(),
         ];
         return response()->json($alldata);
     }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\DataFirebase;
 use App\Models\AkunUser;
 use App\Models\Pembelian;
+use App\Models\DataSewa;
 
 
 class DashController extends Controller
@@ -16,6 +17,7 @@ class DashController extends Controller
         $this ->DataFire = new DataFirebase();
         $this ->Akun = new akunuser();
         $this ->Pembelian = new Pembelian();
+        $this ->DataSewa = new DataSewa();
     }
 
 
@@ -32,7 +34,7 @@ public function index()
     $data = [
         't_akun' => $this->Akun->alldata(),
         't_firebase' => $this->DataFire->alldata(),
-        't_Pembelian' => $this->Pembelian->alldata(),
+        't_datasewea' => $this->DataSewa->alldatad(),
     ];
 
     return view('admin.dashboard', $data);

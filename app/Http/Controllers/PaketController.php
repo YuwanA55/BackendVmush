@@ -18,9 +18,6 @@ class PaketController extends Controller
     }
 
     public function index(){
-        // if(!session('login')){
-        //     return redirect('/');
-        // }else{
         $alldata = [
             'alldata'=>$this->DataPaket->alldata(),
         ];

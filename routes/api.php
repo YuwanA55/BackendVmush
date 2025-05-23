@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\PaketController;
 use App\Http\Controllers\Api\PembelianController;
 use App\Http\Controllers\Api\PenjadwalanController;
 use App\Http\Controllers\Api\TengkulakController;
+use App\Http\Controllers\Api\PermintaanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,12 +70,21 @@ Route::delete('/Data/Penjadwalan/hapus-Data/user/{username}', [PenjadwalanContro
 
 
 // API Tengkulak
-// Route::get('/Data/Penjadwalan/data-tampil', [TengkulakController::class, 'index']);
-// Route::get('/Data/Penjadwalan/data-tampil/{username}', [TengkulakController::class, 'showid']);
-// // Route::get('/Data/Pembelian/Paket/tampil/id/{id}', [TengkulakController::class, 'showidd']);
-// // Route::get('/Data/Link-Firebase/tampil/{email}', [TengkulakController::class, 'showemail']);
-// Route::post('/Data/Penjadwalan/tambah-Data', [TengkulakController::class, 'store']);
+Route::get('/Data/Tengkulak/data-tampil', [TengkulakController::class, 'index']);
+Route::get('/Data/Tengkulak/data-tampil/{usertengku}', [TengkulakController::class, 'showusername']);
+// Route::get('/Data/Pembelian/Paket/tampil/id/{id}', [TengkulakController::class, 'showidd']);
+// Route::get('/Data/Link-Firebase/tampil/{email}', [TengkulakController::class, 'showemail']);
+Route::post('/Data/Tengkulak/tambah-Data', [TengkulakController::class, 'store']);
 // Route::put('/Data/Penjadwalan/edit-Data/{id_penjadwalan}', [TengkulakController::class, 'updatee']);
 // Route::put('/Data/Penjadwalan/edit-Data/user/{username}', [TengkulakController::class, 'updateeuser']);
 // Route::delete('/Data/Penjadwalan/hapus-Data/{id_penjadwalan}', [TengkulakController::class, 'delete']);
-// Route::delete('/Data/Penjadwalan/hapus-Data/user/{username}', [TengkulakController::class, 'delete']);
+Route::delete('/Data/Tengkulak/hapus-Data/{usertengku}', [TengkulakController::class, 'deleteuser']);
+
+
+// API Permintaan Stok
+Route::get('/Data/Permintaan/data-tampil', [PermintaanController::class, 'index']);
+Route::get('/Data/Permintaan/data-tampil/{usertengku}', [PermintaanController::class, 'showusername']);
+Route::post('/Data/Permintaan/tambah-Data', [PermintaanController::class, 'store']);
+Route::delete('/Data/Permintaan/hapus-Data/user/{usertengku}', [PermintaanController::class, 'deleteuser']);
+Route::delete('/Data/Permintaan/hapus-Data/id/{id_stok}', [PermintaanController::class, 'deleteid']);
+

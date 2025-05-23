@@ -1,0 +1,83 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use App\Models\Api\Permintaan;
+
+class PermintaanController extends Controller
+{
+        public function __construct(){
+        // $this ->ApiAkun = new ApiAkun();
+        $this ->Permintaan = new Permintaan();
+    }
+
+    public function index(){
+        $alldata = [
+            'DataPermintaan'=>$this->Permintaan->alldata(),
+        ];
+        return response()->json($alldata);
+    }
+
+    public function showusername($usertengku)
+    {
+        $data = $this->Permintaan->byekodeer($usertengku);
+    
+        if (!$data) {
+            return response()->json(['message' => 'Data permintaan not found'], 404);
+        }
+    
+        return response()->json(['DataPermintaan' => $data], 200);
+    }
+
+       public function store(Request $request)
+    {
+        try {
+    
+            $lastFirebase = Permintaan::max('id_stok');
+            $newKodeFirebase = 'STK' . str_pad((int) substr($lastFirebase, 3) + 1, 4, '0', STR_PAD_LEFT);
+
+            // Melanjutkan dengan menyimpan data produk kopi
+            $Permintaan = new Permintaan();
+            $Permintaan->id_stok = $newKodeFirebase;
+            $Permintaan->usertengku = $request->input('usertengku');
+            $Permintaan->jumlah_stok = $request->input('jumlah_stok');
+            $Permintaan->status = 'Pending';
+            $Permintaan->tanggal = now();
+            $Permintaan->save();
+    
+            return response()->json(['message' => 'Data Akun berhasil ditambah', 'data' => $Permintaan], Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Gagal menambahkan data Kopi: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+        // hapus data 
+    public function deleteuser($usertengku){
+        $datafr = Permintaan::where('usertengku', $usertengku)->first();
+        if (!$datafr) {
+            return response()->json(['message' => 'Data Lahan not found'], 404);
+        }
+
+        $datafr->delete();
+
+        return response()->json(['message' => 'Data Permintaan deleted']);
+    }
+
+
+        public function deleteid($id_stok){
+        $datafr = Permintaan::where('id_stok', $id_stok)->first();
+        if (!$datafr) {
+            return response()->json(['message' => 'Data Lahan not found'], 404);
+        }
+
+        $datafr->delete();
+
+        return response()->json(['message' => 'Data Permintaan deleted']);
+    }
+
+}

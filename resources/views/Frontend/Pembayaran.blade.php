@@ -202,6 +202,46 @@
             display: inline-block;
             margin-left: 15px;
         }
+        
+        /* Package details styling */
+        .package-details {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: var(--secondary);
+            border-radius: 8px;
+        }
+        
+        .package-details-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .package-features {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .package-features li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .feature-icon {
+            color: var(--primary);
+            margin-right: 10px;
+            font-size: 16px;
+            margin-top: 3px;
+        }
+        
+        .package-note {
+            font-size: 14px;
+            color: var(--light-text);
+            font-style: italic;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -215,32 +255,46 @@
                     <h2 class="service-title">Penyewaan Alat</h2>
                     <p class="service-description">High-performance tools</p>
                     
-                    <div class="package-selector">
-                        <label>Pilih Paket</label>
-                        <div class="dropdown mt-2">
-                            <button class="dropdown-toggle" type="button" id="packageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                Paket Rakyat
-                                <i class="fas fa-chevron-down float-end"></i>
-                            </button>
-                            <ul class="dropdown-menu w-100" aria-labelledby="packageDropdown">
-                                <li><a class="dropdown-item" href="#">Paket Rakyat</a></li>
-                                <li><a class="dropdown-item" href="#">Paket Raden</a></li>
-                                <li><a class="dropdown-item" href="#">Paket Sultan</a></li>
-                            </ul>
-                        </div>
+                    
+                    <!-- Package Details Section -->
+                    <div class="package-details">
+                        <h4 class="package-details-title">Detail {{$main->nama_paket}}</h4>
+                        <ul class="package-features">
+                            <li>
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <span>{{$main->jumlah_sensor}}</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <span>{{$main->kontrol_app}}</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <span>{{$main->support}}</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <span>{{$main->analisisdata}}</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <span>{{$main->konsultasi}}</span>
+                            </li>
+                        </ul>
+                        <p class="package-note">* Pengiriman dan pemasangan gratis untuk wilayah Jawa</p>
                     </div>
                     
                     <div class="price-display">
-                        <span class="price-amount">Rp24,900</span>
+                        <span class="price-amount">Rp {{$main->harga}}K</span>
                         <span class="price-period">/month</span>
-                        <span class="original-price">Rp109,900/month</span>
-                        <span class="save-tag">SAVE Rp4,080,000</span>
+                        {{-- <span class="original-price">Rp109,900/month</span>
+                        <span class="save-tag">SAVE Rp4,080,000</span> --}}
                     </div>
                     
-                    <div class="promo-alert">
+                    {{-- <div class="promo-alert">
                         <i class="fas fa-check-circle"></i>
                         Congratulations! You get a FREE domain and 2 months FREE with this plan.
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             
@@ -251,27 +305,29 @@
                     
                     <div class="summary-row">
                         <div class="summary-label">Subtotal</div>
-                        <div class="summary-value">Rp5,275,200</div>
+                        <div class="summary-value">Rp {{$main->harga}},000</div>
                     </div>
                     
-                    <div class="summary-row">
+                    {{-- <div class="summary-row">
                         <div class="summary-label">Discount</div>
-                        <div class="summary-value discount-value">-Rp4,080,000</div>
-                    </div>
+                        <div class="summary-value discount-value">-Rp {{$main->harga}},000</div>
+                    </div> --}}
                     
                     <div class="total-row">
                         <div class="total-label">Total</div>
-                        <div class="total-value">Rp1,195,200</div>
+                        <div class="total-value">Rp {{$main->harga}},000</div>
                     </div>
                     
-                    <div class="coupon-section">
+                    {{-- <div class="coupon-section">
                         <a href="#" class="coupon-link">
                             <i class="fas fa-ticket-alt coupon-icon"></i>
                             Have a Coupon Code?
                         </a>
+                    </div> --}}
+                    <div class="mt-3">
+                        <a href="/pembayaran/{{$main->id_paket}}/tagihandata/1" class="btn btn-success">Bayar Sekarang</a>
                     </div>
                     
-                    <a href="/pembayaran/tagihan" class="btn-continue">Continue</a>
                 </div>
             </div>
         </div>
@@ -279,5 +335,6 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

@@ -9,6 +9,7 @@ use App\Http\Controllers\PaketController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BankController;
+use App\Http\Controllers\FrontendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,18 +22,17 @@ use App\Http\Controllers\BankController;
 |
 */
 
-Route::get('/', function () {
-    return view('Frontend.Frontend');
-});
-
-Route::get('/pembayaran', function () {
-    return view('Frontend.Pembayaran');
-});
+Route::get('/', [FrontendController::class, 'index']);
+Route::get('/pembayaran/{id_paket}', [FrontendController::class, 'pembayaran']);
+Route::get('/pembayaran/{id_paket}/tagihandata/{id_bank}', [FrontendController::class, 'tagihann']);
+Route::post('/pembayaran/tagihandata/{username}/save-data', [FrontendController::class, 'savesewa']);
 
 
-Route::get('pembayaran/tagihan', function () {
-    return view('Frontend.tagihan');
-});
+
+
+// Route::get('/tagihandata', function () {
+//     return view('Frontend.tagihan');
+// });
 
 
 Route::get('/detailtengkulak', function () {
@@ -47,9 +47,12 @@ Route::get('/PermintaanStok', function () {
     return view('tengkulak.trimaRequest');
 });
 
-Route::get('/login', [AuthController::class, 'submit']);
+
+Route::get('/login', [AuthController::class, 'submit'])->name('login');
 Route::post('/authlogin',[AuthController::class,'auth']);
 Route::get('/akses/logout',[AuthController::class,'logout']);
+Route::get('/register',[AuthController::class,'registerrr']);
+Route::post('/register/tambah-data',[AuthController::class,'savee']);
 
 Route::get('/dashboard/admin', [DashController::class, 'index']);
 Route::get('/api/link', [DashController::class, 'apistatus']);
@@ -83,19 +86,22 @@ Route::post('/dashboard/admin/Produk/Paket-save', [PaketController::class, 'save
 Route::delete('/dashboard/admin/Produk/hapus/{id_paket}', [PaketController::class, 'hapusData']);
 
 // DATA Pembelian
-Route::get('/dashboard/admin/Pembelian/Paket', [PembelianController::class, 'index'])->name('datapembelian');
-Route::post('/dashboard/admin/Pembelian/Paket/save', [PembelianController::class, 'save']);
-Route::get('/dashboard/admin/Pembelian/paket-edit/{id}', [PembelianController::class, 'editpembelian']);
-Route::post('/dashboard/admin/Pembelian/simpan-paket/{id}',  [PembelianController::class, 'update'])->name('simpan.paket');
-Route::delete('/dashboard/admin/Pembelian/Paket/hapus/{id}', [PembelianController::class, 'hapusData']);
+Route::get('/dashboard/admin/Penyewaan/Paket', [PembelianController::class, 'index'])->name('datapembelian');
+Route::post('/dashboard/admin/Penyewaan/Paket/save', [PembelianController::class, 'save']);
+Route::get('/dashboard/admin/Penyewaan/paket/edit/{id_sewa}', [PembelianController::class, 'editpembelian']);
+Route::post('/dashboard/admin/Penyewaan/simpan-paket/{id_sewa}',  [PembelianController::class, 'update'])->name('simpan.paket');
+Route::delete('/dashboard/admin/Penyewaan/Paket/hapus/{id}', [PembelianController::class, 'hapusData']);
 
 
 
 // Dashboard User
-Route::get('/dashboard', [DashUserController::class, 'index']);
+Route::get('/dashboard', [DashUserController::class, 'index'])->name('userrr');
 Route::get('/dashboard/user/upgrade', [DashUserController::class, 'upgradee']);
 Route::get('/dashboard/user/permintaanstok', [DashUserController::class, 'permintaanstok']);
 Route::get('/dashboard/user/permintaanstok/detail', [DashUserController::class, 'detailstok']);
+
+
+Route::get('/dashboard/user/{username}/HistoryPenyewaan', [DashUserController::class, 'historyy'])->name('penyewaan');
 // Route::get('/dashboard/user/pack', [DashUserController::class, 'pack']);
 
 

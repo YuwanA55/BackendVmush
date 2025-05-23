@@ -23,7 +23,7 @@
                 @endforeach
 
                 <?php $jmlh_Pembelian = 0 ?>
-                @foreach ($t_Pembelian as $item)
+                @foreach ($t_datasewea as $item)
                     <?php $jmlh_Pembelian = $jmlh_Pembelian + 1 ?>
                 @endforeach
 
@@ -63,7 +63,7 @@
                         </h3>
                         </div>
                       </div>
-                      <h5>Total Mitra</h5>
+                      <h5>Total Tengkulak</h5>
                     </div>
                     <div id="quarterlySales"></div>
                   </div>
@@ -83,7 +83,7 @@
                         </h3>
                         </div>
                       </div>
-                      <h5>Total Pembelian</h5>
+                      <h5>Total Pembelian Alat</h5>
                     </div>
                     <div id="orderReceived"></div>
                   </div>

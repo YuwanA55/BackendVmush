@@ -466,67 +466,33 @@
         <h2>Pilih Paket yang Sesuai</h2>
         <div class="row">
             <!-- Paket Rakyat -->
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <h3 class="card-title">Paket Rakyat</h3>
-                        <div class="price">Rp 199K</div>
-                    </div>
-                    <div class="card-body d-flex flex-column">
-                        <ul class="list-group list-group-flush mb-4">
-                            <li class="list-group-item">1 Sensor Kelembaban</li>
-                            <li class="list-group-item">Kontrol basic via App</li>
-                            <li class="list-group-item">Support 8/5</li>
-                        </ul>
-                        <div class="mt-auto text-center">
-                            <a href="/pembayaran" class="btn btn-success rounded-pill px-4 w-100">Beli Sekarang</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Paket Raden -->
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <h3 class="card-title">Paket Raden</h3>
-                        <div class="price">Rp 399K</div>
-                    </div>
-                    <div class="card-body d-flex flex-column">
-                        <ul class="list-group list-group-flush mb-4">
-                            <li class="list-group-item">3 Sensor Kelembaban</li>
-                            <li class="list-group-item">Kontrol premium via App</li>
-                            <li class="list-group-item">Support 24/7</li>
-                            <li class="list-group-item">Analisis data basic</li>
-                        </ul>
-                        <div class="mt-auto text-center">
-                            <a href="/pembayaran" class="btn btn-success rounded-pill px-4 w-100">Beli Sekarang</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Paket Sultan -->
+            @foreach ($alldata as $p)
             <div class="col-md-4 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
-                        <h3 class="card-title">Paket Sultan</h3>
-                        <div class="price">Rp 599K</div>
+                        <h3 class="card-title">{{$p->nama_paket}}</h3>
+                        <div class="price">Rp {{$p->harga}}K</div>
                     </div>
                     <div class="card-body d-flex flex-column">
                         <ul class="list-group list-group-flush mb-4">
-                            <li class="list-group-item">5 Sensor Kelembaban</li>
-                            <li class="list-group-item">Kontrol ultimate via App</li>
-                            <li class="list-group-item">Support 24/7</li>
-                            <li class="list-group-item">Analisis data advanced</li>
-                            <li class="list-group-item">Konsultasi Expert</li>
+                            <li class="list-group-item">{{$p->jumlah_sensor}}</li>
+                            <li class="list-group-item">{{$p->kontrol_app}}</li>
+                            <li class="list-group-item">{{$p->support}}</li>
+                            <li class="list-group-item">{{$p->analisisdata}}</li>
+                            <li class="list-group-item">{{$p->konsultasi}}</li>
                         </ul>
                         <div class="mt-auto text-center">
-                            <a href="/pembayaran" class="btn btn-success rounded-pill px-4 w-100">Beli Sekarang</a>
+                            <a href="/pembayaran/{{$p->id_paket}}" class="btn btn-success rounded-pill px-4 w-100">Beli Sekarang</a>
                         </div>
                     </div>
                 </div>
             </div>
+            @endforeach
+
         </div>
     </div>
 </section>

@@ -77,7 +77,7 @@ if ($newNumber < 10) {
 
 
     <div class="btn btn-label-primary dropdown-toggle me-2" data-bs-toggle="dropdown" ><i class="ti ti-file-export me-sm-1"></i> <span class="d-none d-sm-inline-block">Export</span></div>
-    <button type="button" data-bs-toggle="modal" class="btn btn-primary" data-bs-target="#tambahModal"><i class="ti ti-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Tambah Data</span></button>
+    {{-- <button type="button" data-bs-toggle="modal" class="btn btn-primary" data-bs-target="#tambahModal"><i class="ti ti-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Tambah Data</span></button> --}}
 
     <div class="dropdown-menu">
      {{-- <a class="dropdown-item" href="javascript:void(0);" id="printTable"
@@ -111,7 +111,7 @@ if ($newNumber < 10) {
   @foreach ($alldata as $p)
     <tr>
       {{-- <th scope="row">{{$loop->iteration}}</th> --}}
-      <td class="p-3">{{$p->id}}</td>
+      <td class="p-3">{{$p->id_bank}}</td>
       <td>{{$p->nama}}</td>
       <td>{{$p->bank}}</td>
       <td>{{$p->norek}}</td>
@@ -129,14 +129,16 @@ if ($newNumber < 10) {
           {{-- <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#largeModal{{$p->id}}"
               >
               <i class="ti ti-list-details me-1"></i></i> Detail Data</button> --}}
-            <a class="dropdown-item ssedtt" href="/dashboard/admin/DataLink/Firebase/edit/{{$p->id}}"
+            {{-- <a class="dropdown-item ssedtt" href="/dashboard/admin/DataLink/Firebase/edit/{{$p->id_bank}}"
            
-              ><i class="ti ti-pencil me-1"></i> Edit Data</a>
-              <a class="dropdown-item ssdele" href="javascript:void(0);"
-            data-id="{{$p->id}}"
+              ><i class="ti ti-pencil me-1"></i> Edit Data</a> --}}
+
+
+              {{-- <a class="dropdown-item ssdele" href="javascript:void(0);"
+            data-id="{{$p->id_bank}}"
             data-nama="{{$p->nama}}">
             <i class="ti ti-trash me-1"></i> Hapus Data
-            </a>
+            </a> --}}
           </div>
         </div>
       </td>

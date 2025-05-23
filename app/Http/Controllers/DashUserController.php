@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\DataFirebase;
 use App\Models\AkunUser;
+use App\Models\DataSewa;
 
 
 class DashUserController extends Controller
@@ -14,6 +15,7 @@ class DashUserController extends Controller
     {
         $this ->DataFire = new DataFirebase();
         $this ->Akun = new akunuser();
+        $this ->DataSewa = new DataSewa();
     }
 
 
@@ -71,6 +73,14 @@ public function pack(){
         // ];
     return view('User.pack' );
 // }
+}
+
+
+public function historyy($username){
+    $data = [
+        'main' => $this->DataSewa->sewabyuserr($username),
+    ];
+    return view('User.historypembelian', $data);
 }
 
 

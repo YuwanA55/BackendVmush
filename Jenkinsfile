@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'rzaynuri/laravel-app'
-        DOCKER_CREDENTIALS = 'docker-hub-credentials'  // Jenkins credentials ID
+        DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
+        DOCKER_CREDENTIALS = 'docker-hub-credentials'
     }
 
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/YuwanA55/BackendVmush.git'
+                git branch: 'main', url: 'https://github.com/YuwanA55/BackendVmush.git'
             }
         }
 

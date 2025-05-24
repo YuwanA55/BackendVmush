@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
-        DOCKER_CREDENTIALS = 'docker-hub-credentials'   // Jenkins credential ID Docker Hub
-        KUBECONFIG = '/var/jenkins_home/.kube/config/config'   // kubeconfig path di container Jenkins
+        DOCKER_CREDENTIALS = 'docker-hub-credentials'  // Jenkins credential ID Docker Hub
+        KUBECONFIG = '/var/jenkins_home/.kube/config/config'  // Path di dalam Jenkins container
     }
 
     stages {
@@ -32,37 +32,45 @@ pipeline {
             }
         }
 
+        stage('Deploy MetalLB') {
+            steps {
+                script {
+                    withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
+                        sh '''
+                        echo "Install MetalLB CRDs & controller"
+                        kubectl apply -f metallb/metallb-manifest.yaml
+
+                        echo "Apply MetalLB IP Address Pool dan L2 Advertisement"
+                        kubectl apply -f metallb/metallb-config.yaml
+                        '''
+                    }
+                }
+            }
+        }
+
         stage('Deploy to Kubernetes') {
             steps {
                 script {
                     withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
-                        sh 'kubectl config view'
-                        sh 'kubectl config current-context'
-                        sh 'kubectl get nodes'
-
-                        sh 'ls -l laravel-deployment.yaml laravel-ingress.yaml'
-
-                        // Install ingress-nginx controller jika belum ada
                         sh '''
-                        if ! kubectl get pods -n ingress-nginx > /dev/null 2>&1; then
-                          echo "Ingress-nginx not found, installing..."
-                          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.9.0/deploy/static/provider/cloud/deploy.yaml
-                          echo "Waiting for ingress-nginx controller to be ready..."
-                          kubectl wait --namespace ingress-nginx \
-                            --for=condition=ready pod \
-                            --selector=app.kubernetes.io/component=controller \
-                            --timeout=120s
-                        else
-                          echo "Ingress-nginx controller already installed"
-                        fi
+                        echo "Apply Laravel deployment & ingress"
+                        kubectl apply -f laravel-deployment.yaml --validate=false
+                        kubectl apply -f laravel-ingress.yaml --validate=false
                         '''
+                    }
+                }
+            }
+        }
 
-                        sh 'kubectl apply -f laravel-deployment.yaml --validate=false'
-                        sh 'kubectl apply -f laravel-ingress.yaml --validate=false'
-
-                        sh 'kubectl get pods -n default'
-                        sh 'kubectl get svc -n default'
-                        sh 'kubectl get pods -n ingress-nginx'
+        stage('Check Resources') {
+            steps {
+                script {
+                    withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
+                        sh '''
+                        kubectl get pods -A
+                        kubectl get svc -A
+                        kubectl get ingress -A
+                        '''
                     }
                 }
             }
@@ -75,7 +83,7 @@ pipeline {
         }
 
         success {
-            echo "Deployment successful! Akses aplikasi lewat domain yang sudah di-set di Ingress."
+            echo "Deployment successful! Akses aplikasi lewat domain dan IP dari MetalLB."
         }
 
         failure {

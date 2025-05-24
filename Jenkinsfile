@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
-        DOCKER_CREDENTIALS = 'docker-hub-credentials'  // Jenkins credential ID Docker Hub
-        KUBECONFIG = '/var/jenkins_home/.kube/config/config'  // Path di dalam Jenkins container
+        DOCKER_CREDENTIALS = 'docker-hub-credentials'
+        KUBECONFIG = '/var/jenkins_home/.kube/config/config'
     }
 
     stages {
@@ -28,6 +28,17 @@ pipeline {
                     docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIALS) {
                         docker.image(DOCKER_IMAGE).push()
                     }
+                }
+            }
+        }
+
+        stage('Download MetalLB manifest') {
+            steps {
+                script {
+                    sh '''
+                    mkdir -p metallb
+                    curl -sSL -o metallb/metallb-manifest.yaml https://raw.githubusercontent.com/metallb/metallb/v0.13.10/config/manifests/metallb-native.yaml
+                    '''
                 }
             }
         }

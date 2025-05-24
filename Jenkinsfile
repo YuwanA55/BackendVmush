@@ -33,27 +33,25 @@ pipeline {
         }
 
         stage('Deploy to Kubernetes') {
-            steps {
-                script {
-                    withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
-                        // Verifikasi kubeconfig sebelum melanjutkan
-                        sh 'kubectl config view'
+    steps {
+        script {
+            withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
+                sh 'kubectl config view'
+                sh 'kubectl config current-context'
+                sh 'kubectl get nodes'
 
-                        // List file deployment untuk cek
-                        sh 'ls -l laravel-deployment.yaml laravel-ingress.yaml'
+                sh 'ls -l laravel-deployment.yaml laravel-ingress.yaml'
 
-                        // Terapkan semua resource sekaligus
-                        sh 'kubectl apply -f laravel-deployment.yaml'
-                        sh 'kubectl apply -f laravel-ingress.yaml'
+                sh 'kubectl apply -f laravel-deployment.yaml --validate=false'
+                sh 'kubectl apply -f laravel-ingress.yaml --validate=false'
 
-                        // Verifikasi aplikasi sudah berjalan
-                        sh 'kubectl get pods'
-                        sh 'kubectl get svc'
-                    }
-                }
+                sh 'kubectl get pods'
+                sh 'kubectl get svc'
             }
         }
     }
+}
+
 
     post {
         always {

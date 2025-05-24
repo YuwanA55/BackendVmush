@@ -35,13 +35,12 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    // Set environment variable untuk kubeconfig
                     withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
-                        // Cek apakah file deployment yaml ada di workspace
+                        // Cek file deployment dulu
                         sh 'ls -l laravel-deployment.yaml'
 
-                        // Terapkan file deployment ke cluster Kubernetes
-                        sh "kubectl apply -f laravel-deployment.yaml"
+                        // Apply deployment
+                        sh 'kubectl apply -f laravel-deployment.yaml'
                     }
                 }
             }

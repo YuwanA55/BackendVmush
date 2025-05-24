@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
-        DOCKER_CREDENTIALS = 'docker-hub-credentials'
-        KUBECONFIG = '/home/jenkins/.kube/config'  // Ganti sesuai path kubeconfig di container Jenkins
+        DOCKER_CREDENTIALS = 'docker-hub-credentials'  // Jenkins credential ID untuk Docker Hub
+        KUBECONFIG = '/home/jenkins/.kube/config'      // Pastikan file kubeconfig ada di path ini di container Jenkins
     }
 
     stages {
@@ -35,10 +35,14 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    // Verifikasi kubeconfig
-                    sh "kubectl --kubeconfig=${env.KUBECONFIG} config view"
-                    // Deploy ke Kubernetes
-                    sh "kubectl --kubeconfig=${env.KUBECONFIG} apply -f laravel-deployment.yaml"
+                    // Set environment variable untuk kubeconfig
+                    withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
+                        // Cek apakah file deployment yaml ada di workspace
+                        sh 'ls -l laravel-deployment.yaml'
+
+                        // Terapkan file deployment ke cluster Kubernetes
+                        sh "kubectl apply -f laravel-deployment.yaml"
+                    }
                 }
             }
         }
@@ -50,11 +54,11 @@ pipeline {
         }
 
         success {
-            echo "Deployment successful."
+            echo "Deployment successful! Akses aplikasi kamu di IP/Domain Kubernetes."
         }
 
         failure {
-            echo "Deployment failed."
+            echo "Deployment failed. Cek log di atas untuk detail."
         }
     }
 }

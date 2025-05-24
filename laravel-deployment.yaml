@@ -28,5 +28,5 @@ spec:
     app: laravel-app
   ports:
     - port: 80
-      targetPort: 8000
-      nodePort: 31000   # Ganti ini ke port lain yang kosong
+      targetPort: 80       # ini harus sama dengan containerPort
+      nodePort: 31000      # pastikan port ini belum dipakai

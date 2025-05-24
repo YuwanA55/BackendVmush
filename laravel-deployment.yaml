@@ -23,9 +23,10 @@ kind: Service
 metadata:
   name: laravel-service
 spec:
-  type: LoadBalancer  # Bisa diganti NodePort jika di VPS lokal tanpa cloud LB
-  ports:
-    - port: 80
-      targetPort: 80
+  type: NodePort
   selector:
     app: laravel-app
+  ports:
+    - port: 80
+      targetPort: 8000
+      nodePort: 31000   # Ganti ini ke port lain yang kosong

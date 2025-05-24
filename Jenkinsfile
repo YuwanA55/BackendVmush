@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
         DOCKER_CREDENTIALS = 'docker-hub-credentials'
-        KUBECONFIG = '/path/to/kubeconfig'  // Ganti dengan path kubeconfig yang sesuai
+        KUBECONFIG = '/home/jenkins/.kube/config'  // Ganti sesuai path kubeconfig di container Jenkins
     }
 
     stages {
@@ -35,9 +35,10 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    // Memastikan kubectl dapat mengakses cluster dengan kubeconfig
-                    sh 'kubectl config view'  // Verifikasi kubeconfig
-                    sh 'kubectl apply -f laravel-deployment.yaml'  // Deploy ke Kubernetes
+                    // Verifikasi kubeconfig
+                    sh "kubectl --kubeconfig=${env.KUBECONFIG} config view"
+                    // Deploy ke Kubernetes
+                    sh "kubectl --kubeconfig=${env.KUBECONFIG} apply -f laravel-deployment.yaml"
                 }
             }
         }

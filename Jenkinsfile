@@ -36,12 +36,19 @@ pipeline {
             steps {
                 script {
                     withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
+                        // Verifikasi kubeconfig sebelum melanjutkan
+                        sh 'kubectl config view'
+
                         // List file deployment untuk cek
                         sh 'ls -l laravel-deployment.yaml laravel-ingress.yaml'
 
                         // Terapkan semua resource sekaligus
                         sh 'kubectl apply -f laravel-deployment.yaml'
                         sh 'kubectl apply -f laravel-ingress.yaml'
+
+                        // Verifikasi aplikasi sudah berjalan
+                        sh 'kubectl get pods'
+                        sh 'kubectl get svc'
                     }
                 }
             }

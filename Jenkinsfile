@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
         DOCKER_CREDENTIALS = 'docker-hub-credentials'  // Jenkins credential ID Docker Hub
-        KUBECONFIG = '/var/jenkins_home/.kube/config/config'  // Path kubeconfig di Jenkins container
+        KUBECONFIG = '/home/jenkins/.kube/config'      // Path kubeconfig di Jenkins container, disesuaikan
     }
 
     stages {
@@ -35,26 +35,24 @@ pipeline {
         stage('Deploy MetalLB') {
             steps {
                 script {
-                    withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
-                        sh '''
-                        echo "Download MetalLB manifest dari repo resmi"
-                        mkdir -p metallb
-                        curl -sL -o metallb/metallb-manifest.yaml https://raw.githubusercontent.com/metallb/metallb/v0.13.10/config/manifests/metallb-native.yaml
+                    sh '''
+                    echo "Download MetalLB manifest dari repo resmi"
+                    mkdir -p metallb
+                    curl -sL -o metallb/metallb-manifest.yaml https://raw.githubusercontent.com/metallb/metallb/v0.13.10/config/manifests/metallb-native.yaml
 
-                        echo "List file di metallb folder untuk verifikasi:"
-                        ls -l metallb/
+                    echo "List file di metallb folder untuk verifikasi:"
+                    ls -l metallb/
 
-                        echo "Install MetalLB CRDs & controller"
-                        kubectl apply -f metallb/metallb-manifest.yaml
+                    echo "Install MetalLB CRDs & controller"
+                    kubectl apply -f metallb/metallb-manifest.yaml
 
-                        echo "Tunggu MetalLB controller dan speaker siap..."
-                        kubectl -n metallb-system wait --for=condition=available deployment/controller --timeout=120s
-                        kubectl -n metallb-system wait --for=condition=ready pod -l app=metallb-speaker --timeout=120s
+                    echo "Tunggu MetalLB controller dan speaker siap..."
+                    kubectl -n metallb-system wait --for=condition=available deployment/controller --timeout=120s
+                    kubectl -n metallb-system wait --for=condition=ready pod -l component=speaker --timeout=120s
 
-                        echo "Apply MetalLB IP Address Pool dan L2 Advertisement"
-                        kubectl apply -f metallb/metallb-config.yaml
-                        '''
-                    }
+                    echo "Apply MetalLB IP Address Pool dan L2 Advertisement"
+                    kubectl apply -f metallb/metallb-config.yaml
+                    '''
                 }
             }
         }
@@ -62,13 +60,11 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
-                        sh '''
-                        echo "Apply Laravel deployment & ingress"
-                        kubectl apply -f laravel-deployment.yaml --validate=false
-                        kubectl apply -f laravel-ingress.yaml --validate=false
-                        '''
-                    }
+                    sh '''
+                    echo "Apply Laravel deployment & ingress"
+                    kubectl apply -f laravel-deployment.yaml --validate=false
+                    kubectl apply -f laravel-ingress.yaml --validate=false
+                    '''
                 }
             }
         }
@@ -76,13 +72,11 @@ pipeline {
         stage('Check Resources') {
             steps {
                 script {
-                    withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
-                        sh '''
-                        kubectl get pods -A
-                        kubectl get svc -A
-                        kubectl get ingress -A
-                        '''
-                    }
+                    sh '''
+                    kubectl get pods -A
+                    kubectl get svc -A
+                    kubectl get ingress -A
+                    '''
                 }
             }
         }

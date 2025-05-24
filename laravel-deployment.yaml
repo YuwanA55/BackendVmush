@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: laravel-app
+  template:
+    metadata:
+      labels:
+        app: laravel-app
+    spec:
+      containers:
+      - name: laravel-app
+        image: rzaynuri/laravel-app:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: laravel-service
+spec:
+  type: LoadBalancer  # Bisa diganti NodePort jika di VPS lokal tanpa cloud LB
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: laravel-app

@@ -7,6 +7,13 @@ pipeline {
         KUBECONFIG = '/home/jenkins/.kube/config'       // kubeconfig path di container Jenkins
     }
 
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: 'main', url: 'https://github.com/YuwanA55/BackendVmush.git'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {

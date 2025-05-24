@@ -1,0 +1,5 @@
+# File ini bisa diambil langsung dari MetalLB repo
+# https://raw.githubusercontent.com/metallb/metallb/v0.13.10/config/manifests/metallb-native.yaml
+
+# Simpan sebagai: metallb/metallb-manifest.yaml
+# Jangan ubah isi file ini

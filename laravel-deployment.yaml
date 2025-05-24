@@ -23,10 +23,10 @@ kind: Service
 metadata:
   name: laravel-service
 spec:
-  type: NodePort
+  type: LoadBalancer          # ubah dari NodePort ke LoadBalancer
   selector:
     app: laravel-app
   ports:
     - port: 80
-      targetPort: 80       # ini harus sama dengan containerPort
-      nodePort: 31000      # pastikan port ini belum dipakai
+      targetPort: 80
+      # nodePort dihapus, biar MetalLB atur otomatis

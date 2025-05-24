@@ -1,24 +1,64 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: laravel-ingress
-  annotations:
-    kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"  # Redirect HTTP ke HTTPS
-spec:
-  rules:
-  - host: vmush.site
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: laravel-service
-            port:
-              number: 80
-  tls:  # Bagian untuk konfigurasi HTTPS
-  - hosts:
-    - vmush.site
-    secretName: tls-secret  # Gantilah 'tls-secret' dengan nama secret yang berisi sertifikat SSL kamu
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
+        DOCKER_CREDENTIALS = 'docker-hub-credentials'   // Jenkins credential ID Docker Hub
+        KUBECONFIG = '/home/jenkins/.kube/config'       // kubeconfig path di container Jenkins
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: 'main', url: 'https://github.com/YuwanA55/BackendVmush.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build(DOCKER_IMAGE)
+                }
+            }
+        }
+
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIALS) {
+                        docker.image(DOCKER_IMAGE).push()
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
+                        // List file deployment untuk cek
+                        sh 'ls -l laravel-deployment.yaml laravel-ingress.yaml'
+
+                        // Terapkan semua resource sekaligus
+                        sh 'kubectl apply -f laravel-deployment.yaml'
+                        sh 'kubectl apply -f laravel-ingress.yaml'
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Pipeline finished."
+        }
+
+        success {
+            echo "Deployment successful! Akses aplikasi lewat domain yang sudah di-set di Ingress."
+        }
+
+        failure {
+            echo "Deployment failed. Cek log di atas untuk detail."
+        }
+    }
+}

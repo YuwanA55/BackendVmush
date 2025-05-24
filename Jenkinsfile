@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
-        DOCKER_CREDENTIALS = 'docker-hub-credentials'
-        KUBECONFIG = '/var/jenkins_home/.kube/config/config'
+        DOCKER_CREDENTIALS = 'docker-hub-credentials'  // Jenkins credential ID Docker Hub
+        KUBECONFIG = '/var/jenkins_home/.kube/config/config'  // Path di dalam Jenkins container
     }
 
     stages {
@@ -32,17 +32,6 @@ pipeline {
             }
         }
 
-        stage('Download MetalLB manifest') {
-            steps {
-                script {
-                    sh '''
-                    mkdir -p metallb
-                    curl -sSL -o metallb/metallb-manifest.yaml https://raw.githubusercontent.com/metallb/metallb/v0.13.10/config/manifests/metallb-native.yaml
-                    '''
-                }
-            }
-        }
-
         stage('Deploy MetalLB') {
             steps {
                 script {
@@ -50,6 +39,10 @@ pipeline {
                         sh '''
                         echo "Install MetalLB CRDs & controller"
                         kubectl apply -f metallb/metallb-manifest.yaml
+
+                        echo "Tunggu MetalLB controller dan speaker siap..."
+                        kubectl -n metallb-system wait --for=condition=available deployment/controller --timeout=120s
+                        kubectl -n metallb-system wait --for=condition=ready pod -l app=metallb-speaker --timeout=120s
 
                         echo "Apply MetalLB IP Address Pool dan L2 Advertisement"
                         kubectl apply -f metallb/metallb-config.yaml

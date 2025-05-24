@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
         DOCKER_CREDENTIALS = 'docker-hub-credentials'   // Jenkins credential ID Docker Hub
-        KUBECONFIG = '/home/jenkins/.kube/config'       // kubeconfig path di container Jenkins
+        KUBECONFIG = '/var/jenkins_home/.kube/config/config'   // kubeconfig path di container Jenkins
     }
 
     stages {

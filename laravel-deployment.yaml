@@ -23,10 +23,9 @@ kind: Service
 metadata:
   name: laravel-service
 spec:
-  type: LoadBalancer          # ubah dari NodePort ke LoadBalancer
+  type: LoadBalancer   # pakai LoadBalancer agar bisa dapat external IP dari MetalLB
   selector:
     app: laravel-app
   ports:
     - port: 80
       targetPort: 80
-      # nodePort dihapus, biar MetalLB atur otomatis

@@ -33,25 +33,25 @@ pipeline {
         }
 
         stage('Deploy to Kubernetes') {
-    steps {
-        script {
-            withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
-                sh 'kubectl config view'
-                sh 'kubectl config current-context'
-                sh 'kubectl get nodes'
+            steps {
+                script {
+                    withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
+                        sh 'kubectl config view'
+                        sh 'kubectl config current-context'
+                        sh 'kubectl get nodes'
 
-                sh 'ls -l laravel-deployment.yaml laravel-ingress.yaml'
+                        sh 'ls -l laravel-deployment.yaml laravel-ingress.yaml'
 
-                sh 'kubectl apply -f laravel-deployment.yaml --validate=false'
-                sh 'kubectl apply -f laravel-ingress.yaml --validate=false'
+                        sh 'kubectl apply -f laravel-deployment.yaml --validate=false'
+                        sh 'kubectl apply -f laravel-ingress.yaml --validate=false'
 
-                sh 'kubectl get pods'
-                sh 'kubectl get svc'
+                        sh 'kubectl get pods'
+                        sh 'kubectl get svc'
+                    }
+                }
             }
         }
-    }
-}
-
+    }  // <<< tutup stages di sini
 
     post {
         always {
@@ -66,4 +66,4 @@ pipeline {
             echo "Deployment failed. Cek log di atas untuk detail."
         }
     }
-}
+}  // <<< tutup pipeline di sini

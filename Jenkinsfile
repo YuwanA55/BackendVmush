@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
         DOCKER_CREDENTIALS = 'docker-hub-credentials'  // Jenkins credential ID Docker Hub
-        KUBECONFIG = '/var/jenkins_home/.kube/config/config'  // Path di dalam Jenkins container
+        KUBECONFIG = '/var/jenkins_home/.kube/config/config'  // Path kubeconfig di Jenkins container
     }
 
     stages {
@@ -37,6 +37,13 @@ pipeline {
                 script {
                     withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
                         sh '''
+                        echo "Download MetalLB manifest dari repo resmi"
+                        mkdir -p metallb
+                        curl -sL -o metallb/metallb-manifest.yaml https://raw.githubusercontent.com/metallb/metallb/v0.13.10/config/manifests/metallb-native.yaml
+
+                        echo "List file di metallb folder untuk verifikasi:"
+                        ls -l metallb/
+
                         echo "Install MetalLB CRDs & controller"
                         kubectl apply -f metallb/metallb-manifest.yaml
 

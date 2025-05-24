@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
-        DOCKER_CREDENTIALS = 'docker-hub-credentials'  // Jenkins credential ID Docker Hub
-        KUBECONFIG = '/home/jenkins/.kube/config'      // Path kubeconfig di Jenkins container, disesuaikan
+        DOCKER_CREDENTIALS = 'docker-hub-credentials'
+        KUBECONFIG = '/home/jenkins/.kube/config'
     }
 
     stages {
@@ -36,40 +36,33 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    echo "Download MetalLB manifest dari repo resmi"
                     mkdir -p metallb
                     curl -sL -o metallb/metallb-manifest.yaml https://raw.githubusercontent.com/metallb/metallb/v0.13.10/config/manifests/metallb-native.yaml
 
-                    echo "List file di metallb folder untuk verifikasi:"
-                    ls -l metallb/
-
-                    echo "Install MetalLB CRDs & controller"
                     kubectl apply -f metallb/metallb-manifest.yaml
 
-                    echo "Tunggu MetalLB controller dan speaker siap..."
                     kubectl -n metallb-system wait --for=condition=available deployment/controller --timeout=120s
                     kubectl -n metallb-system wait --for=condition=ready pod -l component=speaker --timeout=120s
 
-                    echo "Apply MetalLB IP Address Pool dan L2 Advertisement"
                     kubectl apply -f metallb/metallb-config.yaml
                     '''
                 }
             }
         }
 
-        stage('Deploy to Kubernetes') {
+        stage('Deploy Laravel + Ingress') {
             steps {
                 script {
                     sh '''
-                    echo "Apply Laravel deployment & ingress"
                     kubectl apply -f laravel-deployment.yaml --validate=false
+                    kubectl apply -f laravel-service.yaml --validate=false
                     kubectl apply -f laravel-ingress.yaml --validate=false
                     '''
                 }
             }
         }
 
-        stage('Check Resources') {
+        stage('Check Kubernetes Resources') {
             steps {
                 script {
                     sh '''
@@ -84,15 +77,13 @@ pipeline {
 
     post {
         always {
-            echo "Pipeline finished."
+            echo "Pipeline selesai."
         }
-
         success {
-            echo "Deployment successful! Akses aplikasi lewat domain dan IP dari MetalLB."
+            echo "Deployment sukses! Pastikan domain vmush.site sudah diarahkan ke IP Ingress Controller."
         }
-
         failure {
-            echo "Deployment failed. Cek log di atas untuk detail."
+            echo "Deployment gagal. Cek log di atas."
         }
     }
 }

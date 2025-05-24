@@ -42,16 +42,32 @@ pipeline {
 
                         sh 'ls -l laravel-deployment.yaml laravel-ingress.yaml'
 
+                        // Install ingress-nginx controller jika belum ada
+                        sh '''
+                        if ! kubectl get pods -n ingress-nginx > /dev/null 2>&1; then
+                          echo "Ingress-nginx not found, installing..."
+                          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.9.0/deploy/static/provider/cloud/deploy.yaml
+                          echo "Waiting for ingress-nginx controller to be ready..."
+                          kubectl wait --namespace ingress-nginx \
+                            --for=condition=ready pod \
+                            --selector=app.kubernetes.io/component=controller \
+                            --timeout=120s
+                        else
+                          echo "Ingress-nginx controller already installed"
+                        fi
+                        '''
+
                         sh 'kubectl apply -f laravel-deployment.yaml --validate=false'
                         sh 'kubectl apply -f laravel-ingress.yaml --validate=false'
 
-                        sh 'kubectl get pods'
-                        sh 'kubectl get svc'
+                        sh 'kubectl get pods -n default'
+                        sh 'kubectl get svc -n default'
+                        sh 'kubectl get pods -n ingress-nginx'
                     }
                 }
             }
         }
-    }  // <<< tutup stages di sini
+    }
 
     post {
         always {
@@ -66,4 +82,4 @@ pipeline {
             echo "Deployment failed. Cek log di atas untuk detail."
         }
     }
-}  // <<< tutup pipeline di sini
+}

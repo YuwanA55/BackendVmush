@@ -16,7 +16,7 @@ spec:
         - name: php
           image: rzaynuri/laravel-app:latest
           ports:
-            - containerPort: 9000
+            - containerPort: 8000  # Changed from 9000 to 8000
           envFrom:
             - configMapRef:
                 name: laravel-configmap

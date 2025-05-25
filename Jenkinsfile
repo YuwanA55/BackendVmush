@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
         DOCKER_CREDENTIALS = 'docker-hub-credentials'
-        KUBECONFIG = '/home/jenkins/.kube/config'
+        STACK_NAME = 'laravel_stack'
     }
 
     stages {
@@ -32,74 +32,54 @@ pipeline {
             }
         }
 
-        stage('Deploy Laravel + Ingress') {
+        stage('Deploy to Docker Swarm') {
             steps {
                 script {
                     sh """
-                    echo 'Generate laravel-deployment.yaml secara dinamis dengan tag image: ${DOCKER_IMAGE}'
+                    echo 'Buat docker-compose.yml secara dinamis menggunakan image ${DOCKER_IMAGE}'
 
-                    cat <<EOF > laravel-deployment.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: laravel-app
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: laravel-app
-  template:
-    metadata:
-      labels:
-        app: laravel-app
-    spec:
-      containers:
-      - name: laravel-app
-        image: ${DOCKER_IMAGE}
-        ports:
-        - containerPort: 80
-        envFrom:
-        - configMapRef:
-            name: laravel-configmap
-        - secretRef:
-            name: laravel-secret
-        command: ["/bin/sh", "-c"]
-        args:
-          - |
-            php-fpm;
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: laravel-service
-spec:
-  type: NodePort
-  selector:
-    app: laravel-app
-  ports:
-    - port: 80
-      targetPort: 80
-      nodePort: 30080
+                    cat <<EOF > docker-compose.yml
+version: '3.8'
+
+services:
+  laravel:
+    image: ${DOCKER_IMAGE}
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "8080:80"
+    environment:
+      APP_ENV: production
+      APP_KEY: your-app-key
+      DB_HOST: your-db-host
+      DB_DATABASE: your-db-name
+      DB_USERNAME: your-db-user
+      DB_PASSWORD: your-db-pass
+    networks:
+      - laravel-net
+
+networks:
+  laravel-net:
+    driver: overlay
 EOF
 
-                    echo 'Apply deployment dan service ke cluster'
-                    kubectl apply -f laravel-deployment.yaml --validate=false
-
-                    echo 'Apply ingress resource'
-                    kubectl apply -f laravel-ingress.yaml --validate=false
+                    echo 'Deploy Laravel stack ke Docker Swarm'
+                    docker stack deploy -c docker-compose.yml ${STACK_NAME}
                     """
                 }
             }
         }
 
-        stage('Check Kubernetes Resources') {
+        stage('Check Docker Swarm Services') {
             steps {
                 script {
                     sh '''
-                    echo "Cek pod, service, dan ingress status:"
-                    kubectl get pods -A
-                    kubectl get svc -A
-                    kubectl get ingress -A
+                    echo "Cek service dan container status:"
+                    docker service ls
+                    docker stack services ${STACK_NAME}
+                    docker ps
                     '''
                 }
             }
@@ -112,11 +92,11 @@ EOF
         }
 
         success {
-            echo "✅ Deployment successful! Akses aplikasi lewat domain dan reverse proxy ke NodePort."
+            echo "✅ Deployment ke Docker Swarm berhasil! Akses aplikasi di port 8080 host Swarm node."
         }
 
         failure {
-            echo "❌ Deployment failed. Cek log di atas untuk detail kesalahan."
+            echo "❌ Deployment gagal. Silakan cek log dan konfigurasi Docker Swarm Anda."
         }
     }
 }

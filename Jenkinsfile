@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = "your-dockerhub-username/laravel-app"
+        KUBE_DEPLOYMENT = "laravel-deployment"
+        KUBE_NAMESPACE = "default"
+        KUBE_CONTEXT = "your-kube-context"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://your.repo.url/laravel-project.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build("${DOCKER_IMAGE}:latest")
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                withDockerRegistry([credentialsId: 'dockerhub-credentials', url: '']) {
+                    script {
+                        docker.image("${DOCKER_IMAGE}:latest").push()
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    sh """
+                    kubectl config use-context ${KUBE_CONTEXT}
+                    kubectl apply -f k8s/deployment.yaml
+                    kubectl apply -f k8s/service.yaml
+                    """
+                }
+            }
+        }
+    }
+}

@@ -67,6 +67,17 @@ networks:
             }
         }
 
+        stage('Create Docker Swarm Network') {
+            steps {
+                script {
+                    sh '''
+                    # Check if the network exists and create if not
+                    docker network ls | grep -q laravel_net || docker network create --driver overlay laravel_net
+                    '''
+                }
+            }
+        }
+
         stage('Deploy to Docker Swarm') {
             steps {
                 script {

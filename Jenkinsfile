@@ -2,9 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
-        DOCKER_CREDENTIALS = 'dockerhub-credentials'   // Jenkins credential ID Docker Hub
-        KUBECONFIG = '/home/jenkins/.kube/config'       // kubeconfig path di container Jenkins
+        DOCKER_IMAGE = "rzaynuri/laravel-vmush:${env.BUILD_NUMBER}"
+        DOCKER_CREDENTIALS = 'docker-hub-credentials'  // Credential ID Jenkins
     }
 
     stages {
@@ -32,22 +31,58 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
+        stage('Generate docker-compose.yml') {
             steps {
                 script {
-                    withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
-                        sh 'kubectl config view'
-                        sh 'kubectl config current-context'
-                        sh 'kubectl get nodes'
+                    writeFile file: 'docker-compose.yml', text: """
+version: "3.8"
 
-                        sh 'ls -l laravel-deployment.yaml laravel-ingress.yaml'
+services:
+  laravel:
+    image: ${DOCKER_IMAGE}
+    ports:
+      - "80:80"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - laravel_net
 
-                        sh 'kubectl apply -f laravel-deployment.yaml --validate=false'
-                        sh 'kubectl apply -f laravel-ingress.yaml --validate=false'
+networks:
+  laravel_net:
+    driver: overlay
+"""
+                }
+            }
+        }
 
-                        sh 'kubectl get pods'
-                        sh 'kubectl get svc'
-                    }
+        stage('Deploy to Docker Swarm') {
+            steps {
+                script {
+                    // Pastikan Jenkins node ini bisa akses Docker daemon server Swarm
+                    sh """
+                    docker stack rm laravel_stack || true
+                    sleep 5
+                    docker stack deploy -c docker-compose.yml laravel_stack
+                    """
+                }
+            }
+        }
+
+        stage('Check Docker Swarm Status') {
+            steps {
+                script {
+                    sh """
+                    echo "Service List:"
+                    docker service ls
+
+                    echo "Service Tasks:"
+                    docker service ps laravel_stack_laravel
+
+                    echo "Running Containers:"
+                    docker ps
+                    """
                 }
             }
         }
@@ -55,15 +90,13 @@ pipeline {
 
     post {
         always {
-            echo "Pipeline finished."
+            echo "Pipeline selesai."
         }
-
         success {
-            echo "Deployment successful! Akses aplikasi lewat domain yang sudah di-set di Ingress."
+            echo "✅ Deployment ke Docker Swarm berhasil! Akses aplikasi di port 80."
         }
-
         failure {
-            echo "Deployment failed. Cek log di atas untuk detail."
+            echo "❌ Deployment gagal, cek log di atas."
         }
     }
 }

@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "rzaynuri/laravel-vmush:${env.BUILD_NUMBER}"
-        DOCKER_CREDENTIALS = 'docker-hub-credentials'   // Jenkins credential ID Docker Hub
+        DOCKER_CREDENTIALS = 'dockerhub-credentials'   // Jenkins credential ID Docker Hub
         KUBECONFIG = '/home/jenkins/.kube/config'       // kubeconfig path di Jenkins agent
     }
 

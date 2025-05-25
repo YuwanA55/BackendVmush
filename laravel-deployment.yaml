@@ -19,7 +19,7 @@ spec:
         - containerPort: 80
         envFrom:
         - configMapRef:
-            name: laravel-configmap
+            name: laravel-configmap     # <-- harus ini, bukan laravel-env
         - secretRef:
             name: laravel-secret
         command: ["/bin/sh", "-c"]
@@ -28,7 +28,7 @@ spec:
             echo -n "base64:K7Uu3Q5EXAMPLEKEY123456==" | base64;
             echo -n "laravel" | base64;
             echo -n "secret" | base64;
-            # Ganti ini dengan command utama container kamu (misal php-fpm)
+            # ganti dengan command utama container, contoh:
             php-fpm;
 ---
 apiVersion: v1

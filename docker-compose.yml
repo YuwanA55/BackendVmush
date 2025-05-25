@@ -2,15 +2,15 @@ version: "3.8"
 
 services:
   laravel:
-    image: rzaynuri/laravel-app:latest
+    image: rzaynuri/laravel-app:2
     ports:
-      - "80:80"
-    deploy:
-      replicas: 2
-      restart_policy:
-        condition: on-failure
+      - "8081:80"  # Ganti dengan port yang tidak digunakan, misalnya 8081
     networks:
       - laravel_net
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
 
 networks:
   laravel_net:

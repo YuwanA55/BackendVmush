@@ -50,41 +50,21 @@ pipeline {
                     echo "Removing old containers..."
                     docker rm -f laravel-app || true
 
-                    # Jalankan container Laravel dengan PHP-FPM
-                    echo "Running Laravel container..."
+                    # Jalankan container Laravel dengan PHP Artisan serve
+                    echo "Running Laravel container with php artisan serve..."
                     docker run -d --name laravel-app \
                         --network laravel-network \
-                        -p 9000:9000 \
-                        ${IMAGE_NAME}
+                        -p 8081:8081 \
+                        ${IMAGE_NAME} \
+                        php artisan serve --host=0.0.0.0 --port=8081
 
-                    # Tunggu beberapa detik agar PHP-FPM menginisialisasi
-                    echo "Waiting for PHP-FPM to initialize..."
+                    # Tunggu beberapa detik agar PHP-FPM dan Laravel Artisan server menginisialisasi
+                    echo "Waiting for Laravel to initialize..."
                     sleep 10
 
-                    # Periksa apakah PHP-FPM berjalan
-                    echo "Checking PHP-FPM process..."
-                    docker exec laravel-app pidof php-fpm || { echo "PHP-FPM process not running!"; docker logs laravel-app; exit 1; }
-
-                    # Periksa isi entrypoint.sh
-                    echo "Checking entrypoint.sh..."
-                    docker exec laravel-app cat /usr/local/bin/entrypoint.sh || { echo "Failed to read entrypoint.sh!"; exit 1; }
-
-                    # Periksa konfigurasi PHP-FPM
-                    echo "Checking PHP-FPM configuration..."
-                    docker exec laravel-app sh -c "cat /usr/local/etc/php-fpm.d/www.conf || cat /etc/php-fpm.d/www.conf" || { echo "Failed to read PHP-FPM config!"; docker logs laravel-app; exit 1; }
-
-                    # Periksa port 9000 (jika netstat tersedia)
-                    echo "Checking PHP-FPM port..."
-                    docker exec laravel-app sh -c "netstat -tuln 2>/dev/null | grep 9000 || echo 'netstat not available or port 9000 not open'" || true
-
-                    # Periksa keberadaan direktori public dan index.php
-                    echo "Checking public directory..."
-                    if [ ! -d "public" ]; then
-                        echo "Copying public directory from container..."
-                        docker cp laravel-app:/var/www/html/public ./public
-                    fi
-                    ls -ld public || { echo "Public directory not found!"; exit 1; }
-                    ls -l public/index.php || { echo "index.php not found in public directory!"; docker exec laravel-app ls -l /var/www/html/public; exit 1; }
+                    # Periksa apakah server Laravel berjalan pada port 8081
+                    echo "Checking Laravel server status..."
+                    curl -f http://localhost:8081 || { echo "Laravel server is not running!"; exit 1; }
 
                     # Periksa status container
                     echo "Checking container status..."

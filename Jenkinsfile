@@ -2,44 +2,64 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'rzaynuri/laravel-app'
-        DOCKER_TAG = 'latest'
-        DEPLOY_STACK_NAME = 'laravel_stack'
-        DOCKER_COMPOSE_FILE = 'docker-compose.yml'
+        REGISTRY = "rzaynuri/laravel-vmush"
+        IMAGE_TAG = "${env.BUILD_NUMBER}"
+        GITHUB_REPO = "https://github.com/YuwanA55/BackendVmush.git"
+        KUBE_NAMESPACE = "default" // sesuaikan namespace k8s Anda
+        DEPLOYMENT_NAME = "laravel-app"
+        NODEPORT_SERVICE_NAME = "laravel-service"
+        DOCKER_CREDENTIALS_ID = "dockerhub-credentials"
+        GIT_CREDENTIALS_ID = "github-credentials"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/YuwanA55/BackendVmush.git'
+                git url: env.GITHUB_REPO, credentialsId: env.GIT_CREDENTIALS_ID
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh """
-                docker build -t $DOCKER_IMAGE:$DOCKER_TAG .
-                """
-            }
-        }
-
-        stage('Push Docker Image') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh """
-                    echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                    docker push $DOCKER_IMAGE:$DOCKER_TAG
-                    """
+                script {
+                    docker.build("${REGISTRY}:${IMAGE_TAG}")
                 }
             }
         }
 
-        stage('Deploy to Swarm') {
+        stage('Push Image to Docker Hub') {
             steps {
-                sh """
-                docker stack deploy -c $DOCKER_COMPOSE_FILE $DEPLOY_STACK_NAME
-                """
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', env.DOCKER_CREDENTIALS_ID) {
+                        docker.image("${REGISTRY}:${IMAGE_TAG}").push()
+                        // Optional tag latest
+                        docker.image("${REGISTRY}:${IMAGE_TAG}").push("latest")
+                    }
+                }
             }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    // Update image in deployment
+                    sh """
+                    kubectl set image deployment/${DEPLOYMENT_NAME} app=${REGISTRY}:${IMAGE_TAG} -n ${KUBE_NAMESPACE}
+                    """
+
+                    // Jika deployment belum ada, buat deployment dan service dari template YAML (opsional)
+                    // atau gunakan apply jika sudah ada manifest yaml di repo
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Deploy berhasil untuk image tag ${IMAGE_TAG}"
+        }
+        failure {
+            echo "Deploy gagal"
         }
     }
 }

@@ -7,6 +7,6 @@ spec:
   selector:
     app: laravel-app
   ports:
-    - port: 8000
-      targetPort: 8000
+    - port: 80  # Target Nginx
+      targetPort: 80
       nodePort: 30080

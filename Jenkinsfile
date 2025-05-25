@@ -2,37 +2,25 @@ pipeline {
     agent any
 
     environment {
-        REGISTRY = "rzaynuri/laravel-vmush"
-        IMAGE_TAG = "${env.BUILD_NUMBER}"
-        GITHUB_REPO = "https://github.com/YuwanA55/BackendVmush.git"
-        GIT_BRANCH = "main"
-        KUBECONFIG = "/home/jenkins/.kube/config"
-        KUBE_NAMESPACE = "default"
-        DEPLOYMENT_NAME = "laravel-app"
-        DOCKER_CREDENTIALS_ID = "dockerhub-credentials"
+        DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
+        DOCKER_CREDENTIALS = 'docker-hub-credentials'   // Jenkins credential ID Docker Hub
+        KUBECONFIG = '/home/jenkins/.kube/config'       // kubeconfig path di Jenkins agent
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: env.GIT_BRANCH, url: env.GITHUB_REPO
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("${REGISTRY}:${IMAGE_TAG}")
+                    docker.build(DOCKER_IMAGE)
                 }
             }
         }
 
-        stage('Push Docker Image') {
+        stage('Push Docker Image to Docker Hub') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', env.DOCKER_CREDENTIALS_ID) {
-                        docker.image("${REGISTRY}:${IMAGE_TAG}").push()
-                        docker.image("${REGISTRY}:${IMAGE_TAG}").push("latest")
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIALS) {
+                        docker.image(DOCKER_IMAGE).push()
                     }
                 }
             }
@@ -40,21 +28,37 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh """
-                export KUBECONFIG=${env.KUBECONFIG}
-                kubectl set image deployment/${DEPLOYMENT_NAME} app=${REGISTRY}:${IMAGE_TAG} -n ${KUBE_NAMESPACE}
-                kubectl rollout status deployment/${DEPLOYMENT_NAME} -n ${KUBE_NAMESPACE}
-                """
+                script {
+                    withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
+                        // Verifikasi kubeconfig
+                        sh 'kubectl config view'
+
+                        // Cek file deployment (pastikan file ada di workspace)
+                        sh 'ls -l laravel-deployment.yaml'
+
+                        // Terapkan deployment ke cluster
+                        sh 'kubectl apply -f laravel-deployment.yaml'
+
+                        // Verifikasi pod dan service di namespace default
+                        sh 'kubectl get pods -n default'
+                        sh 'kubectl get svc -n default'
+                    }
+                }
             }
         }
     }
 
     post {
-        success {
-            echo "Pipeline sukses: Image ${REGISTRY}:${IMAGE_TAG} sudah deploy"
+        always {
+            echo "Pipeline selesai."
         }
+
+        success {
+            echo "Deployment berhasil!"
+        }
+
         failure {
-            echo "Pipeline gagal"
+            echo "Deployment gagal. Cek log di atas untuk detail."
         }
     }
 }

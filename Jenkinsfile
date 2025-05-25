@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
+        DOCKER_IMAGE = "rzaynuri/laravel-app"
         KUBE_DEPLOYMENT = "laravel-deployment"
         KUBE_NAMESPACE = "default"
         KUBE_CONTEXT = "your-kube-context"

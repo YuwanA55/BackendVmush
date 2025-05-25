@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
-        DOCKER_CREDENTIALS = 'docker-hub-credentials'  // Jenkins credential ID Docker Hub
-        KUBECONFIG = '/home/jenkins/.kube/config'      // Path kubeconfig di Jenkins container, sesuaikan
+        DOCKER_CREDENTIALS = 'docker-hub-credentials'  // Ganti dengan ID credentials di Jenkins
+        KUBECONFIG = '/home/jenkins/.kube/config'      // Path ke kubeconfig di agent Jenkins
     }
 
     stages {
@@ -40,9 +40,6 @@ pipeline {
                     mkdir -p metallb
                     curl -sL -o metallb/metallb-manifest.yaml https://raw.githubusercontent.com/metallb/metallb/v0.13.10/config/manifests/metallb-native.yaml
 
-                    echo "List file di metallb folder untuk verifikasi:"
-                    ls -l metallb/
-
                     echo "Install MetalLB CRDs & controller"
                     kubectl apply -f metallb/metallb-manifest.yaml
 
@@ -60,11 +57,54 @@ pipeline {
         stage('Deploy Laravel + Ingress') {
             steps {
                 script {
-                    sh '''
-                    echo "Apply Laravel deployment + service & ingress"
+                    sh """
+                    echo 'Generate laravel-deployment.yaml secara dinamis dengan tag image: ${DOCKER_IMAGE}'
+
+                    cat <<EOF > laravel-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: laravel-app
+  template:
+    metadata:
+      labels:
+        app: laravel-app
+    spec:
+      containers:
+      - name: laravel-app
+        image: ${DOCKER_IMAGE}
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: laravel-env
+        - secretRef:
+            name: laravel-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: laravel-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: laravel-app
+  ports:
+    - port: 80
+      targetPort: 80
+EOF
+
+                    echo 'Apply deployment dan service ke cluster'
                     kubectl apply -f laravel-deployment.yaml --validate=false
+
+                    echo 'Apply ingress resource'
                     kubectl apply -f laravel-ingress.yaml --validate=false
-                    '''
+                    """
                 }
             }
         }
@@ -73,6 +113,7 @@ pipeline {
             steps {
                 script {
                     sh '''
+                    echo "Cek pod, service, dan ingress status:"
                     kubectl get pods -A
                     kubectl get svc -A
                     kubectl get ingress -A
@@ -88,11 +129,11 @@ pipeline {
         }
 
         success {
-            echo "Deployment successful! Akses aplikasi lewat domain dan IP dari MetalLB."
+            echo "✅ Deployment successful! Akses aplikasi lewat domain dan IP dari MetalLB."
         }
 
         failure {
-            echo "Deployment failed. Cek log di atas untuk detail."
+            echo "❌ Deployment failed. Cek log di atas untuk detail kesalahan."
         }
     }
 }

@@ -2,13 +2,14 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
-        DOCKER_CREDENTIALS = 'docker-hub-credentials'  // Jenkins credential ID Docker Hub
-        KUBECONFIG = '/var/jenkins_home/.kube/config/config'  // Path di dalam Jenkins container
+        DOCKER_IMAGE = "your-dockerhub-username/laravel-app"
+        KUBE_DEPLOYMENT = "laravel-deployment"
+        KUBE_NAMESPACE = "default"
+        KUBE_CONTEXT = "your-kube-context"
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/YuwanA55/BackendVmush.git'
             }
@@ -17,32 +18,16 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build(DOCKER_IMAGE)
+                    docker.build("${DOCKER_IMAGE}:latest")
                 }
             }
         }
 
-        stage('Push Docker Image to Docker Hub') {
+        stage('Push Docker Image') {
             steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIALS) {
-                        docker.image(DOCKER_IMAGE).push()
-                    }
-                }
-            }
-        }
-
-        stage('Deploy MetalLB') {
-            steps {
-                script {
-                    withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
-                        sh '''
-                        echo "Install MetalLB CRDs & controller"
-                        kubectl apply -f metallb/metallb-manifest.yaml
-
-                        echo "Apply MetalLB IP Address Pool dan L2 Advertisement"
-                        kubectl apply -f metallb/metallb-config.yaml
-                        '''
+                withDockerRegistry([credentialsId: 'dockerhub-credentials', url: '']) {
+                    script {
+                        docker.image("${DOCKER_IMAGE}:latest").push()
                     }
                 }
             }
@@ -51,43 +36,13 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
-                        sh '''
-                        echo "Apply Laravel deployment & ingress"
-                        kubectl apply -f laravel-deployment.yaml --validate=false
-                        kubectl apply -f laravel-ingress.yaml --validate=false
-                        '''
-                    }
+                    sh """
+                    kubectl config use-context ${KUBE_CONTEXT}
+                    kubectl apply -f k8s/deployment.yaml
+                    kubectl apply -f k8s/service.yaml
+                    """
                 }
             }
-        }
-
-        stage('Check Resources') {
-            steps {
-                script {
-                    withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
-                        sh '''
-                        kubectl get pods -A
-                        kubectl get svc -A
-                        kubectl get ingress -A
-                        '''
-                    }
-                }
-            }
-        }
-    }
-
-    post {
-        always {
-            echo "Pipeline finished."
-        }
-
-        success {
-            echo "Deployment successful! Akses aplikasi lewat domain dan IP dari MetalLB."
-        }
-
-        failure {
-            echo "Deployment failed. Cek log di atas untuk detail."
         }
     }
 }

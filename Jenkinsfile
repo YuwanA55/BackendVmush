@@ -5,7 +5,7 @@ pipeline {
         DOCKER_IMAGE = "rzaynuri/laravel-app"
         KUBE_DEPLOYMENT = "laravel-deployment"
         KUBE_NAMESPACE = "default"
-        KUBE_CONTEXT = "your-kube-context"
+        KUBE_CONTEXT = "minikube"
     }
 
     stages {

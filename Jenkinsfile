@@ -12,23 +12,18 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                // Checkout kode dari GitHub
                 git branch: 'main', url: 'https://github.com/YuwanA55/BackendVmush.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    // Build Docker image
-                    sh 'docker build -t ${DOCKER_REPO}:latest .'
-                }
+                sh 'docker build -t ${DOCKER_REPO}:latest .'
             }
         }
 
         stage('Login to Docker Hub') {
             steps {
-                // Login ke Docker Hub menggunakan credentials
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
                 }
@@ -37,17 +32,17 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-                // Push image ke Docker Hub
                 sh 'docker push ${DOCKER_REPO}:latest'
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Deploy From Docker Hub') {
             steps {
                 script {
-                    // Hentikan container lama kalau ada, lalu jalankan yang baru
+                    // Stop container lama dan pull ulang dari Docker Hub lalu jalankan
                     sh """
                         docker rm -f ${CONTAINER_NAME} || true
+                        docker pull ${DOCKER_REPO}:latest
                         docker run -d --name ${CONTAINER_NAME} -p ${HOST_PORT}:${CONTAINER_PORT} ${DOCKER_REPO}:latest
                     """
                 }

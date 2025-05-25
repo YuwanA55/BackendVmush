@@ -1,18 +1,18 @@
-version: '3.8'
-
 services:
   app:
     image: rzaynuri/laravel-vmush:latest
-    container_name: laravel-vmush
     volumes:
       - .:/var/www/html
     networks:
       - laravel_net
     working_dir: /var/www/html
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
 
   nginx:
     image: nginx:alpine
-    container_name: nginx-web
     ports:
       - "80:80"
     volumes:
@@ -22,6 +22,3 @@ services:
       - app
     networks:
       - laravel_net
-
-networks:
-  laravel_net:

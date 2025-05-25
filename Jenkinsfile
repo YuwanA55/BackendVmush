@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'laravel-vmush'
         DOCKER_REGISTRY = 'https://registry.hub.docker.com'
-        DOCKER_REPO = 'rzaynuri/laravel-vmush:latest'
+        DOCKER_REPO = 'rzaynuri/laravel-vmush'
         DOCKER_COMPOSE_FILE = 'docker-compose.yml'
     }
 

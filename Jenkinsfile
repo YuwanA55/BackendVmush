@@ -12,7 +12,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 // Checkout kode dari GitHub
-                git branch: 'main', url: 'https://github.com/yourusername/yourrepo.git'
+                git branch: 'main', url: 'https://github.com/YuwanA55/BackendVmush.git'
             }
         }
 

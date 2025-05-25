@@ -19,16 +19,24 @@ spec:
         - containerPort: 80
         envFrom:
         - configMapRef:
-            name: laravel-env
+            name: laravel-configmap
         - secretRef:
             name: laravel-secret
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            echo -n "base64:K7Uu3Q5EXAMPLEKEY123456==" | base64;
+            echo -n "laravel" | base64;
+            echo -n "secret" | base64;
+            # Ganti ini dengan command utama container kamu (misal php-fpm)
+            php-fpm;
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: laravel-service
 spec:
-  type: LoadBalancer   # pakai LoadBalancer agar bisa dapat external IP dari MetalLB
+  type: LoadBalancer
   selector:
     app: laravel-app
   ports:

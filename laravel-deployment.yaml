@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: laravel-app
 spec:
-  replicas: 3  # Diubah ke 2 untuk produksi
+  replicas: 1
   selector:
     matchLabels:
       app: laravel-app
@@ -13,46 +13,22 @@ spec:
         app: laravel-app
     spec:
       containers:
-        - name: php
-          image: rzaynuri/laravel-vmush:latest
-          ports:
-            - containerPort: 8000
-          envFrom:
-            - configMapRef:
-                name: laravel-configmap
-            - secretRef:
-                name: laravel-secret
-          command: ["/bin/sh", "-c"]
-          args:
-            - php-fpm
-          livenessProbe:
-            httpGet:
-              path: /health  # Ganti dengan endpoint health check Laravel
-              port: 8000
-            initialDelaySeconds: 30
-            periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 8000
-            initialDelaySeconds: 5
-            periodSeconds: 5
-          volumeMounts:
-            - name: storage
-              mountPath: /var/www/storage
-        - name: nginx
-          image: nginx:alpine
-          ports:
-            - containerPort: 80
-          volumeMounts:
-            - name: nginx-config
-              mountPath: /etc/nginx/conf.d
-            - name: storage
-              mountPath: /var/www/storage
-      volumes:
-        - name: nginx-config
-          configMap:
-            name: laravel-nginx-config
+      - name: laravel-app
+        image: rzaynuri/laravel-vmush:latest
+        ports:
+        - containerPort: 9000
+        envFrom:
+        - secretRef:
+            name: laravel-secret
+        volumeMounts:
         - name: storage
-          persistentVolumeClaim:
-            claimName: laravel-storage-pvc  # Buat PVC terpisah
+          mountPath: /var/www/html/storage
+        - name: bootstrap-cache
+          mountPath: /var/www/html/bootstrap/cache
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: laravel-storage-pvc
+      - name: bootstrap-cache
+        persistentVolumeClaim:
+          claimName: laravel-storage-pvc

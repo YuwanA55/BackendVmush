@@ -2,11 +2,10 @@ pipeline {
     agent any
 
     environment {
-        GIT_REPO = 'https://github.com/username/repo.git'  // ganti dengan repo yang sesuai
-        APP_NAME = 'laravel-app'
-        IMAGE_NAME = "dockerhubusername/${APP_NAME}:latest"
-        DOCKERHUB_CREDENTIALS = 'dockerhub-credentials-id' // ganti dengan credential ID Jenkins kamu
-        NGINX_CONF_PATH = './nginx.conf' // Path file nginx.conf di repo
+        GIT_REPO = 'https://github.com/YuwanA55/BackendVmush.git'
+        APP_NAME = 'laravel-vmush'
+        IMAGE_NAME = "rzaynuri/${APP_NAME}:latest"
+        DOCKERHUB_CREDENTIALS = 'dockerhub-credentials'
     }
 
     stages {
@@ -34,27 +33,51 @@ pipeline {
             }
         }
 
-        stage('Deploy with Docker Run (Nginx + Laravel App)') {
+        stage('Deploy with Docker Run') {
             steps {
                 script {
-                    // Jalankan container Nginx dengan konfigurasi nginx.conf
                     sh '''
-                    # Pull image Nginx jika belum ada
-                    docker pull nginx:alpine
+                    # Hentikan dan hapus container lama jika ada
+                    docker rm -f laravel-app-nginx || true
+                    docker rm -f laravel-app-php || true
 
-                    # Run the Nginx container and link it with the Laravel app container
-                    docker run -d --name nginx-web \
-                        -v $(pwd)/nginx.conf:/etc/nginx/conf.d/default.conf:ro \
-                        -v $(pwd):/var/www/html \
+                    # Jalankan container PHP-FPM (app)
+                    docker run -d --name laravel-app-php ${IMAGE_NAME}
+
+                    # Simpan nginx.conf ke workspace sementara
+                    cat > nginx.conf <<EOF
+                    server {
+                        listen 80;
+                        index index.php index.html;
+                        server_name vmush.site;
+
+                        root /var/www/html/public;
+
+                        location / {
+                            try_files \$uri \$uri/ /index.php?\$query_string;
+                        }
+
+                        location ~ \\.php\$ {
+                            include fastcgi_params;
+                            fastcgi_pass laravel-app-php:9000;
+                            fastcgi_index index.php;
+                            fastcgi_param SCRIPT_FILENAME \$realpath_root\$fastcgi_script_name;
+                            fastcgi_param DOCUMENT_ROOT \$realpath_root;
+                        }
+
+                        location ~ /\\.ht {
+                            deny all;
+                        }
+                    }
+                    EOF
+
+                    # Jalankan container Nginx, mount nginx.conf dan link ke PHP-FPM container
+                    docker run -d --name laravel-app-nginx \
+                        --link laravel-app-php:laravel-app-php \
                         -p 80:80 \
-                        --link laravel-app:app \
-                        nginx:alpine
-
-                    # Menjalankan container Laravel app jika belum berjalan
-                    docker run -d --name laravel-app \
-                        --network=bridge \
-                        -v $(pwd):/var/www/html \
-                        ${IMAGE_NAME}
+                        -v $(pwd)/public:/var/www/html/public \
+                        -v $(pwd)/nginx.conf:/etc/nginx/conf.d/default.conf:ro \
+                        nginx:latest
                     '''
                 }
             }
@@ -63,10 +86,10 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline selesai dengan sukses!'
+            echo 'Pipeline berhasil!'
         }
         failure {
-            echo 'Pipeline gagal, cek log di atas.'
+            echo 'Pipeline gagal!'
         }
     }
 }

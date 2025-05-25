@@ -13,32 +13,41 @@ spec:
         app: laravel-app
     spec:
       containers:
-      - name: laravel-app
-        image: rzaynuri/laravel-app:latest
-        ports:
-        - containerPort: 80
-        envFrom:
-        - configMapRef:
-            name: laravel-configmap     # <-- harus ini, bukan laravel-env
-        - secretRef:
-            name: laravel-secret
-        command: ["/bin/sh", "-c"]
-        args:
-          - |
-            echo -n "base64:K7Uu3Q5EXAMPLEKEY123456==" | base64;
-            echo -n "laravel" | base64;
-            echo -n "secret" | base64;
-            # ganti dengan command utama container, contoh:
-            php-fpm;
+        - name: php
+          image: rzaynuri/laravel-app:latest
+          ports:
+            - containerPort: 9000
+          envFrom:
+            - configMapRef:
+                name: laravel-configmap
+            - secretRef:
+                name: laravel-secret
+          command: ["/bin/sh", "-c"]
+          args:
+            - php-fpm
+
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
+
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: laravel-nginx-config
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: laravel-service
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: laravel-app
   ports:
     - port: 80
       targetPort: 80
+      nodePort: 30080

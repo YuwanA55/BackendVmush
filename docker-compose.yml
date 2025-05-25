@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  laravel:
+    image: rzaynuri/laravel-app:latest
+    ports:
+      - "80:80"
+    networks:
+      - laravel_net
+
+networks:
+  laravel_net:
+    driver: overlay

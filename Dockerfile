@@ -1,26 +1,27 @@
-# Gunakan image PHP 8.1 dengan FPM
 FROM php:8.1-fpm
 
-# Install ekstensi PHP yang dibutuhkan oleh Laravel
-RUN docker-php-ext-install pdo pdo_mysql
+RUN apt-get update && apt-get install -y \
+    curl \
+    libzip-dev \
+    unzip \
+    zip \
+    git \
+    && docker-php-ext-install pdo pdo_mysql zip
 
-# Copy aplikasi Laravel ke dalam container
-COPY . /var/www/html
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-# Set direktori kerja
 WORKDIR /var/www/html
 
-# Install Composer untuk Laravel
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY . .
 
-# Install dependensi Laravel
-RUN composer install
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Set izin untuk Laravel
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
-# Expose port 9000 untuk Nginx
-EXPOSE 9000
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Jalankan PHP-FPM
+ENTRYPOINT ["entrypoint.sh"]
+
 CMD ["php-fpm"]
+
+EXPOSE 9000

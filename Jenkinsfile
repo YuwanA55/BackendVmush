@@ -77,14 +77,22 @@ spec:
     spec:
       containers:
       - name: laravel-app
-        image: ${DOCKER_IMAGE}
+        image: rzaynuri/laravel-app:latest
         ports:
         - containerPort: 80
         envFrom:
         - configMapRef:
-            name: laravel-env
+            name: laravel-configmap     # <-- harus ini, bukan laravel-env
         - secretRef:
             name: laravel-secret
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            echo -n "base64:K7Uu3Q5EXAMPLEKEY123456==" | base64;
+            echo -n "laravel" | base64;
+            echo -n "secret" | base64;
+            # ganti dengan command utama container, contoh:
+            php-fpm;
 ---
 apiVersion: v1
 kind: Service

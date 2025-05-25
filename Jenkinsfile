@@ -3,9 +3,10 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'laravel-vmush'
-        DOCKER_REGISTRY = 'https://registry.hub.docker.com'
         DOCKER_REPO = 'rzaynuri/laravel-vmush'
-        DOCKER_COMPOSE_FILE = 'docker-compose.yml'
+        CONTAINER_NAME = 'laravel_vmush_app'
+        CONTAINER_PORT = '8000'
+        HOST_PORT = '8000'
     }
 
     stages {
@@ -27,7 +28,7 @@ pipeline {
 
         stage('Login to Docker Hub') {
             steps {
-                // Login ke Docker Hub menggunakan Docker Hub credential
+                // Login ke Docker Hub menggunakan credentials
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
                 }
@@ -36,19 +37,18 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-                // Push Docker image ke Docker Hub
-                script {
-                    sh "docker push ${DOCKER_REPO}:latest"
-                }
+                // Push image ke Docker Hub
+                sh 'docker push ${DOCKER_REPO}:latest'
             }
         }
 
-        stage('Deploy to Docker Swarm') {
+        stage('Run Docker Container') {
             steps {
-                // Deploy ke Docker Swarm menggunakan Docker Compose
                 script {
+                    // Hentikan container lama kalau ada, lalu jalankan yang baru
                     sh """
-                    docker stack deploy -c ${DOCKER_COMPOSE_FILE} laravel_stack
+                        docker rm -f ${CONTAINER_NAME} || true
+                        docker run -d --name ${CONTAINER_NAME} -p ${HOST_PORT}:${CONTAINER_PORT} ${DOCKER_REPO}:latest
                     """
                 }
             }

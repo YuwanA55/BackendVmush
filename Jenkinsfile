@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "rzaynuri/laravel-vmush:${env.BUILD_NUMBER}"
-        DOCKER_CREDENTIALS = 'docker-hub-credentials'  // Credential ID Jenkins
+        DOCKER_CREDENTIALS = 'dockerhub-credentials'  // Credential ID Jenkins
     }
 
     stages {

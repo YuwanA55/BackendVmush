@@ -48,12 +48,18 @@ pipeline {
 
                     # Hentikan dan hapus container lama jika ada
                     echo "Removing old containers..."
-                    docker rm -f laravel-app-nginx || true
                     docker rm -f laravel-app-php || true
+                    docker rm -f laravel-app-traefik || true
 
-                    # Jalankan container PHP-FPM (app)
+                    # Jalankan container PHP-FPM (app) dengan label untuk Traefik
                     echo "Running PHP-FPM container..."
-                    docker run -d --name laravel-app-php --network laravel-network ${IMAGE_NAME}
+                    docker run -d --name laravel-app-php \
+                        --network laravel-network \
+                        -l traefik.enable=true \
+                        -l traefik.http.routers.laravel.rule=Host\\(`vmush.site`\\) \
+                        -l traefik.http.services.laravel.loadbalancer.server.port=9000 \
+                        -l traefik.http.routers.laravel.entrypoints=web \
+                        ${IMAGE_NAME}
 
                     # Periksa apakah direktori public ada, jika tidak salin dari container
                     echo "Checking public directory..."
@@ -65,58 +71,17 @@ pipeline {
                     # Periksa keberadaan direktori public
                     ls -ld public || { echo "Public directory not found!"; exit 1; }
 
-                    # Simpan nginx.conf ke workspace sementara
-                    echo "Creating nginx.conf..."
-                    cat <<EOF > nginx.conf
-server {
-    listen 80;
-    index index.php index.html;
-    server_name vmush.site;
-
-    root /var/www/html/public;
-
-    location / {
-        try_files \$uri \$uri/ /index.php?\$query_string;
-    }
-
-    location ~ \\.php\$ {
-        include fastcgi_params;
-        fastcgi_pass laravel-app-php:9000;
-        fastcgi_index index.php;
-        fastcgi_param SCRIPT_FILENAME \$realpath_root\$fastcgi_script_name;
-        fastcgi_param DOCUMENT_ROOT \$realpath_root;
-    }
-
-    location ~ /\\.ht {
-        deny all;
-    }
-}
-EOF
-
-                    # Periksa apakah nginx.conf dibuat
-                    echo "Checking nginx.conf..."
-                    if [ ! -f nginx.conf ]; then
-                        echo "Failed to create nginx.conf"
-                        exit 1
-                    fi
-                    ls -l nginx.conf
-                    cat nginx.conf
-
-                    # Validasi konfigurasi Nginx
-                    echo "Validating nginx.conf..."
-                    # Buat direktori sementara untuk mount
-                    mkdir -p nginx_temp/conf.d
-                    cp nginx.conf nginx_temp/conf.d/default.conf
-                    docker run --rm -v $(pwd)/nginx_temp/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro nginx:latest nginx -t
-
-                    # Jalankan container Nginx
-                    echo "Running Nginx container..."
-                    docker run -d --name laravel-app-nginx \
+                    # Jalankan container Traefik sebagai reverse proxy
+                    echo "Running Traefik container..."
+                    docker run -d --name laravel-app-traefik \
                         --network laravel-network \
                         -p 80:80 \
-                        -v $(pwd)/public:/var/www/html/public \
-                        -v $(pwd)/nginx_temp/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro \
-                        nginx:latest
+                        -v /var/run/docker.sock:/var/run/docker.sock:ro \
+                        traefik:v2.10 \
+                        --api.insecure=true \
+                        --providers.docker=true \
+                        --providers.docker.exposedbydefault=false \
+                        --entrypoints.web.address=:80
 
                     # Periksa status container
                     echo "Checking container status..."
@@ -125,10 +90,7 @@ EOF
                     # Periksa log container untuk debugging
                     echo "Checking container logs..."
                     docker logs laravel-app-php
-                    docker logs laravel-app-nginx
-
-                    # Bersihkan direktori sementara
-                    rm -rf nginx_temp
+                    docker logs laravel-app-traefik
                     '''
                 }
             }

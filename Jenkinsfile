@@ -6,7 +6,7 @@ pipeline {
         IMAGE_TAG = "${env.BUILD_NUMBER}"
         GITHUB_REPO = "https://github.com/YuwanA55/BackendVmush.git"
         GIT_BRANCH = "main"
-        KUBECONFIG = "/home/jenkins/.kube/config/config"
+        KUBECONFIG = "/home/jenkins/.kube/config"
         KUBE_NAMESPACE = "default"
         DEPLOYMENT_NAME = "laravel-app"
         DOCKER_CREDENTIALS_ID = "dockerhub-credentials"

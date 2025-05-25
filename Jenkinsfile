@@ -104,7 +104,10 @@ EOF
 
                     # Validasi konfigurasi Nginx
                     echo "Validating nginx.conf..."
-                    docker run --rm -v $(pwd)/nginx.conf:/etc/nginx/conf.d/default.conf:ro nginx:latest nginx -t
+                    # Buat direktori sementara untuk mount
+                    mkdir -p nginx_temp/conf.d
+                    cp nginx.conf nginx_temp/conf.d/default.conf
+                    docker run --rm -v $(pwd)/nginx_temp/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro nginx:latest nginx -t
 
                     # Jalankan container Nginx
                     echo "Running Nginx container..."
@@ -112,7 +115,7 @@ EOF
                         --network laravel-network \
                         -p 80:80 \
                         -v $(pwd)/public:/var/www/html/public \
-                        -v $(pwd)/nginx.conf:/etc/nginx/conf.d/default.conf:ro \
+                        -v $(pwd)/nginx_temp/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro \
                         nginx:latest
 
                     # Periksa status container
@@ -123,6 +126,9 @@ EOF
                     echo "Checking container logs..."
                     docker logs laravel-app-php
                     docker logs laravel-app-nginx
+
+                    # Bersihkan direktori sementara
+                    rm -rf nginx_temp
                     '''
                 }
             }

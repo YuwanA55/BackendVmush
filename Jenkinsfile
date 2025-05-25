@@ -98,8 +98,11 @@ networks:
                     echo "Service List:"
                     docker service ls
 
-                    echo "Service Tasks:"
-                    docker service ps laravel_stack_laravel
+                    echo "Service Tasks for laravel_stack_app:"
+                    docker service ps laravel_stack_app
+
+                    echo "Service Tasks for laravel_stack_nginx:"
+                    docker service ps laravel_stack_nginx
 
                     echo "Running Containers:"
                     docker ps

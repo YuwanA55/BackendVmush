@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
-        DOCKER_CREDENTIALS = 'docker-hub-credentials'  // Ganti dengan ID credentials di Jenkins
-        KUBECONFIG = '/home/jenkins/.kube/config'      // Path ke kubeconfig di agent Jenkins
+        DOCKER_CREDENTIALS = 'docker-hub-credentials'
+        KUBECONFIG = '/home/jenkins/.kube/config'
     }
 
     stages {
@@ -32,28 +32,6 @@ pipeline {
             }
         }
 
-        stage('Deploy MetalLB') {
-            steps {
-                script {
-                    sh '''
-                    echo "Download MetalLB manifest dari repo resmi"
-                    mkdir -p metallb
-                    curl -sL -o metallb/metallb-manifest.yaml https://raw.githubusercontent.com/metallb/metallb/v0.13.10/config/manifests/metallb-native.yaml
-
-                    echo "Install MetalLB CRDs & controller"
-                    kubectl apply -f metallb/metallb-manifest.yaml
-
-                    echo "Tunggu MetalLB controller dan speaker siap..."
-                    kubectl -n metallb-system wait --for=condition=available deployment/controller --timeout=120s
-                    kubectl -n metallb-system wait --for=condition=ready pod -l component=speaker --timeout=120s
-
-                    echo "Apply MetalLB IP Address Pool dan L2 Advertisement"
-                    kubectl apply -f metallb/metallb-config.yaml
-                    '''
-                }
-            }
-        }
-
         stage('Deploy Laravel + Ingress') {
             steps {
                 script {
@@ -77,21 +55,17 @@ spec:
     spec:
       containers:
       - name: laravel-app
-        image: rzaynuri/laravel-app:latest
+        image: ${DOCKER_IMAGE}
         ports:
         - containerPort: 80
         envFrom:
         - configMapRef:
-            name: laravel-configmap     # <-- harus ini, bukan laravel-env
+            name: laravel-configmap
         - secretRef:
             name: laravel-secret
         command: ["/bin/sh", "-c"]
         args:
           - |
-            echo -n "base64:K7Uu3Q5EXAMPLEKEY123456==" | base64;
-            echo -n "laravel" | base64;
-            echo -n "secret" | base64;
-            # ganti dengan command utama container, contoh:
             php-fpm;
 ---
 apiVersion: v1
@@ -99,12 +73,13 @@ kind: Service
 metadata:
   name: laravel-service
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: laravel-app
   ports:
     - port: 80
       targetPort: 80
+      nodePort: 30080
 EOF
 
                     echo 'Apply deployment dan service ke cluster'
@@ -137,7 +112,7 @@ EOF
         }
 
         success {
-            echo "✅ Deployment successful! Akses aplikasi lewat domain dan IP dari MetalLB."
+            echo "✅ Deployment successful! Akses aplikasi lewat domain dan reverse proxy ke NodePort."
         }
 
         failure {

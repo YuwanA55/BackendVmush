@@ -2,110 +2,53 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "rzaynuri/laravel-vmush:${env.BUILD_NUMBER}"
-        DOCKER_CREDENTIALS = 'dockerhub-credentials'  // Credential ID Jenkins
+        DOCKER_IMAGE = 'laravel-vmush'
+        DOCKER_REGISTRY = 'https://registry.hub.docker.com'
+        DOCKER_REPO = 'rzaynuri/laravel-vmush'
+        DOCKER_COMPOSE_FILE = 'docker-compose.yml'
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/YuwanA55/BackendVmush.git'
+                // Checkout kode dari GitHub
+                git branch: 'main', url: 'https://github.com/yourusername/yourrepo.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build(DOCKER_IMAGE)
+                    // Build Docker image
+                    sh 'docker build -t ${DOCKER_REPO}:latest .'
                 }
             }
         }
 
-        stage('Push Docker Image to Docker Hub') {
+        stage('Login to Docker Hub') {
             steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIALS) {
-                        docker.image(DOCKER_IMAGE).push()
-                    }
+                // Login ke Docker Hub menggunakan Docker Hub credential
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credential', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
                 }
             }
         }
 
-        stage('Generate docker-compose.yml') {
+        stage('Push Docker Image') {
             steps {
+                // Push Docker image ke Docker Hub
                 script {
-                    writeFile file: 'docker-compose.yml', text: """
-version: '3.8'
-
-services:
-  app:
-    image: ${DOCKER_IMAGE}  # Use the pre-built image from Docker Hub
-    container_name: laravel-app
-    volumes:
-      - .:/var/www/html
-    networks:
-      - laravel_net
-    working_dir: /var/www/html
-
-  nginx:
-    image: nginx:alpine
-    container_name: nginx-web
-    ports:
-      - "80:80"
-    volumes:
-      - .:/var/www/html
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - app
-    networks:
-      - laravel_net
-
-networks:
-  laravel_net:
-"""
-                }
-            }
-        }
-
-        stage('Create Docker Swarm Network') {
-            steps {
-                script {
-                    sh '''
-                    # Check if the network exists and create if not
-                    docker network ls | grep -q laravel_net || docker network create --driver overlay laravel_net
-                    '''
+                    sh "docker push ${DOCKER_REPO}:latest"
                 }
             }
         }
 
         stage('Deploy to Docker Swarm') {
             steps {
-                script {
-                    // Pastikan Jenkins node ini bisa akses Docker daemon server Swarm
-                    sh """
-                    docker stack rm laravel_stack || true
-                    sleep 5
-                    docker stack deploy -c docker-compose.yml laravel_stack
-                    """
-                }
-            }
-        }
-
-        stage('Check Docker Swarm Status') {
-            steps {
+                // Deploy ke Docker Swarm menggunakan Docker Compose
                 script {
                     sh """
-                    echo "Service List:"
-                    docker service ls
-
-                    echo "Service Tasks for laravel_stack_app:"
-                    docker service ps laravel_stack_app
-
-                    echo "Service Tasks for laravel_stack_nginx:"
-                    docker service ps laravel_stack_nginx
-
-                    echo "Running Containers:"
-                    docker ps
+                    docker stack deploy -c ${DOCKER_COMPOSE_FILE} laravel_stack
                     """
                 }
             }
@@ -113,14 +56,11 @@ networks:
     }
 
     post {
-        always {
-            echo "Pipeline selesai."
-        }
         success {
-            echo "✅ Deployment ke Docker Swarm berhasil! Akses aplikasi di port 80."
+            echo 'Pipeline berhasil dijalankan!'
         }
         failure {
-            echo "❌ Deployment gagal, cek log di atas."
+            echo 'Pipeline gagal!'
         }
     }
 }

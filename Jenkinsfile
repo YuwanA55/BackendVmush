@@ -2,19 +2,15 @@ pipeline {
     agent any
 
     environment {
-        // Ganti dengan username dan repo kamu
         GIT_REPO = 'https://github.com/YuwanA55/BackendVmush.git'
         APP_NAME = 'laravel-vmush'
         IMAGE_NAME = "rzaynuri/${APP_NAME}:latest"
-
-        // Jenkins Credentials ID untuk Docker Hub login
         DOCKERHUB_CREDENTIALS = 'dockerhub-credentials'
     }
 
     stages {
         stage('Clone Repository') {
             steps {
-                // Clone repo ke workspace/laravel-app
                 git url: "${GIT_REPO}", branch: 'main'
             }
         }
@@ -40,17 +36,29 @@ pipeline {
         stage('Deploy with Docker Compose') {
             steps {
                 script {
-                    // Jalankan docker-compose di folder kerja (workspace)
-                    sh """
-                    docker-compose --version
+                    sh '''
+                    # Cek apakah docker-compose legacy tersedia
+                    if command -v docker-compose > /dev/null 2>&1; then
+                        echo "docker-compose (legacy) found"
+                        DC="docker-compose"
+                    # Jika tidak ada, cek apakah docker compose (v2) tersedia
+                    elif docker compose version > /dev/null 2>&1; then
+                        echo "docker compose (v2) found"
+                        DC="docker compose"
+                    else
+                        echo "docker-compose not found, installing legacy docker-compose"
+                        sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+                        sudo chmod +x /usr/local/bin/docker-compose
+                        DC="docker-compose"
+                    fi
 
-                    # Jika tidak ada, install docker-compose
-                    sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-\\\$(uname -s)-\\\$(uname -m)" -o /usr/local/bin/docker-compose
-                    sudo chmod +x /usr/local/bin/docker-compose
+                    # Tampilkan versi docker compose yang digunakan
+                    $DC version
 
-                    docker-compose down
-                    docker-compose up -d --build
-                    """
+                    # Deploy
+                    $DC down || true
+                    $DC up -d --build
+                    '''
                 }
             }
         }

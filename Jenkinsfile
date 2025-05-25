@@ -2,48 +2,48 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'laravel-vmush'
-        DOCKER_REPO = 'rzaynuri/laravel-vmush'
-        CONTAINER_NAME = 'laravel_vmush_app'
-        CONTAINER_PORT = '8000'
-        HOST_PORT = '8000'
+        // Ganti dengan username dan repo kamu
+        GIT_REPO = 'https://github.com/YuwanA55/BackendVmush.git'
+        APP_NAME = 'laravel-vmush'
+        IMAGE_NAME = "rzaynuri/${APP_NAME}:latest"
+
+        // Jenkins Credentials ID untuk Docker Hub login
+        DOCKERHUB_CREDENTIALS = 'dockerhub-credentials'
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/YuwanA55/BackendVmush.git'
+                // Clone repo ke workspace/laravel-app
+                git url: "${GIT_REPO}", branch: 'main'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t ${DOCKER_REPO}:latest .'
-            }
-        }
-
-        stage('Login to Docker Hub') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+                script {
+                    docker.build(IMAGE_NAME, '.')
                 }
             }
         }
 
         stage('Push Docker Image') {
             steps {
-                sh 'docker push ${DOCKER_REPO}:latest'
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKERHUB_CREDENTIALS) {
+                        docker.image(IMAGE_NAME).push()
+                    }
+                }
             }
         }
 
-        stage('Deploy From Docker Hub') {
+        stage('Deploy with Docker Compose') {
             steps {
                 script {
-                    // Stop container lama dan pull ulang dari Docker Hub lalu jalankan
+                    // Jalankan docker-compose di folder kerja (workspace)
                     sh """
-                        docker rm -f ${CONTAINER_NAME} || true
-                        docker pull ${DOCKER_REPO}:latest
-                        docker run -d --name ${CONTAINER_NAME} -p ${HOST_PORT}:${CONTAINER_PORT} ${DOCKER_REPO}:latest
+                    docker-compose down
+                    docker-compose up -d --build
                     """
                 }
             }
@@ -52,7 +52,7 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline berhasil dijalankan!'
+            echo 'Pipeline berhasil!'
         }
         failure {
             echo 'Pipeline gagal!'

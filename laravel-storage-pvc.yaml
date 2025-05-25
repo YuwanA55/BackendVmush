@@ -8,3 +8,4 @@ spec:
   resources:
     requests:
       storage: 1Gi
+  storageClassName: standard  # Ganti dengan storage class yang sesuai untuk Minikube

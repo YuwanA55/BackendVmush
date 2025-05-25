@@ -17,6 +17,11 @@ spec:
         image: rzaynuri/laravel-app:latest
         ports:
         - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: laravel-env
+        - secretRef:
+            name: laravel-secret
 ---
 apiVersion: v1
 kind: Service

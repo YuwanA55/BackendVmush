@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/YuwanA55/BackendVmush.git'
+                git branch: 'main', url: 'https://github.com/YuwanA55/BackendVmush.git'
             }
         }
 

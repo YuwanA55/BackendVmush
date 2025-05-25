@@ -3,7 +3,7 @@ version: '3.8'
 services:
   app:
     build: .
-    container_name: laravel-app
+    container_name: laravel-vmush
     volumes:
       - .:/var/www/html
     networks:

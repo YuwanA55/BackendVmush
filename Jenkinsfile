@@ -28,7 +28,7 @@ pipeline {
         stage('Login to Docker Hub') {
             steps {
                 // Login ke Docker Hub menggunakan Docker Hub credential
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-credential', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
                 }
             }

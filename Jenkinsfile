@@ -2,12 +2,18 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "rzaynuri/laravel-vmush:${env.BUILD_NUMBER}"
+        DOCKER_IMAGE = "rzaynuri/laravel-app:${env.BUILD_NUMBER}"
         DOCKER_CREDENTIALS = 'dockerhub-credentials'   // Jenkins credential ID Docker Hub
-        KUBECONFIG = '/home/jenkins/.kube/config'       // kubeconfig path di Jenkins agent
+        KUBECONFIG = '/home/jenkins/.kube/config'       // kubeconfig path di container Jenkins
     }
 
     stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: 'main', url: 'https://github.com/YuwanA55/BackendVmush.git'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
@@ -27,38 +33,37 @@ pipeline {
         }
 
         stage('Deploy to Kubernetes') {
-            steps {
-                script {
-                    withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
-                        // Verifikasi kubeconfig
-                        sh 'kubectl config view'
+    steps {
+        script {
+            withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
+                sh 'kubectl config view'
+                sh 'kubectl config current-context'
+                sh 'kubectl get nodes'
 
-                        // Cek file deployment (pastikan file ada di workspace)
-                        sh 'ls -l laravel-deployment.yaml'
+                sh 'ls -l laravel-deployment.yaml laravel-ingress.yaml'
 
-                        // Terapkan deployment ke cluster
-                        sh 'kubectl apply -f laravel-deployment.yaml --validate=false'
+                sh 'kubectl apply -f laravel-deployment.yaml --validate=false'
+                sh 'kubectl apply -f laravel-ingress.yaml --validate=false'
 
-                        // Verifikasi pod dan service di namespace default
-                        sh 'kubectl get pods -n default'
-                        sh 'kubectl get svc -n default'
-                    }
-                }
+                sh 'kubectl get pods'
+                sh 'kubectl get svc'
             }
         }
     }
+}
+
 
     post {
         always {
-            echo "Pipeline selesai."
+            echo "Pipeline finished."
         }
 
         success {
-            echo "Deployment berhasil!"
+            echo "Deployment successful! Akses aplikasi lewat domain yang sudah di-set di Ingress."
         }
 
         failure {
-            echo "Deployment gagal. Cek log di atas untuk detail."
+            echo "Deployment failed. Cek log di atas untuk detail."
         }
     }
 }

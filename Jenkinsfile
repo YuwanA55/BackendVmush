@@ -35,23 +35,33 @@ pipeline {
             steps {
                 script {
                     writeFile file: 'docker-compose.yml', text: """
-version: "3.8"
+version: '3.8'
 
 services:
-  laravel:
-    image: ${DOCKER_IMAGE}
+  app:
+    build: .
+    container_name: laravel-app
+    volumes:
+      - .:/var/www/html
+    networks:
+      - laravel_net
+    working_dir: /var/www/html
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-web
     ports:
       - "80:80"
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
+    volumes:
+      - .:/var/www/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
     networks:
       - laravel_net
 
 networks:
   laravel_net:
-    driver: overlay
 """
                 }
             }

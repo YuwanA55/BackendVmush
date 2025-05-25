@@ -37,7 +37,7 @@ pipeline {
                         sh 'ls -l laravel-deployment.yaml'
 
                         // Terapkan deployment ke cluster
-                        sh 'kubectl apply -f laravel-deployment.yaml'
+                        sh 'kubectl apply -f laravel-deployment.yaml --validate=false'
 
                         // Verifikasi pod dan service di namespace default
                         sh 'kubectl get pods -n default'

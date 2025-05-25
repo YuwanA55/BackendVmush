@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: your_docker_username/laravel-vmush:latest
+    image: rzaynuri/laravel-vmush:latest
     container_name: laravel-vmush
     volumes:
       - .:/var/www/html

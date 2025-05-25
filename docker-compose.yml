@@ -1,16 +1,12 @@
-version: "3.8"
+version: '3.8'
+
 services:
   laravel:
-    image: rzaynuri/laravel-app:5
+    image: rzaynuri/laravel-app:latest
     ports:
-      - "8081:80"  # Pemetaan port 8081 di host ke port 80 di container
+      - "80:80"
     networks:
       - laravel_net
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-    command: sh -c "php artisan serve --host=0.0.0.0 --port=80 &"  # Menjalankan Laravel di background
 
 networks:
   laravel_net:

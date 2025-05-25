@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: laravel-app
+  template:
+    metadata:
+      labels:
+        app: laravel-app
+    spec:
+      containers:
+        - name: php
+          image: rzaynuri/laravel-app:latest
+          ports:
+            - containerPort: 9000
+          envFrom:
+            - configMapRef:
+                name: laravel-configmap
+            - secretRef:
+                name: laravel-secret
+          command: ["/bin/sh", "-c"]
+          args:
+            - php-fpm
+
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
+
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: laravel-nginx-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: laravel-service
+spec:
+  type: NodePort
+  selector:
+    app: laravel-app
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30080

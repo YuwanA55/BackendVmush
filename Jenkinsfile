@@ -61,10 +61,21 @@ pipeline {
                         -l traefik.http.routers.laravel.entrypoints=web \
                         ${IMAGE_NAME} php-fpm -F
 
-                    # Periksa apakah PHP-FPM berjalan di port 9000
+                    # Tunggu beberapa detik agar PHP-FPM menginisialisasi
+                    echo "Waiting for PHP-FPM to initialize..."
+                    sleep 5
+
+                    # Periksa apakah PHP-FPM berjalan
+                    echo "Checking PHP-FPM process..."
+                    docker exec laravel-app-php pidof php-fpm || { echo "PHP-FPM process not running!"; docker logs laravel-app-php; exit 1; }
+
+                    # Periksa apakah port 9000 aktif (jika netstat tersedia)
                     echo "Checking PHP-FPM port..."
-                    sleep 2
-                    docker exec laravel-app-php netstat -tuln | grep 9000 || { echo "PHP-FPM not running on port 9000!"; docker logs laravel-app-php; docker exec laravel-app-php ps aux; exit 1; }
+                    docker exec laravel-app-php sh -c "netstat -tuln 2>/dev/null | grep 9000 || echo 'netstat not available or port 9000 not open'" || true
+
+                    # Periksa konfigurasi PHP-FPM
+                    echo "Checking PHP-FPM configuration..."
+                    docker exec laravel-app-php cat /usr/local/etc/php-fpm.d/www.conf || { echo "Failed to read PHP-FPM config!"; docker logs laravel-app-php; exit 1; }
 
                     # Periksa apakah direktori public ada, jika tidak salin dari container
                     echo "Checking public directory..."

@@ -41,7 +41,7 @@ services:
   laravel:
     image: ${DOCKER_IMAGE}
     ports:
-      - "80:80"
+      - "8081:80"
     deploy:
       replicas: 1
       restart_policy:

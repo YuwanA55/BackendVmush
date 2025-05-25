@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://your.repo.url/laravel-project.git'
+                git branch: 'main', url: 'https://github.com/YuwanA55/BackendVmush.git'
             }
         }
 

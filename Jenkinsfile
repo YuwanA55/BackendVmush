@@ -59,11 +59,12 @@ pipeline {
                         -l traefik.http.routers.laravel.rule=PathPrefix\\(`/`\\) \
                         -l traefik.http.services.laravel.loadbalancer.server.port=9000 \
                         -l traefik.http.routers.laravel.entrypoints=web \
-                        ${IMAGE_NAME}
+                        ${IMAGE_NAME} php-fpm -F
 
                     # Periksa apakah PHP-FPM berjalan di port 9000
                     echo "Checking PHP-FPM port..."
-                    docker exec laravel-app-php netstat -tuln | grep 9000 || { echo "PHP-FPM not running on port 9000!"; exit 1; }
+                    sleep 2
+                    docker exec laravel-app-php netstat -tuln | grep 9000 || { echo "PHP-FPM not running on port 9000!"; docker logs laravel-app-php; docker exec laravel-app-php ps aux; exit 1; }
 
                     # Periksa apakah direktori public ada, jika tidak salin dari container
                     echo "Checking public directory..."
@@ -74,7 +75,7 @@ pipeline {
 
                     # Periksa keberadaan direktori public dan index.php
                     ls -ld public || { echo "Public directory not found!"; exit 1; }
-                    ls -l public/index.php || { echo "index.php not found in public directory!"; exit 1; }
+                    ls -l public/index.php || { echo "index.php not found in public directory!"; docker exec laravel-app-php ls -l /var/www/html/public; exit 1; }
 
                     # Jalankan container Traefik sebagai reverse proxy
                     echo "Running Traefik container..."

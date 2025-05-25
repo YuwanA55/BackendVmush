@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: laravel-nginx
+  template:
+    metadata:
+      labels:
+        app: laravel-nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: laravel-code
+          mountPath: /var/www/html
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d
+      volumes:
+      - name: laravel-code
+        persistentVolumeClaim:
+          claimName: laravel-storage-pvc
+      - name: nginx-config
+        configMap:
+          name: laravel-nginx-config

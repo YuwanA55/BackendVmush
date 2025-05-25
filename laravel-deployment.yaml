@@ -22,13 +22,10 @@ spec:
                 name: laravel-configmap
             - secretRef:
                 name: laravel-secret
-          volumeMounts:
-            - name: laravel-code
-              mountPath: /var/www
           command: ["/bin/sh", "-c"]
           args:
-            - |
-              php-fpm
+            - php-fpm
+
         - name: nginx
           image: nginx:alpine
           ports:
@@ -36,11 +33,21 @@ spec:
           volumeMounts:
             - name: nginx-config
               mountPath: /etc/nginx/conf.d
-            - name: laravel-code
-              mountPath: /var/www
+
       volumes:
         - name: nginx-config
           configMap:
             name: laravel-nginx-config
-        - name: laravel-code
-          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: laravel-service
+spec:
+  type: NodePort
+  selector:
+    app: laravel-app
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30080

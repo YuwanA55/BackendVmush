@@ -39,7 +39,7 @@ version: '3.8'
 
 services:
   app:
-    build: .
+    image: ${DOCKER_IMAGE}  # Use the pre-built image from Docker Hub
     container_name: laravel-app
     volumes:
       - .:/var/www/html

@@ -364,9 +364,9 @@
                         <a class="nav-link" href="#about">Tentang Kami</a>
                     </li>
                  <!-- Sebelumnya: <li class="nav-item dropdown"> ... </li> -->
-                    <li class="nav-item">
+<!--                     <li class="nav-item">
                         <a class="nav-link" href="#market">Market</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a href="/login" class="btn btn-primary">Login</a>
                     </li>

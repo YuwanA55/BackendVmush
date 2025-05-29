@@ -81,71 +81,57 @@
 </div>
 
 <script>
-  // We don't need the chart section anymore, so we comment out the chart-related code.
-  // const ctx = document.getElementById('tempChart').getContext('2d');
-  // const maxDataPoints = 20;
-  // const tempData = {
-  //   labels: [],
-  //   datasets: [{
-  //     label: 'Temperature',
-  //     data: [],
-  //     borderColor: 'rgba(75, 192, 192, 1)',       // default hijau
-  //     backgroundColor: 'rgba(75, 192, 192, 0.2)', // default hijau transparan
-  //     fill: true,
-  //     tension: 0.4,
-  //     pointRadius: 0
-  //   }]
-  // };
 
-  // const tempChart = new Chart(ctx, {
-  //   type: 'line',
-  //   data: tempData,
-  //   options: {
-  //     responsive: true,
-  //     maintainAspectRatio: false,
-  //     plugins: {
-  //       legend: { display: false }
-  //     },
-  //     scales: {
-  //       x: { display: false },
-  //       y: { display: true, min: 20, max: 50 }
-  //     }
-  //   }
-  // });
-
-  async function fetchSensorData() {
+async function fetchSensorData() {
     try {
-      const response = await fetch('https://testsuhu-845a0-default-rtdb.firebaseio.com/sensorData.json');
-      const data = await response.json();
+        // Get the Firebase URL from Blade
+        @if(count($permintaan) > 0)
+            const firebaseUrl = "{{ $permintaan[0]->Link }}"; // Use the first record
+            const response = await fetch(firebaseUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
 
-      const temp = data.temperature;
-      const humidity = data.humidity;
-      const now = new Date().toLocaleTimeString();
+            // Check if data contains temperature and humidity
+            if (!data.temperature || !data.humidity) {
+                throw new Error('Invalid data format: temperature or humidity missing');
+            }
 
-      // Update real-time temperature and humidity values
-      document.getElementById('tempValue').textContent = temp + '°C';
-      document.getElementById('humidityValue').textContent = humidity + '%';
+            const temp = data.temperature;
+            const humidity = data.humidity;
+            const now = new Date().toLocaleTimeString();
 
-      // Update status label
-      const label = document.getElementById('statusLabel');
-      if (temp > 30) {
-        label.textContent = 'Panas';
-        label.classList.remove('bg-success');
-        label.classList.add('bg-danger');
-      } else {
-        label.textContent = 'Normal';
-        label.classList.remove('bg-danger');
-        label.classList.add('bg-success');
-      }
+            // Update real-time temperature and humidity values
+            document.getElementById('tempValue').textContent = temp + '°C';
+            document.getElementById('humidityValue').textContent = humidity + '%';
 
+            // Update status label
+            const label = document.getElementById('statusLabel');
+            if (temp > 30) {
+                label.textContent = 'Panas';
+                label.classList.remove('bg-success');
+                label.classList.add('bg-danger');
+            } else {
+                label.textContent = 'Normal';
+                label.classList.remove('bg-danger');
+                label.classList.add('bg-success');
+            }
+        @else
+            console.error('No Firebase URL provided');
+            document.getElementById('tempValue').textContent = 'Error: No data';
+            document.getElementById('humidityValue').textContent = 'Error: No data';
+        @endif
     } catch (error) {
-      console.error('Error fetching data:', error);
+        console.error('Error fetching data:', error);
+        document.getElementById('tempValue').textContent = 'Error';
+        document.getElementById('humidityValue').textContent = 'Error';
     }
-  }
+}
 
-  // Fetch data every 2 seconds for real-time update
-  setInterval(fetchSensorData, 2000);
-  fetchSensorData();
+// Fetch data every 2 seconds for real-time update
+setInterval(fetchSensorData, 2000);
+fetchSensorData();
 </script>
 
 @endsection

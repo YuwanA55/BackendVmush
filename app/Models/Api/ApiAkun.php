@@ -9,12 +9,9 @@ use Illuminate\Support\Facades\DB;
 class ApiAkun extends Model
 {
 
-public function alldata()
-{
-    return DB::table('akun_user')
-             ->where('status', 'User') // Menambahkan kondisi untuk status 'User'
-             ->get();
-}
+    public function alldata(){
+        return DB::table('akun_user')->get();
+    }
 
 
     public function byekode($username){

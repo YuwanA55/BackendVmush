@@ -9,7 +9,9 @@ use Illuminate\Support\Str;
 use App\Models\DataPaket;
 use App\Models\DataBank;
 use App\Models\DataSewa;
+use App\Models\PermintaanStok;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class FrontendController extends Controller
 {
@@ -17,6 +19,7 @@ class FrontendController extends Controller
         $this ->DataPaket = new DataPaket();
         $this ->DataBank = new DataBank();
         $this ->DataSewa = new DataSewa();
+        $this ->PermintaanStok = new PermintaanStok();
     }
 
     public function index(){
@@ -102,5 +105,74 @@ public function pembayaran($id_paket)
         
     }
 
+
+    public function permintaanjamur(){
+    if (!session('login')) {
+        // Simpan URL tujuan untuk redirect setelah login
+        session(['url.intended' => url()->current()]);
+        return redirect('/logintengku')->with('error', 'Silakan login terlebih dahulu.');
+    }
+
+    if (session('status') !== 'Tengkulak') {
+        abort(404); // Jika bukan Admin, tampilkan 404
+    }
+
+  $permintaan = DB::select("SELECT * FROM Permintaan_stok WHERE username = ?", [session('username')]);
+
+  return view('tengkulak.reqtengkulak', ['permintaan' => $permintaan]);
+    // return view('tengkulak.reqtengkulak', $permintaan );
+
+}
+
+
+public function savepermintaan(){  
+    // Validasi data
+    Request()->validate([
+        'id_stok' => 'required|max:25',
+        'username' => 'required|max:255',
+        'jumlah' => 'required|numeric|min:1',
+        'alamat' => 'required|max:255',
+        'tgl' => 'required|date',
+    ], [
+        'id_stok.required' => 'ID stok wajib diisi',
+        'username.required' => 'Username wajib diisi',
+        'alamat.required' => 'Alamat wajib diisi',
+        'tgl.required' => 'Tanggal wajib diisi',
+        'tgl.date' => 'Format tanggal tidak valid',
+    ]);
+
+    // Siapkan data untuk disimpan
+    $data = [
+        'id_stok' => request()->id_stok,
+        'username' => request()->username,
+        'jumlah_stok' => request()->jumlah,
+        'alamat_permintaan' => request()->alamat,
+        'status_permintaan' => 'Pending',
+        'tanggal_permintaan' => request()->tgl,
+    ];
+            
+    $this->PermintaanStok->addData($data);
+    return redirect()->route('permintaanjamur', ['alert' => 'success']);
+}
+
+
+public function hapusData($id_stok){
+
+        $PermintaanStok = PermintaanStok::where('id_stok', $id_stok)->first();
+    
+        if ($PermintaanStok) {
+            try {
+                // Hapus data lahan dari database
+                $PermintaanStok->delete();
+    
+                return response()->json(['success' => true, 'message' => 'Data berhasil dihapus!']);
+            } catch (\Exception $e) {
+                return response()->json(['error' => true, 'message' => 'Data tidak dapat dihapus karena berelasi dengan Data Pembelian!']);
+            }
+        } else {
+            return response()->json(['error' => true, 'message' => 'Data tidak ditemukan!']);
+        }
+    // }
+    }
     
 }

@@ -16,7 +16,7 @@ class ApiFirebase extends Model
 
 public function byekode($username){
     return DB::table('firebase')->select('link')->where('username', $username)->get();
-}    
+} 
     // public function byekodeemail($email){
     //     return DB::table('akun_user')->where('email', $email)->first();
     // } 

@@ -157,42 +157,42 @@
                                     <tr>
                                         <td>1</td>
                                         <td>Get ALL</td>
-                                        <td>https://vmush.site/api/akun/user/tampil</td>
+                                        <td>http://127.0.0.1:8000/api/akun/user/tampil</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>2</td>
                                         <td>Get By ID</td>
-                                        <td>https://vmush.site/api/akun/user/tampil/{username}</td>
+                                        <td>http://127.0.0.1:8000/api/akun/user/tampil/{username}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>3</td>
                                         <td>Get By Email</td>
-                                        <td>https://vmush.site/api/akun/user/tampil/email/{email}</td>
+                                        <td>http://127.0.0.1:8000/api/akun/user/tampil/email/{email}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>4</td>
                                         <td>Post</td>
-                                        <td>https://vmush.site/api/akun/user/tambah-akun</td>
+                                        <td>http://127.0.0.1:8000/api/akun/user/tambah-akun</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>5</td>
                                         <td>Put</td>
-                                        <td>https://vmush.site/api/akun/user/edit-akun/{username}</td>
+                                        <td>http://127.0.0.1:8000/api/akun/user/edit-akun/{username}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>6</td>
                                         <td>Delete</td>
-                                        <td>https://vmush.site/api/akun/user/hapus-akun/{username}</td>
+                                        <td>http://127.0.0.1:8000/api/akun/user/hapus-akun/{username}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
@@ -257,35 +257,35 @@
                                     <tr>
                                         <td>1</td>
                                         <td>Get ALL</td>
-                                        <td>https://vmush.site/api/Data/Link-Firebase/tampil</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Link-Firebase/tampil</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>2</td>
                                         <td>Get By Username</td>
-                                        <td>https://vmush.site/api/Data/Link-Firebase/tampil/{username}</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Link-Firebase/tampil/{username}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>3</td>
                                         <td>Post (Tambah Data)</td>
-                                        <td>https://vmush.site/api/Data/Link-Firebase/tambah-Data</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Link-Firebase/tambah-Data</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>5</td>
                                         <td>Edit</td>
-                                        <td>https://vmush.site/api/Data/Link-Firebase/edit-Data/{id}</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Link-Firebase/edit-Data/{id}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>6</td>
                                         <td>Delete</td>
-                                        <td>https://vmush.site/api/Data/Link-Firebase/hapus-Data/{id}</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Link-Firebase/hapus-Data/{id}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
@@ -346,14 +346,14 @@
                                     <tr>
                                         <td>1</td>
                                         <td>Get ALL</td>
-                                        <td>https://vmush.site/api/Data/Paket/tampil</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Paket/tampil</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>2</td>
                                         <td>Get By Kode Id</td>
-                                        <td>https://vmush.site/api/Data/Paket/tampil/{id}</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Paket/tampil/{id}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
@@ -421,14 +421,14 @@
                                     <tr>
                                         <td>1</td>
                                         <td>Get ALL</td>
-                                        <td>https://vmush.site/api/Data/Pembelian/Paket/tampil</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Pembelian/Paket/tampil</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                       <td>2</td>
                                       <td>Get by Kode</td>
-                                      <td>https://vmush.site/api/Data/Pembelian/Paket/tampil/id/{id}</td>
+                                      <td>http://127.0.0.1:8000/api/Data/Pembelian/Paket/tampil/id/{id}</td>
                                       <td><span class="badge bg-label-primary me-1">Active</span></td>
                                   </tr>
                                 
@@ -436,35 +436,35 @@
                                     <tr>
                                         <td>3</td>
                                         <td>Get By username.</td>
-                                        <td>https://vmush.site/api/Data/Pembelian/Paket/tampil/{username}</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Pembelian/Paket/tampil/{username}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>4</td>
                                         <td>Post</td>
-                                        <td>https://vmush.site/api/Data/Pembelian/Paket/tambah-Data</td>
+                                        <td>http://127.0.0.1:8000/api/Data/Pembelian/Paket/tambah-Data</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                       <td>5</td>
                                       <td>Put</td>
-                                      <td>https://vmush.site/api/Data/Pembelian/Paket/edit-Data/{id}</td>
+                                      <td>http://127.0.0.1:8000/api/Data/Pembelian/Paket/edit-Data/{id}</td>
                                       <td><span class="badge bg-label-primary me-1">Active</span></td>
                                   </tr>
 
                                     <tr>
                                       <td>6</td>
                                       <td>Delete</td>
-                                      <td>https://vmush.site/api/Data/Pembelian/Paket/hapus-Data/{id}</td>
+                                      <td>http://127.0.0.1:8000/api/Data/Pembelian/Paket/hapus-Data/{id}</td>
                                       <td><span class="badge bg-label-primary me-1">Active</span></td>
                                   </tr>
 
                                   {{-- <tr>
                                     <td>7</td>
                                     <td>Get</td>
-                                    <td>https://vmush.site/api/Data/Paket/tampil/{id}</td>
+                                    <td>http://127.0.0.1:8000/api/Data/Paket/tampil/{id}</td>
                                     <td><span class="badge bg-label-primary me-1">Active</span></td>
                                 </tr> --}}
 
@@ -521,21 +521,21 @@
                                       <tr>
                                           <td>1</td>
                                           <td>Get ALL</td>
-                                          <td>https://vmush.site/api/Data/Penjadwalan/data-tampil</td>
+                                          <td>http://127.0.0.1:8000/api/Data/Penjadwalan/data-tampil</td>
                                           <td><span class="badge bg-label-primary me-1">Active</span></td>
                                       </tr>
   
                                       <tr>
                                         <td>2</td>
                                         <td>Get by Username</td>
-                                          <td>https://vmush.site/api/Data/Penjadwalan/data-tampil/{username}</td>
+                                          <td>http://127.0.0.1:8000/api/Data/Penjadwalan/data-tampil/{username}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>2</td>
                                         <td>Get by Username/Tanggal</td>
-                                          <td>https://vmush.site/api/Data/Penjadwalan/data-tampil/{username}/{tanggal}</td>
+                                          <td>http://127.0.0.1:8000/api/Data/Penjadwalan/data-tampil/{username}/{tanggal}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
                                   
@@ -543,7 +543,7 @@
                                      <tr>
                                         <td>2</td>
                                         <td>Tambah Data</td>
-                                          <td>https://vmush.site/api/Data/Penjadwalan/tambah-Data</td>
+                                          <td>http://127.0.0.1:8000/api/Data/Penjadwalan/tambah-Data</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
@@ -552,14 +552,14 @@
                                  <tr>
                                         <td>2</td>
                                         <td>Edit by Id</td>
-                                          <td>https://vmush.site/api/Data/Penjadwalan/edit-Data/{id_penjadwalan}</td>
+                                          <td>http://127.0.0.1:8000/api/Data/Penjadwalan/edit-Data/{id_penjadwalan}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>2</td>
                                         <td>Edit by Username</td>
-                                          <td>https://vmush.site/api/Data/Penjadwalan/edit-Data/user/{username}</td>
+                                          <td>http://127.0.0.1:8000/api/Data/Penjadwalan/edit-Data/user/{username}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
@@ -567,7 +567,7 @@
                                      <tr>
                                         <td>2</td>
                                         <td>Delete by Id</td>
-                                          <td>https://vmush.site/api/Data/Penjadwalan/hapus-Data/{id_penjadwalan}</td>
+                                          <td>http://127.0.0.1:8000/api/Data/Penjadwalan/hapus-Data/{id_penjadwalan}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
@@ -575,7 +575,7 @@
                                <tr>
                                         <td>2</td>
                                         <td>Delete by Username</td>
-                                          <td>https://vmush.site/api/Data/Penjadwalan/hapus-Data/user/{username}</td>
+                                          <td>http://127.0.0.1:8000/api/Data/Penjadwalan/hapus-Data/user/{username}</td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                     </tr>
 
@@ -588,7 +588,7 @@
                     <br>
                     <!-- Basic Bootstrap Table -->
                     <div class="card mb-3">
-                        <h3 class="card-header">API Tengkulak</h3>
+                        <h3 class="card-header">API Artikel</h3>
                         <div class="table-responsive text-nowrap">
                             <table class="table">
                                 <thead>
@@ -600,88 +600,26 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                    <tr>
+                                    {{-- <tr>
                                         <td>1</td>
                                         <td>Get ALL</td>
-                                        <td>https://vmush.site/api/Data/Tengkulak/data-tampil</td>
-                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
+                                        <td> https://dev.sipkopi.com/api/artikel/artikel.php</td>
+                                        <td><span class="badge bg-label-danger me-1">Off</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>2</td>
-                                        <td>Get By usertengku.</td>
-                                        <td>https://vmush.site/api/Data/Tengkulak/data-tampil/{usertengku}</td>
-                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
+                                        <td>Get By Kode K.</td>
+                                        <td>Segera Siap!</td>
+                                        <td><span class="badge bg-label-warning me-1">Pending</span></td>
                                     </tr>
 
                                     <tr>
                                         <td>3</td>
-                                        <td>Post Tambah Data</td>
-                                        <td>https://vmush.site/api/Data/Tengkulak/tambah-Data</td>
-                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
-                                    </tr> 
-
-                                   <tr>
-                                        <td>3</td>
-                                        <td>Delete Data</td>
-                                        <td>https://vmush.site/api/Data/Tengkulak/hapus-Data/{usertengku}</td>
-                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
-                                    </tr> 
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!--/ Basic Bootstrap Table -->
-                    <br>
-
-                    <!-- Basic Bootstrap Table -->
-                    <div class="card mb-3">
-                        <h3 class="card-header">API Permintaan Stok</h3>
-                        <div class="table-responsive text-nowrap">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Method</th>
-                                        <th>Link</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="table-border-bottom-0">
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Get ALL</td>
-                                        <td>https://vmush.site/api/Data/Permintaan/data-tampil</td>
-                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Get By usertengku.</td>
-                                        <td>https://vmush.site/api/Data/Permintaan/data-tampil/{usertengku}</td>
-                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>3</td>
-                                       <td>Post Tambah Data</td>
-                                        <td>https://vmush.site/api/Data/Permintaan/tambah-Data</td> 
-                                         <td><span class="badge bg-label-primary me-1">Active</span></td> 
-                                    </tr> 
-
-                                   <tr>
-                                        <td>3</td>
-                                        <td>Delete Data usertengku</td>
-                                        <td>https://vmush.site/api/Data/Permintaan/hapus-Data/user/{usertengku}</td>
-                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
-                                    </tr> 
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Delete Data id</td>
-                                        <td>https://vmush.site/api/Data/Permintaan/hapus-Data/id/{id_stok}</td>
-                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
-                                    </tr>
+                                        <td>Post</td>
+                                        <td>Segera Siap!</td>
+                                        <td><span class="badge bg-label-warning me-1">Pending</span></td>
+                                    </tr> --}}
 
                                 </tbody>
                             </table>
@@ -689,8 +627,9 @@
                     </div>
                     <!--/ Basic Bootstrap Table -->
 
-                    <br>
 
+
+                    <br>
                     <!-- Basic Bootstrap Table -->
                     <div class="card mb-3">
                         <h3 class="card-header">API Produk</h3>

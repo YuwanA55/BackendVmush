@@ -8,7 +8,6 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Api\ApiAkun;
-use Illuminate\Support\Facades\Hash;
 
 class AkunController extends Controller
 {
@@ -18,45 +17,32 @@ class AkunController extends Controller
 
     public function index(){
         $alldata = [
-            'DataAkun'=>$this->ApiAkun->alldata(),
+            'Data Akun'=>$this->ApiAkun->alldata(),
         ];
         return response()->json($alldata);
     }
 
-public function showid($username)
-{
-    // Ambil data akun berdasarkan username
-    $datakunn = $this->ApiAkun->byekode($username);
+    public function showid($username){
 
-    // Cek jika data tidak ditemukan
-    if (!$datakunn) {
-        return response()->json(['message' => 'Data email not found'], 404);
+        $datakunn = [
+            $this->ApiAkun->byekode($username),
+        ];
+        if (!$datakunn) {
+            return response()->json(['message' => 'Data email not found'], 404);
+        }
+        return response()->json($datakunn);
     }
 
-    // Mengembalikan data dalam format array, seperti yang diinginkan
-    return response()->json([
-        'DataAkun' => [$datakunn] // Menambahkan data dalam array
-    ]);
-}
+    public function showemail($email){
 
-
-public function showemail($email)
-{
-    // Ambil data akun berdasarkan email
-    $datakunn = $this->ApiAkun->byekodeemail($email);
-
-    // Cek jika data tidak ditemukan
-    if (!$datakunn) {
-        return response()->json(['message' => 'Data email not found'], 404);
+        $datakunn = [
+            $this->ApiAkun->byekodeemail($email),
+        ];
+        if (!$datakunn) {
+            return response()->json(['message' => 'Data email not found'], 404);
+        }
+        return response()->json($datakunn);
     }
-
-    // Mengembalikan data dalam format array
-    return response()->json([
-        'DataAkun' => [$datakunn] // Menambahkan data dalam array
-    ]);
-}
-
-  
 
     public function store(Request $request)
     {
@@ -139,28 +125,25 @@ public function showemail($email)
             }
         }
 
-public function delete($username)
-{
-    try {
-        // Temukan data pengguna berdasarkan username
-        $ApiAkun = ApiAkun::findOrFail($username);
-
-        // Cek dan hapus gambar dari folder jika ada
-        if ($ApiAkun->gambar) {
+            // hapus
+    public function delete($username){
+        try {
+            // Temukan data pengguna berdasarkan ID
+            $ApiAkun = ApiAkun::findOrFail($username);
+    
+            // Hapus gambar dari folder dataprofile
             $gambarPath = public_path('GambarProfile/' . basename($ApiAkun->gambar));
             if (file_exists($gambarPath)) {
                 unlink($gambarPath); // Hapus file gambar jika ada
             }
+    
+            // Hapus data pengguna dari database
+            $ApiAkun->delete();
+    
+            return response()->json(['message' => 'Data Pengguna berhasil dihapus'], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Gagal menghapus data pengguna tidak ada: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        // Hapus data pengguna dari database
-        $ApiAkun->delete();
-
-        return response()->json(['message' => 'Data Pengguna berhasil dihapus'], Response::HTTP_OK);
-    } catch (\Exception $e) {
-        return response()->json(['message' => 'Gagal menghapus data pengguna: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
-}
-
 
 }

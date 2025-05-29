@@ -18,7 +18,7 @@ class PenjadwalanController extends Controller
 
     public function index(){
         $alldata = [
-            'DataPenjadwalan'=>$this->Penjadwalan->alldata(),
+            'Data Link Firebase'=>$this->Penjadwalan->alldata(),
         ];
         return response()->json($alldata);
     }
@@ -31,7 +31,7 @@ class PenjadwalanController extends Controller
             return response()->json(['message' => 'Data Lahan not found'], 404);
         }
     
-        return response()->json(['DataPenjadwalan' => $data], 200);
+        return response()->json(['data' => $data], 200);
     }
 
     public function showtanggal($username, $tanggal)
@@ -42,7 +42,7 @@ class PenjadwalanController extends Controller
             return response()->json(['message' => 'Data Lahan not found'], 404);
         }
     
-        return response()->json(['DataPenjadwalan' => $data], 200);
+        return response()->json(['data' => $data], 200);
     }
 
     public function showidd($id)
@@ -53,7 +53,7 @@ class PenjadwalanController extends Controller
             return response()->json(['message' => 'Data Lahan not found'], 404);
         }
     
-        return response()->json(['DataPenjadwalan' => $dataa], 200);
+        return response()->json(['data' => $dataa], 200);
     }
     
 

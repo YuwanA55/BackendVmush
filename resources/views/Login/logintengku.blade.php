@@ -156,7 +156,7 @@
 
             <p class="text-center">
               <span>Belum memiliki akun?</span>
-              <a class="text-primary ssse" href="/register">
+              <a class="text-primary ssse" href="/register/tengkulak">
                 <span>Register</span>
               </a>
             </p>

@@ -44,68 +44,37 @@
 
         <!-- Request Cards -->
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+                        @if(count($permintaan) > 0)
+                @foreach($permintaan as $p)
             <!-- Request 1 -->
             <div class="col">
-                <div class="card request-card h-100">
+                <div class="card request-card h-100 {{ $p->id_stok }}">
                     <div class="card-body d-flex flex-column justify-content-between">
                         <div class="d-flex align-items-center mb-4">
-                            <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="avatar" class="rounded-circle" style="width: 48px; height: 48px;">
+                            <img src="{{ $p->gambar }}" alt="avatar" class="rounded-circle" style="width: 48px; height: 48px;">
                             <div class="ms-3">
-                                <p class="h6 mb-0">Sarah Putri</p>
+                                <p class="h6 mb-0">{{ $p->nama }}</p>
                                 <p class="text-muted small">5 menit yang lalu</p>
                             </div>
                         </div>
                         <div class="mb-4">
-                            <p><strong>Permintaan:</strong> 50 kg</p>
-                            <p><strong>Alamat:</strong> Pasar Induk, Bondowoso</p>
-                            <p><strong>Dibutuhkan:</strong> Besok</p>
+                            <p><strong>Permintaan:</strong> {{ $p->jumlah_stok }} kg</p>
+                            <p><strong>Alamat:</strong> {{ $p->alamat_permintaan }}</p>
+                            <p><strong>Dibutuhkan:</strong> {{ $p->dibutuhkan }}</p>
                         </div>
                         <a href="/dashboard/user/permintaanstok/detail" class="btn btn-success w-100">Ambil Stok</a>
                     </div>
                 </div>
             </div>
+                @endforeach
+            @else
+                <tr>
+                    <td colspan="6" class="text-center">No data available</td>
+                </tr>
+            @endif
 
-            <!-- Request 2 -->
-            <div class="col">
-                <div class="card request-card h-100">
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <div class="d-flex align-items-center mb-4">
-                            <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="avatar" class="rounded-circle" style="width: 48px; height: 48px;">
-                            <div class="ms-3">
-                                <p class="h6 mb-0">Budi Santoso</p>
-                                <p class="text-muted small">15 menit yang lalu</p>
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <p><strong>Permintaan:</strong> 30 kg</p>
-                            <p><strong>Alamat:</strong> Jl. Kalimantan, Jember</p>
-                            <p><strong>Dibutuhkan:</strong> Hari Ini</p>
-                        </div>
-                        <a href="/dashboard/user/permintaanstok/detail" class="btn btn-success w-100">Ambil Stok</a>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Request 3 -->
-            <div class="col">
-                <div class="card request-card h-100">
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <div class="d-flex align-items-center mb-4">
-                            <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="avatar" class="rounded-circle" style="width: 48px; height: 48px;">
-                            <div class="ms-3">
-                                <p class="h6 mb-0">Linda Wijaya</p>
-                                <p class="text-muted small">30 menit yang lalu</p>
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <p><strong>Permintaan:</strong> 75 kg</p>
-                            <p><strong>Alamat:</strong> Kademangan, Bondowoso</p>
-                            <p><strong>Dibutuhkan:</strong> 2 Hari</p>
-                        </div>
-                        <a href="/dashboard/user/permintaanstok/detail" class="btn btn-success w-100">Ambil Stok</a>
-                    </div>
-                </div>
-            </div>
         </div>
     
 

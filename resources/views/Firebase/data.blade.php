@@ -180,7 +180,7 @@ if ($newNumber < 10) {
                   </div>
                       
                             <div class="col mb-3">
-                              <label for="nameLarge" class="form-label">Username</label>
+                              <label for="nameLarge" class="form-label">Id Firebase</label>
                               <input type="text" name="id" readonly value="{{ $newCode }}" required class="form-control" placeholder="{{ $newCode }}" />
                             </div>
                           </div>
@@ -190,7 +190,7 @@ if ($newNumber < 10) {
                               <label for="dobLarge" class="form-label">User</label>
                               <select name="username" class="select2 form-select">
                                 @foreach ($alluser as $p)
-                                <option value="{{$p->username}}">{{$p->nama}}</option>
+                                <option value="{{$p->username}}">{{$p->username}}</option>
                                 @endforeach
                               </select>
                               </div>

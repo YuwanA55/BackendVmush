@@ -14,8 +14,8 @@ class ApiTengkulak extends Model
     }
 
 
-    public function byekode($username){
-        return DB::table('tengkulak')->where('username', $username)->first();
+    public function byekode($usertengku){
+        return DB::table('tengkulak')->where('usertengku', $usertengku)->first();
     } 
     public function byekodeemail($email){
         return DB::table('tengkulak')->where('email', $email)->first();
@@ -27,18 +27,20 @@ class ApiTengkulak extends Model
     
 
     protected $table = 'tengkulak';
-    protected $primaryKey = 'id_tengku';
+protected $primaryKey = 'id_tengku';
 public $incrementing = false;
-    protected $fillable = [
-        'id_tengku',
-        'username',
-        'nama',
-        'alamat',
-        'nohp',
-        'gambar',
-        'alamat',
-        'tanggal_create',
-    ];
+protected $fillable = [
+    'id_tengku',
+    'usertengku',
+    'nama',
+    'password',
+    'pwasli',
+    'alamat',
+    'nohp',
+    'status',
+    'gambar',
+    'tanggal_create',
+];
 
     public $timestamps = false;
 

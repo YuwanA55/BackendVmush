@@ -18,7 +18,7 @@ class PembelianController extends Controller
 
     public function index(){
         $alldata = [
-            'DataPembelian'=>$this->Pembelian->alldata(),
+            'Data Link Firebase'=>$this->Pembelian->alldata(),
         ];
         return response()->json($alldata);
     }
@@ -31,7 +31,7 @@ class PembelianController extends Controller
             return response()->json(['message' => 'Data Lahan not found'], 404);
         }
     
-        return response()->json(['DataPembelian' => $data], 200);
+        return response()->json(['data' => $data], 200);
     }
 
     public function showidd($id)
@@ -42,7 +42,7 @@ class PembelianController extends Controller
             return response()->json(['message' => 'Data Lahan not found'], 404);
         }
     
-        return response()->json(['DataPembelian' => $dataa], 200);
+        return response()->json(['data' => $dataa], 200);
     }
     
 

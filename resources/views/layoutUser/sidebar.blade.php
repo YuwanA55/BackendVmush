@@ -35,8 +35,8 @@
 
 <div class="mt-1"></div>
 
-<li class="menu-item {{ Request::is('dashboard/user/permintaanstok*') ? 'active' : '' }}">
-    <a href="/dashboard/user/permintaanstok" class="menu-link ">
+<li class="menu-item {{ Request::is('dashboard/user/pengambilanstok*') ? 'active' : '' }}">
+    <a href="/dashboard/user/pengambilanstok" class="menu-link ">
         <i class="menu-icon tf-icons ti ti-package"></i>
         <div data-i18n="Permintaan Stok">Permintaan Stok</div>
         {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}

@@ -322,11 +322,11 @@ if ($newNumber < 10) {
 
                             <div class="row g-2 mb-3">
                             <div class="col mb-0">
-                              <label for="emailLarge" class="form-label">Tanggal Awal Sewa</label>
+                              <label for="emailLarge" class="form-label">Status Pembayaran</label>
                               <input type="text" value="{{$item->tanggal_sewa}}" readonly class="form-control" placeholder="" />
                             </div>
                             <div class="col mb-0">
-                              <label for="emailLarge" class="form-label">Tanggal Akhir Sewa</label>
+                              <label for="emailLarge" class="form-label">Tanggal Pembelian</label>
                               <input type="text" class="form-control" value="{{$item->tanggal_akhir}}" readonly placeholder="" />
                             </div>
                             </div>

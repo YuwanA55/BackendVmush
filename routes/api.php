@@ -88,3 +88,4 @@ Route::post('/Data/Permintaan/tambah-Data', [PermintaanController::class, 'store
 Route::delete('/Data/Permintaan/hapus-Data/user/{usertengku}', [PermintaanController::class, 'deleteuser']);
 Route::delete('/Data/Permintaan/hapus-Data/id/{id_stok}', [PermintaanController::class, 'deleteid']);
 
+

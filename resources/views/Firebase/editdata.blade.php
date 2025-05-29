@@ -36,7 +36,7 @@
                           </div>
 
                           <div class="mb-3 ">
-                            <label for="lastName" class="form-label">Nama User</label>
+                            <label for="lastName" class="form-label">Username</label>
                             <select name="username" placeholder=""  class="select2 form-select">
                               
                             {{-- <option value="{{$main->id}}">{{$main->nama}}</option> --}}

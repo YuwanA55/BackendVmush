@@ -27,6 +27,10 @@ Route::get('/pembayaran/{id_paket}', [FrontendController::class, 'pembayaran']);
 Route::get('/pembayaran/{id_paket}/tagihandata/{id_bank}', [FrontendController::class, 'tagihann']);
 Route::post('/pembayaran/tagihandata/{username}/save-data', [FrontendController::class, 'savesewa']);
 
+Route::get('/permintaan/jamur', [FrontendController::class, 'permintaanjamur'])->name('permintaanjamur');
+Route::post('/permintaan/jamur/tambah-data', [FrontendController::class, 'savepermintaan'])->name('savepermintaan');
+Route::delete('/permintaan/jamur/hapus-data/{id_stok}', [FrontendController::class, 'hapusData']);
+
 
 
 
@@ -39,9 +43,9 @@ Route::get('/detailtengkulak', function () {
     return view('tengkulak.detailtengkulak');
 });
 
-Route::get('/permintaan/jamur', function () {
-    return view('tengkulak.reqtengkulak');
-});
+// Route::get('/permintaan/jamur', function () {
+//     return view('tengkulak.reqtengkulak');
+// });
 
 Route::get('/PermintaanStok', function () {
     return view('tengkulak.trimaRequest');
@@ -49,10 +53,14 @@ Route::get('/PermintaanStok', function () {
 
 
 Route::get('/login', [AuthController::class, 'submit'])->name('login');
+Route::get('/logintengku', [AuthController::class, 'submittengku'])->name('logintengku');
+
 Route::post('/authlogin',[AuthController::class,'auth']);
 Route::get('/akses/logout',[AuthController::class,'logout']);
 Route::get('/register',[AuthController::class,'registerrr']);
+Route::get('/register/tengkulak',[AuthController::class,'registertengku']);
 Route::post('/register/tambah-data',[AuthController::class,'savee']);
+Route::post('/register/tambah-data',[AuthController::class,'saveetengku']);
 
 Route::get('/dashboard/admin', [DashController::class, 'index']);
 Route::get('/api/link', [DashController::class, 'apistatus']);
@@ -97,8 +105,9 @@ Route::delete('/dashboard/admin/Penyewaan/Paket/hapus/{id}', [PembelianControlle
 // Dashboard User
 Route::get('/dashboard', [DashUserController::class, 'index'])->name('userrr');
 Route::get('/dashboard/user/upgrade', [DashUserController::class, 'upgradee']);
-Route::get('/dashboard/user/permintaanstok', [DashUserController::class, 'permintaanstok']);
-Route::get('/dashboard/user/permintaanstok/detail', [DashUserController::class, 'detailstok']);
+
+Route::get('/dashboard/user/pengambilanstok', [DashUserController::class, 'permintaanstok']);
+Route::get('/dashboard/user/pengambilanstok/detail', [DashUserController::class, 'detailstok']);
 
 
 Route::get('/dashboard/user/{username}/HistoryPenyewaan', [DashUserController::class, 'historyy'])->name('penyewaan');

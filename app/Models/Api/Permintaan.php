@@ -55,6 +55,7 @@ public $incrementing = false;
         'id_stok',
         'usertengku',
         'jumlah_stok',
+        'alamat_permintaan',
         'status',
         'tanggal',
     ];

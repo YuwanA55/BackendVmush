@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\DataFirebase;
 use App\Models\AkunUser;
 use App\Models\DataSewa;
+use Illuminate\Support\Facades\DB;
 
 
 class DashUserController extends Controller
@@ -19,17 +20,26 @@ class DashUserController extends Controller
     }
 
 
-    public function index(){
+public function index()
+{
     if (!session('login')) {
         return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
     }
 
     if (session('status') !== 'User') {
-        abort(404); // Jika bukan Admin, tampilkan 404
+        abort(404); // Jika bukan User, tampilkan 404
     }
-        return view('User.dashboardnew' );
-    // }
+
+    $username = session('username');
+    $permintaan = DB::select("SELECT * FROM `firebase` WHERE username = ?", [$username]);
+
+    if (empty($permintaan)) {
+        return view('User.dashboardnew', ['permintaan' => [], 'error' => 'No Firebase data found for user: ' . $username]);
+    }
+
+    return view('User.dashboardnew', ['permintaan' => $permintaan]);
 }
+
 
 public function upgradee(){
 
@@ -43,11 +53,12 @@ public function upgradee(){
 
 public function permintaanstok(){
 
-        // $data = [
-        //     't_akun' =>$this->Akun->alldata(),
-        //     't_firebase' => $this->DataFire->alldata(),
-        // ];
-    return view('tengkulak.trimaRequest' );
+$permintaan = DB::select("SELECT ps.*, au.gambar, au.alamat, au.nama, au.nohp, au.email, au.status
+FROM permintaan_stok ps
+JOIN akun_user au ON ps.username = au.username
+WHERE ps.status_permintaan = 'Pending';");
+
+  return view('tengkulak.trimaRequest', ['permintaan' => $permintaan]);
 
 }
 

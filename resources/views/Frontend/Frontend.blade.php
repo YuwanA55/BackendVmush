@@ -381,7 +381,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <h1>Sistem monitoring Penyiraman Otomatis untuk Pertanian</h1>
+                    <h1>Sistem IoT Penyiraman Otomatis untuk Pertanian</h1>
                     <p>Kelola budidaya jamur tiram Anda dengan lebih mudah, cepat, dan efisien melalui sistem permintaan stok, monitoring, dan penyewaan alat berbasis aplikasi mobile dan website. Dengan teknologi ini, Anda dapat memantau kondisi suhu, kelembaban, serta ketersediaan stok secara real-time, langsung dari genggaman tangan.</p>
                     <a href="#pricing" class="btn btn-primary mt-3">Pilih Paket</a>
                 </div>

@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="{{asset('assetsadmin')}}/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{asset('assetsadmin')}}/css/demo.css" />
 
-    <!-- Custom CSS for validation -->
+    <!-- Custom CSS for validation and password toggle -->
     <style>
       .is-invalid {
         border-color: #dc3545 !important;
@@ -61,6 +61,49 @@
         color: #28a745 !important;
         font-size: 0.875em !important;
         margin-top: 0.25rem !important;
+      }
+
+      /* Fixed password toggle styles */
+      .form-password-toggle {
+        position: relative;
+      }
+      
+      .form-password-toggle .input-group {
+        position: relative;
+        display: flex;
+      }
+      
+      .form-password-toggle .input-group-text {
+        position: absolute;
+        right: 1px;
+        top: 1px;
+        bottom: 1px;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        padding: 0;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        pointer-events: auto;
+      }
+      
+      .form-password-toggle .form-control {
+        padding-right: 45px !important;
+        position: relative;
+        z-index: 1;
+      }
+      
+      .form-password-toggle .input-group-text:hover {
+        background: rgba(0,0,0,0.05);
+        border-radius: 0 4px 4px 0;
+      }
+      
+      .form-password-toggle .input-group-text i {
+        font-size: 1.2rem;
+        color: #6c757d;
       }
     </style>
 
@@ -144,7 +187,7 @@
 
                 <div class="mb-3 form-password-toggle">
                   <label class="form-label" for="password">Password</label>
-                  <div class="input-group input-group-merge">
+                  <div class="input-group">
                     <input
                       type="password"
                       id="password"
@@ -152,7 +195,9 @@
                       name="pass"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password" />
-                    <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                    <span class="input-group-text cursor-pointer" id="togglePassword">
+                      <i class="ti ti-eye-off" id="toggleIcon"></i>
+                    </span>
                   </div>
                   <small class="form-text text-muted">*Buat password yang kuat minimal 8 karakter</small>
                 </div>
@@ -223,6 +268,41 @@
           var minutes = now.getMinutes().toString().padStart(2, '0');
           var dateTimeString = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
           document.getElementById('tgl').value = dateTimeString; // Mengatur nilai elemen input
+      }
+
+      // Password toggle functionality
+      function initPasswordToggle() {
+          const toggleButton = document.getElementById('togglePassword');
+          const passwordInput = document.getElementById('password');
+          const toggleIcon = document.getElementById('toggleIcon');
+
+          if (toggleButton && passwordInput && toggleIcon) {
+              toggleButton.addEventListener('click', function(e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  
+                  console.log('Toggle clicked'); // Debug log
+                  
+                  // Toggle the type attribute
+                  const currentType = passwordInput.getAttribute('type');
+                  const newType = currentType === 'password' ? 'text' : 'password';
+                  passwordInput.setAttribute('type', newType);
+                  
+                  // Toggle the eye icon
+                  if (newType === 'password') {
+                      toggleIcon.className = 'ti ti-eye-off';
+                  } else {
+                      toggleIcon.className = 'ti ti-eye';
+                  }
+              });
+              
+              // Also add click event to the icon itself
+              toggleIcon.addEventListener('click', function(e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  toggleButton.click();
+              });
+          }
       }
 
       // Fungsi untuk menampilkan error message
@@ -377,6 +457,7 @@
       // Event listeners untuk validasi real-time
       document.addEventListener('DOMContentLoaded', function() {
           setDateTime();
+          initPasswordToggle(); // Initialize password toggle
           
           // Username validation
           document.getElementById('username').addEventListener('input', validateUsername);

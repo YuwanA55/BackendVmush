@@ -16,7 +16,7 @@
 </header>
 
 <nav class="breadcrumb">
-  <a href="#">Beranda</a> &gt;
+  <a href="#">Berandaa</a> &gt;
   <a href="#">Permintaan Stok</a> &gt;
   <span>Detail Permintaan</span>
 </nav>
@@ -25,8 +25,8 @@
   <section class="request-card">
     <div class="request-header">
       <h2>Permintaan Stok Jamur Tiram</h2>
-      <span class="status-badge">Aktif</span>
-      <div class="request-id">ID: #JT2025001</div>
+      {{-- <span class="status-badge">Aktif</span> --}}
+      <div class="request-id">ID: #{{$main->id_stok}}</div>
     </div>
    <div class="request-info">
  <div class="left-info">
@@ -34,21 +34,23 @@
     <div class="icon-circle"><i class="ph ph-scales"></i></div>
     <div>
       <div class="label">Jumlah yang Diminta</div>
-      <div class="value">50 kg</div>
+      <div class="value">{{$main->jumlah_stok}} kg</div>
     </div>
   </div>
   <div class="info-item">
     <div class="icon-circle"><i class="ph ph-calendar"></i></div>
     <div>
       <div class="label">Tanggal Permintaan</div>
-      <div class="value">15 Jan 2025</div>
+      <div class="value">{{$main->tanggal_permintaan}}</div>
     </div>
   </div>
   <div class="info-item">
     <div class="icon-circle"><i class="ph ph-clock"></i></div>
     <div>
       <div class="label">Batas Waktu</div>
-      <div class="value">16 Jan 2025</div>
+      <div class="value">
+        N
+      </div>
     </div>
   </div>
 </div>
@@ -58,21 +60,21 @@
     <div class="icon-circle"><i class="ph ph-user-circle"></i></div>
     <div>
       <div class="label">Peminta</div>
-      <div class="value">Sarah Putri</div>
+      <div class="value">{{$main->username}}</div>
     </div>
   </div>
   <div class="info-item">
     <div class="icon-circle"><i class="ph ph-map-pin"></i></div>
     <div>
       <div class="label">Alamat Pengiriman</div>
-      <div class="value">Jl. raya No. 123, Pasar Induk, Bondowoso</div>
+      <div class="value">{{$main->alamat_permintaan}}</div>
     </div>
   </div>
   <div class="info-item">
     <div class="icon-circle"><i class="ph ph-phone"></i></div>
     <div>
       <div class="label">Nomor Telepon</div>
-      <div class="value"><a href="tel:+6281234567890">+62 812–3456–7890</a></div>
+      <div class="value"><a href="tel:+62{{$main->nohp}}">+62 {{$main->nohp}}</a></div>
     </div>
   </div>
 </div>
@@ -87,8 +89,8 @@
   </section>
 
   <div class="actions">
-    <button class="chat-btn">💬 Chat untuk Mengambil Stok</button>
-    <button class="save-btn">🔖 Simpan Permintaan</button>
+    {{-- <button class="chat-btn">💬 Chat untuk Mengambil Stok</button> --}}
+    <a class="save-btn">Ambil Permintaan</a>
   </div>
 </main>
 

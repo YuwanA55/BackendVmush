@@ -44,10 +44,13 @@ class PermintaanController extends Controller
             // Melanjutkan dengan menyimpan data produk kopi
             $Permintaan = new Permintaan();
             $Permintaan->id_stok = $newKodeFirebase;
-            $Permintaan->usertengku = $request->input('usertengku');
+            $Permintaan->username = $request->input('username');
             $Permintaan->jumlah_stok = $request->input('jumlah_stok');
-            $Permintaan->status = 'Pending';
-            $Permintaan->tanggal = now();
+            $Permintaan->alamat_permintaan = $request->input('alamat_permintaan');
+            $Permintaan->status_permintaan = 'Pending';
+            $Permintaan->tanggal_permintaan = now();
+            $Permintaan->dibutuhkan = $request->input('dibutuhkan');
+            $Permintaan->user = '';
             $Permintaan->save();
     
             return response()->json(['message' => 'Data Akun berhasil ditambah', 'data' => $Permintaan], Response::HTTP_CREATED);
@@ -57,8 +60,8 @@ class PermintaanController extends Controller
     }
 
         // hapus data 
-    public function deleteuser($usertengku){
-        $datafr = Permintaan::where('usertengku', $usertengku)->first();
+    public function deleteuser($username){
+        $datafr = Permintaan::where('username', $username)->first();
         if (!$datafr) {
             return response()->json(['message' => 'Data Lahan not found'], 404);
         }

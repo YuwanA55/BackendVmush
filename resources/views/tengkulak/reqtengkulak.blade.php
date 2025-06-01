@@ -1,118 +1,3 @@
-{{-- <!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JamurMarket - Permintaan</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    
-    select:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.4);
-      }
-      
-      tbody tr {
-        transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-      }
-      
-      tbody tr:hover {
-        background-color: #f0fdf4;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
-         transform: translateX(5px) 
-      }
-      
-      /* Ensuring scroll functionality */
-      .bg-white.overflow-x-auto {
-        overflow-x: auto;
-        overflow-y: auto;
-        max-height: 500px; /* Adjust as necessary */
-      }
-      
-      table {
-        width: 100%;
-        table-layout: fixed;
-      }
-      
-            
-      
-  </style>
-</head>
-<body class="bg-gray-100 font-sans">
-  <div class="p-6">
-    <!-- Header -->
-    <div class="flex justify-between items-center mb-6">
-      <div class="text-2xl font-bold text-green-700">Jamur<span class="text-black">Market</span></div>
-      <a href="hh.html">
-        <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow-md">
-          + Tambah Permintaan
-        </button>
-      </a>
-    </div>
-
-    {{session('nama')}}
-
-    <!-- Search & Filter -->
-    <div class="bg-white p-4 rounded shadow mb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-      <input type="text" placeholder="Cari permintaan..." class="border border-gray-300 rounded px-4 py-2 w-full md:w-1/3" />
-      <select class="border border-gray-300 bg-white rounded px-4 py-2 w-full md:w-auto cursor-pointer hover:border-green-500 focus:ring-2 focus:ring-green-300 transition">
-        <option>Semua Status</option>
-        <option>Pending</option>
-        <option>Disetujui</option>
-      </select>
-    </div>
-
-    <!-- Table -->
-    <div class="bg-white rounded shadow overflow-x-auto">
-      <table class="min-w-full table-auto">
-        <thead class="bg-gray-100">
-          <tr class="text-left text-gray-600 text-sm">
-            <th class="px-4 py-2">ID</th>
-            <th class="px-4 py-2">Pengguna</th>
-            <th class="px-4 py-2">Jumlah Stok</th>
-            <th class="px-4 py-2">Alamat</th>
-            <th class="px-4 py-2">Status</th>
-            <th class="px-4 py-2">Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="border-t hover:shadow-md">
-            <td class="px-4 py-3">#001</td>
-            <td class="px-4 py-3 flex items-center gap-2">
-              <img src="https://randomuser.me/api/portraits/women/1.jpg" class="w-8 h-8 rounded-full" alt="avatar" />
-              Sarah Putri
-            </td>
-            <td class="px-4 py-3">50 kg</td>
-            <td class="px-4 py-3">Pasar Induk, Bondowoso</td>
-            <td class="px-4 py-3">
-              <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded">Pending</span>
-            </td>
-            <td class="px-4 py-3 space-x-2 text-blue-600 text-lg">
-              <button>👁️</button>
-              <button>✏️</button>
-              <button class="text-red-500">🗑️</button>
-            </td>
-          </tr>
-
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Footer & Pagination -->
-    <div class="flex justify-between items-center mt-4 text-sm text-gray-600">
-      <span>Menampilkan 1-10 dari 50 data</span>
-      <div class="flex space-x-1">
-        <button class="px-2 py-1 border rounded text-gray-700">&lt;</button>
-        <button class="px-3 py-1 bg-green-600 text-white rounded">1</button>
-        <button class="px-3 py-1 border rounded">2</button>
-        <button class="px-3 py-1 border rounded">3</button>
-        <button class="px-2 py-1 border rounded text-gray-700">&gt;</button>
-      </div>
-    </div>
-  </div>
-</body>
-</html> --}}
-
 
 
 @extends('tengkulak.linkaset')
@@ -139,25 +24,20 @@ if ($newNumber < 10) {
 
 ?>
 
-<!-- Page CSS -->
-    <link rel="stylesheet" href="{{asset('assetsadmin')}}/vendor/css/pages/cards-advance.css" />
-    <!-- Helpers -->
-    <script src="{{asset('assetsadmin')}}/vendor/js/helpers.js"></script>
-
 <link rel="stylesheet" href="{{asset('assetsadmin')}}/vendor/libs/animate-css/animate.css" />
 <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{{asset('assetsadmin')}}/vendor/libs/sweetalert2/sweetalert2.css" />
 
-                  <!-- build:js assets/vendor/js/core.js -->
-     <script src="{{asset('assetsadmin')}}/vendor/libs/jquery/jquery.js"></script>
-    <script src="{{asset('assetsadmin')}}/vendor/libs/popper/popper.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-    <script src="{{asset('assetsadmin')}}/js/ui-modals.js"></script>
-   <script src="{{asset('assetsadmin')}}/js/pages-account-settings-account.js"></script> 
-    <script src="{{asset('assetsadmin')}}/vendor/libs/sweetalert2/sweetalert2.js"></script>
+<!-- build:js assets/vendor/js/core.js -->
+<script src="{{asset('assetsadmin')}}/vendor/libs/jquery/jquery.js"></script>
+<script src="{{asset('assetsadmin')}}/vendor/libs/popper/popper.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="{{asset('assetsadmin')}}/js/ui-modals.js"></script>
+<script src="{{asset('assetsadmin')}}/vendor/libs/sweetalert2/sweetalert2.js"></script>
+<script src="{{asset('assetsadmin')}}/vendor/libs/flatpickr/flatpickr.js"></script>
+<link rel="stylesheet" href="{{asset('assetsadmin')}}/vendor/libs/flatpickr/flatpickr.css" />
 
-     <script src="{{asset('assetsadmin')}}/js/main.js"></script>
 
 
       <!-- alert data berhasil -->
@@ -240,12 +120,12 @@ if ($newNumber < 10) {
             @if(count($permintaan) > 0)
                 @foreach($permintaan as $p)
                 <tr>
-                    <th scope="row">{{ $loop->iteration }}</th>
+                    <th>{{ $p->id_stok }}</th>
                     <td class="p-3">{{ $p->username }}</td>
                     <td>{{ $p->jumlah_stok }} KG</td>
                          <td>
-  @if($p->status_permintaan == 'Berhasil')
-    <span class="badge bg-success">Berhasil</span>
+  @if($p->status_permintaan == 'Selesai')
+    <span class="badge bg-success">Selesai</span>
   @elseif($p->status_permintaan == 'Ditolak')
     <span class="badge bg-danger">Ditolak</span>
   @else
@@ -268,7 +148,7 @@ if ($newNumber < 10) {
                                 </a>
                                 <a class="btn btn-danger hapusdataa me-3" href="javascript:void(0);" 
                                    data-user="{{ $p->id_stok }}" 
-                                   data-nama="{{ $p->username }}"
+                                   data-nama="{{ $p->jumlah_stok }}"
                                    >
                                     <i class="ti ti-trash me-1"></i>
                                 </a>
@@ -323,6 +203,17 @@ if ($newNumber < 10) {
                             <label for="jumlah" class="form-label">Jumlah Stok (KG)</label>
                             <input type="number" name="jumlah" required class="form-control" placeholder="10" min="1" />
                             @error('jumlah')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                 <!-- tanggal -->
+                    <div class="row">
+                        <div class="col mb-3">
+                          <label for="alamat" class="form-label">Butuh Berapa Lama</label>
+                        <input type="text" placeholder="YYYY-MM-DD" name="dibutuhkan" id="flatpickr-date" class="form-control" />
+                            @error('alamat')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -555,15 +446,79 @@ if (accountUserImage) {
 </script>
 
 
+<script>
+    $(document).ready(function () {
+        // Initialize Flatpickr for date selection
+        flatpickr("#flatpickr-datee", { monthSelectorType: 'static' });
+        flatpickr("#flatpickr-date", { monthSelectorType: 'static' });
+
+        $('#editForm').submit(function (e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: 'Apakah Anda yakin ingin mengedit data?',
+                text: "Tindakan ini tidak dapat dibatalkan!",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, Edit Data!',
+                cancelButtonText: 'Tidak',
+                showClass: {
+                    popup: 'animate__animated animate__tada'
+                },
+                customClass: {
+                    confirmButton: 'btn btn-primary me-3',
+                    cancelButton: 'btn btn-danger '
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var formData = new FormData($(this)[0]);
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: 'POST',
+                        data: formData,
+                        async: false,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Sukses!',
+                                text: response.message,
+                                showConfirmButton: false,
+                                timer: 1700
+                            }).then(() => {
+                                window.location.href = "{{ route('datapembelian') }}";
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: xhr.responseText
+                            });
+                        }
+                    });
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
 
 <script>
 $(document).ready(function() {
+
+
   $('.hapusdataa').click(function() {
       var user = $(this).data('user');
       var nama = $(this).data('nama');
 
       Swal.fire({
-  title: 'Apakah Anda yakin ingin menghapus data nama ' + user + '?',
+  title: 'Apakah Anda yakin ingin menghapus data id ' + user + ' dengan jumlah '+ nama +'KG?',
   text: "Tindakan ini tidak dapat dibatalkan!",
   icon: 'warning',
   showCancelButton: true,
@@ -603,7 +558,7 @@ $(document).ready(function() {
                             showConfirmButton: false,
                             timer: 1800
                         }).then(() => {
-                            window.location.href = "{{ route('akunuser') }}";
+                            window.location.href = "{{ route('permintaanjamur') }}";
                         });
                     }
                 },

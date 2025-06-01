@@ -17,32 +17,39 @@ class AkunController extends Controller
 
     public function index(){
         $alldata = [
-            'Data Akun'=>$this->ApiAkun->alldata(),
+            'DataAkun'=>$this->ApiAkun->alldata(),
         ];
         return response()->json($alldata);
     }
 
-    public function showid($username){
+public function showid($username){
+    $data = $this->ApiAkun->byekode($username);
 
-        $datakunn = [
-            $this->ApiAkun->byekode($username),
-        ];
-        if (!$datakunn) {
-            return response()->json(['message' => 'Data email not found'], 404);
-        }
-        return response()->json($datakunn);
+    if (!$data) {
+        return response()->json(['message' => 'Data email not found'], 404);
     }
 
-    public function showemail($email){
+    $datakunn = [
+        'DataAkun' => [$data], // Wrap the result in an array
+    ];
+    
+    return response()->json($datakunn);
+}
+  
 
-        $datakunn = [
-            $this->ApiAkun->byekodeemail($email),
-        ];
-        if (!$datakunn) {
-            return response()->json(['message' => 'Data email not found'], 404);
-        }
-        return response()->json($datakunn);
+public function showemail($email){
+    $data = $this->ApiAkun->byekodeemail($email);
+
+    if (!$data) {
+        return response()->json(['message' => 'Data email not found'], 404);
     }
+
+    $datakunn = [
+        'DataAkun' => [$data], // Wrap the result in an array
+    ];
+    
+    return response()->json($datakunn);
+}
 
     public function store(Request $request)
     {

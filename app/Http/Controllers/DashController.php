@@ -68,4 +68,10 @@ public function apistatus(){
     return view('Api.api');
 }
 
+public function apistatus11(){
+
+    return view('Api.api1');
+}
+
+
 }

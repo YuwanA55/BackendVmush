@@ -18,7 +18,7 @@ class PembelianController extends Controller
 
     public function index(){
         $alldata = [
-            'Data Link Firebase'=>$this->Pembelian->alldata(),
+            'DataPembelian'=>$this->Pembelian->alldata(),
         ];
         return response()->json($alldata);
     }
@@ -31,7 +31,7 @@ class PembelianController extends Controller
             return response()->json(['message' => 'Data Lahan not found'], 404);
         }
     
-        return response()->json(['data' => $data], 200);
+        return response()->json(['DataPembelian' => $data], 200);
     }
 
     public function showidd($id)
@@ -42,7 +42,7 @@ class PembelianController extends Controller
             return response()->json(['message' => 'Data Lahan not found'], 404);
         }
     
-        return response()->json(['data' => $dataa], 200);
+        return response()->json(['DataPembelian' => $dataa], 200);
     }
     
 
@@ -62,9 +62,9 @@ class PembelianController extends Controller
             $Pembelian->tanggal = now();
             $Pembelian->save();
     
-            return response()->json(['message' => 'Data Pembelian berhasil ditambah', 'data' => $Pembelian], Response::HTTP_CREATED);
+            return response()->json(['message' => 'Data Pembelian berhasil ditambah', 'DataPembelian' => $Pembelian], Response::HTTP_CREATED);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Gagal menambahkan data Link Firebase: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['message' => 'Gagal menambahkan data Pembelian : ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -88,7 +88,7 @@ class PembelianController extends Controller
     public function delete($id){
         $datapem = Pembelian::where('id', $id)->first();
         if (!$datapem) {
-            return response()->json(['message' => 'Data Lahan not found'], 404);
+            return response()->json(['message' => 'Data Pembelian not found'], 404);
         }
 
         $datapem->delete();

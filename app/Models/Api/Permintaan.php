@@ -18,20 +18,21 @@ class Permintaan extends Model
         return DB::table('permintaan_stok')->where('username', $username)->get(); // ambil semua data
     }
 
-public function byekodeer($usertengku)
+public function byekodeer($username)
 {
     return DB::table('permintaan_stok')
-        ->join('tengkulak', 'permintaan_stok.usertengku', '=', 'tengkulak.usertengku')
+        ->join('akun_user', 'permintaan_stok.username', '=', 'akun_user.username')
         ->select(
-            'permintaan_stok.usertengku',
-            'tengkulak.nama',
+            'permintaan_stok.username',
+            'permintaan_stok.alamat_permintaan',
+            'akun_user.nama',
             'permintaan_stok.jumlah_stok', // Alias untuk jumlah_stok
-            'tengkulak.alamat',
-            'tengkulak.nohp',
-            'tengkulak.gambar',
-            'permintaan_stok.tanggal'
+            'akun_user.alamat',
+            'akun_user.nohp',
+            'akun_user.gambar',
+            'permintaan_stok.tanggal_permintaan'
         )
-        ->where('permintaan_stok.usertengku', $usertengku)
+        ->where('permintaan_stok.username', $username)
         ->get();
 }
 
@@ -53,11 +54,13 @@ public function byekodeer($usertengku)
 public $incrementing = false;
     protected $fillable = [
         'id_stok',
-        'usertengku',
+        'username',
         'jumlah_stok',
         'alamat_permintaan',
-        'status',
-        'tanggal',
+        'status_permintaan',
+        'tanggal_permintaan',
+        'dibutuhkan',
+        'user'
     ];
 
     public $timestamps = false;

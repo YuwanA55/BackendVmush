@@ -131,6 +131,7 @@ public function savepermintaan(){
         'id_stok' => 'required|max:25',
         'username' => 'required|max:255',
         'jumlah' => 'required|numeric|min:1',
+        'dibutuhkan' => 'required|min:1',
         'alamat' => 'required|max:255',
         'tgl' => 'required|date',
     ], [
@@ -149,6 +150,7 @@ public function savepermintaan(){
         'alamat_permintaan' => request()->alamat,
         'status_permintaan' => 'Pending',
         'tanggal_permintaan' => request()->tgl,
+        'dibutuhkan' => request()->dibutuhkan,
     ];
             
     $this->PermintaanStok->addData($data);

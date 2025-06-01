@@ -161,23 +161,31 @@
               </a>
             </p>
 
-            <div class="divider my-4">
-              <div class="divider-text">or</div>
-            </div>
+            <hr>
+             <p class="text-center">
+              <span>Belum memiliki akun Tengkulak?</span>
+              <a class="text-primary ssse" href="/register/tengkulak">
+                <span>Register</span>
+              </a>
+            </p>
 
-            <div class="d-flex justify-content-center">
-              {{-- <a href="javascript:;" class="btn btn-icon btn-label-facebook me-3">
+            {{-- <div class="divider my-4">
+              <div class="divider-text">or</div>
+            </div> --}}
+
+            {{-- <div class="d-flex justify-content-center">
+               <a href="javascript:;" class="btn btn-icon btn-label-facebook me-3">
                 <i class="tf-icons fa-brands fa-facebook-f fs-5"></i>
-              </a> --}}
+              </a> 
 
               <a href="javascript:;" class="btn btn-icon btn-label-google-plus me-3">
                 <i class="tf-icons fa-brands fa-google fs-5"></i>
-              </a>
-{{-- 
+              </a> 
+
               <a href="javascript:;" class="btn btn-icon btn-label-twitter">
                 <i class="tf-icons fa-brands fa-twitter fs-5"></i>
-              </a> --}}
-            </div>
+              </a> 
+            </div> --}}
           </div>
         </div>
         <!-- /Login -->

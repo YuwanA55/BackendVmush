@@ -28,23 +28,25 @@
                 <h4 class=""> Permintaan Stok</h4>
             </div>
             <div class="d-flex gap-3">
+                <a class="btn btn-primary" href="/dashboard/user/pengambilanstok/history">History Permintaan</a>
                 <input type="text" placeholder="Cari permintaan stok..." class="form-control">
-                <select class="form-select">
+                {{-- <select class="form-select">
                     <option>Semua Lokasi</option>
                     <option>Bondowoso</option>
                     <option>Jember</option>
-                </select>
-                <select class="form-select">
+                </select> --}}
+                {{-- <select class="form-select">
                     <option>Urutkan</option>
                     <option>Terbaru</option>
                     <option>Jumlah Stok</option>
-                </select>
+                </select> --}}
             </div>
         </div>
 
         <!-- Request Cards -->
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
 
+            <br>
                         @if(count($permintaan) > 0)
                 @foreach($permintaan as $p)
             <!-- Request 1 -->
@@ -63,14 +65,14 @@
                             <p><strong>Alamat:</strong> {{ $p->alamat_permintaan }}</p>
                             <p><strong>Dibutuhkan:</strong> {{ $p->dibutuhkan }}</p>
                         </div>
-                        <a href="/dashboard/user/permintaanstok/detail" class="btn btn-success w-100">Ambil Stok</a>
+                        <a href="/dashboard/user/pengambilanstok/detail/{{ $p->id_stok }}" class="btn btn-success w-100">Ambil Stok</a>
                     </div>
                 </div>
             </div>
                 @endforeach
             @else
                 <tr>
-                    <td colspan="6" class="text-center">No data available</td>
+                    <td colspan="6" class="text-center"></td>
                 </tr>
             @endif
 

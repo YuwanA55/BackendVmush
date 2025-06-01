@@ -34,6 +34,7 @@ Route::delete('/permintaan/jamur/hapus-data/{id_stok}', [FrontendController::cla
 
 
 
+
 // Route::get('/tagihandata', function () {
 //     return view('Frontend.tagihan');
 // });
@@ -64,6 +65,7 @@ Route::post('/register/tambah-data',[AuthController::class,'saveetengku']);
 
 Route::get('/dashboard/admin', [DashController::class, 'index']);
 Route::get('/api/link', [DashController::class, 'apistatus']);
+Route::get('/api/link/update', [DashController::class, 'apistatus11']);
 
 // DATA AKUN
 Route::get('/dashboard/admin/akun/user', [AkunUserController::class, 'index'])->name('akunuser');
@@ -107,8 +109,15 @@ Route::get('/dashboard', [DashUserController::class, 'index'])->name('userrr');
 Route::get('/dashboard/user/upgrade', [DashUserController::class, 'upgradee']);
 
 Route::get('/dashboard/user/pengambilanstok', [DashUserController::class, 'permintaanstok']);
-Route::get('/dashboard/user/pengambilanstok/detail', [DashUserController::class, 'detailstok']);
+Route::get('/dashboard/user/pengambilanstok/detail/{id_stok}', [DashUserController::class, 'detailstok'])->name('user.permintaandetail');
+Route::post('/dashboard/user/pengambilanstok/take-requeststok', [DashUserController::class, 'takeRequeststok'])->name('user.permintaanstok');
+Route::post('/dashboard/user/pengambilanstok/check-user-status', [DashUserController::class, 'checkUserStatusstok']);
+Route::post('/dashboard/user/permintaanstok/complete-stok', [DashUserController::class, 'markAsCompleted'])
+         ->name('user.permintaanstok.complete'); // Menambahkan nama rute
+Route::post('/dashboard/user/permintaanstok/delete-stok', [DashUserController::class, 'markAsCompletedeleted'])
+         ->name('user.permintaanstok.delete'); // Menambahkan nama rute
 
+Route::get('/dashboard/user/pengambilanstok/history', [DashUserController::class, 'historyystok']);
 
 Route::get('/dashboard/user/{username}/HistoryPenyewaan', [DashUserController::class, 'historyy'])->name('penyewaan');
 // Route::get('/dashboard/user/pack', [DashUserController::class, 'pack']);

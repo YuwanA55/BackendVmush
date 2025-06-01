@@ -21,9 +21,18 @@ class PermintaanStok extends Model
         return DB::table('penyewaan')
         ->join('akun_user', 'penyewaan.username', '=', 'akun_user.username')
         ->join('paket', 'penyewaan.id_paket', '=', 'paket.id_paket')
+        ->where('permintaan_stok.id_stok', $id_stok)
         ->get();
     }
 
+
+    public function editfipaketfr($id_stok){
+    return DB::table('permintaan_stok')
+    ->join('akun_user', 'permintaan_stok.username', '=', 'akun_user.username')
+    ->select('permintaan_stok.*', 'akun_user.nama', 'akun_user.nohp')
+    ->where('permintaan_stok.id_stok', $id_stok)
+    ->first();
+}
 
 //     public function datadb(){
 //         return DB::table('data_user')->where('level', '<>', 'admin')->get();
@@ -71,6 +80,15 @@ public $incrementing = false;
         'status_permintaan',
         'tanggal_permintaan',
         'dibutuhkan',
+        'user'
+    ];
+
+    protected $casts = [
+        // BENAR: ini adalah tanggal & waktu permintaan dibuat
+        'tanggal_permintaan' => 'datetime', 
+        
+        // DIPERBAIKI: ini hanya tanggal kapan barang dibutuhkan
+        'dibutuhkan'         => 'date',     
     ];
 
     public $timestamps = false;

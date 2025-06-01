@@ -18,7 +18,7 @@ class PenjadwalanController extends Controller
 
     public function index(){
         $alldata = [
-            'Data Link Firebase'=>$this->Penjadwalan->alldata(),
+            'DataPenjadwalan'=>$this->Penjadwalan->alldata(),
         ];
         return response()->json($alldata);
     }
@@ -31,7 +31,7 @@ class PenjadwalanController extends Controller
             return response()->json(['message' => 'Data Lahan not found'], 404);
         }
     
-        return response()->json(['data' => $data], 200);
+        return response()->json(['DataPenjadwalan' => $data], 200);
     }
 
     public function showtanggal($username, $tanggal)
@@ -42,7 +42,7 @@ class PenjadwalanController extends Controller
             return response()->json(['message' => 'Data Lahan not found'], 404);
         }
     
-        return response()->json(['data' => $data], 200);
+        return response()->json(['DataPenjadwalan' => $data], 200);
     }
 
     public function showidd($id)
@@ -73,7 +73,7 @@ class PenjadwalanController extends Controller
             $penjadwalan->sub_keterangan = $request->input('sub_keterangan');
             $penjadwalan->save();
     
-            return response()->json(['message' => 'Data penjadwalan berhasil ditambah', 'data' => $penjadwalan], Response::HTTP_CREATED);
+            return response()->json(['message' => 'Data penjadwalan berhasil ditambah', 'DataPenjadwalan' => $penjadwalan], Response::HTTP_CREATED);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Gagal menambahkan data id_penjadwalan: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -90,7 +90,7 @@ class PenjadwalanController extends Controller
             $penjadwalan->sub_keterangan = $request->input('sub_keterangan');
             $penjadwalan->save();
 
-            return response()->json(['message' => 'Data Penjadwalan berhasil diupdate', 'data' => $penjadwalan], Response::HTTP_OK);
+            return response()->json(['message' => 'Data Penjadwalan berhasil diupdate', 'DataPenjadwalan' => $penjadwalan], Response::HTTP_OK);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Gagal mengupdate data: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -106,7 +106,7 @@ class PenjadwalanController extends Controller
             $penjadwalanuser->sub_keterangan = $request->input('sub_keterangan');
             $penjadwalanuser->save();
 
-            return response()->json(['message' => 'Data Penjadwalan berhasil diupdate', 'data' => $penjadwalanuser], Response::HTTP_OK);
+            return response()->json(['message' => 'Data Penjadwalan berhasil diupdate', 'DataPenjadwalan' => $penjadwalanuser], Response::HTTP_OK);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Gagal mengupdate data: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }

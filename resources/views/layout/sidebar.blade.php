@@ -36,13 +36,13 @@
             </li>
         </ul> --}}
 
-        <ul class="menu-sub">
+        {{-- <ul class="menu-sub">
             <li class="menu-item {{ Request::is('dashboard/admin/akun/Tengkulak*') ? 'active' : '' }}">
                 <a href="/dashboard/admin/akun/Tengkulak" class="menu-link">
                     <div data-i18n="Data Tengkulak">Data Tengkulak</div>
                 </a>
             </li>
-        </ul>
+        </ul> --}}
 
     </li>
 
@@ -62,7 +62,7 @@
     </li>
 
         {{-- Firebase --}}
-        {{-- <li class="mb-2 menu-item {{ Request::is('dashboard/admin/Produk*') ? 'active open' : '' }}">
+        <li class="mb-2 menu-item {{ Request::is('dashboard/admin/Produk*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-rocket"></i>
                 <div data-i18n="Produk">Produk</div>
@@ -74,7 +74,7 @@
                     </a>
                 </li>
             </ul>
-        </li> --}}
+        </li>
 
                 {{-- Firebase --}}
                 <li class="mb-2 menu-item {{ Request::is('dashboard/admin/Penyewaan/*') ? 'active open' : '' }}">

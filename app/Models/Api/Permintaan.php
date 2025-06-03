@@ -10,34 +10,60 @@ class Permintaan extends Model
 {
 
     public function alldata(){
-        return DB::table('permintaan_stok')->get();
+        return DB::table('permintaan_stok')
+        ->join('akun_user', 'permintaan_stok.username', '=', 'akun_user.username')
+        ->select(
+            'permintaan_stok.id_stok',
+            'permintaan_stok.username',
+            'permintaan_stok.jumlah_stok', // Alias untuk jumlah_stok
+            'permintaan_stok.alamat_permintaan',
+            'permintaan_stok.status_permintaan',
+            'permintaan_stok.tanggal_permintaan',
+            'permintaan_stok.dibutuhkan',
+            'permintaan_stok.user',
+            'akun_user.gambar',
+            'akun_user.nohp'
+        )
+        ->where('permintaan_stok.status_permintaan', 'Tersedia')
+        ->get();
     }
 
 
     public function byekode($username){
-        return DB::table('permintaan_stok')->where('username', $username)->get(); // ambil semua data
+        return DB::table('permintaan_stok')
+        ->where('username', $username)
+        -where('permintaan_stok.status_permintaan','Selesai')
+        ->get(); // ambil semua data
     }
 
-public function byekodeer($username)
-{
+public function byekodeer($user){
     return DB::table('permintaan_stok')
-        ->join('akun_user', 'permintaan_stok.username', '=', 'akun_user.username')
+        ->join('akun_user', 'permintaan_stok.user', '=', 'akun_user.username')
         ->select(
-            'permintaan_stok.username',
+            'permintaan_stok.user',
             'permintaan_stok.alamat_permintaan',
             'akun_user.nama',
             'permintaan_stok.jumlah_stok', // Alias untuk jumlah_stok
             'akun_user.alamat',
             'akun_user.nohp',
             'akun_user.gambar',
-            'permintaan_stok.tanggal_permintaan'
+            'permintaan_stok.tanggal_permintaan',
+            'permintaan_stok.status_permintaan'
         )
-        ->where('permintaan_stok.username', $username)
+        ->where('permintaan_stok.user', $user)
+        ->where('permintaan_stok.status_permintaan', 'Selesai')
         ->get();
 }
 
     public function byekodee($id){
         return DB::table('permintaan_stok')->where('id', $id)->get(); // ambil semua data
+    }
+
+    public function byekodeeeer($id_stok){
+        return DB::table('permintaan_stok')
+        ->where('id_stok', $id_stok)
+        ->where('status_permintaan', 'Tersedia')
+        ->get(); // ambil semua data
     }
 
     // public function byekodeemail($email){

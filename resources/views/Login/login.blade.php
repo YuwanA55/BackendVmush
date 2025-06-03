@@ -125,7 +125,7 @@
               <div class="mb-3 form-password-toggle">
                 <div class="d-flex justify-content-between">
                   <label class="form-label" for="password">Password</label>
-                  <a class="text-primary ssse" onclick="showAlerte()">
+                  <a class="text-primary ssse" href="/reset/sandi">
                     <small>Forgot Password?</small>
                   </a>
                 </div>

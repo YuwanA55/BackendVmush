@@ -8,6 +8,16 @@ use Illuminate\Support\Facades\DB;
 
 class PermintaanStok extends Model
 {
+        public function alldataddd(){
+        return DB::table('permintaan_stok')->get();
+    }
+
+    public function alldatap(){
+        return DB::table('permintaan_stok')
+        ->where('permintaan_stok.status_permintaan', 'Pending')
+        ->get();
+    }
+
     public function alldata(){ 
         return DB::table('permintaan_stok')
             ->join('akun_user', 'permintaan_stok.username', '=', 'akun_user.username')
@@ -42,9 +52,9 @@ class PermintaanStok extends Model
 //         return DB::table('data_user')->where('user',$user)->first();
 //     }
 
-//     public function detailadmin($user){
-//         return DB::table('data_user')->where('user', $user)->first();
-//      }
+    public function editstokk($id_stok){
+        return DB::table('permintaan_stok')->where('id_stok', $id_stok)->first();
+     }
 
 
 public function editpermintaan_stok($id){

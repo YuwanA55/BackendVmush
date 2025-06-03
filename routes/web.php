@@ -28,6 +28,7 @@ Route::get('/pembayaran/{id_paket}/tagihandata/{id_bank}', [FrontendController::
 Route::post('/pembayaran/tagihandata/{username}/save-data', [FrontendController::class, 'savesewa']);
 
 Route::get('/permintaan/jamur', [FrontendController::class, 'permintaanjamur'])->name('permintaanjamur');
+Route::get('/permintaan/jamur/edit/{id_tok}', [FrontendController::class, 'editjamurr']);
 Route::post('/permintaan/jamur/tambah-data', [FrontendController::class, 'savepermintaan'])->name('savepermintaan');
 Route::delete('/permintaan/jamur/hapus-data/{id_stok}', [FrontendController::class, 'hapusData']);
 
@@ -58,12 +59,19 @@ Route::get('/logintengku', [AuthController::class, 'submittengku'])->name('login
 
 Route::post('/authlogin',[AuthController::class,'auth']);
 Route::get('/akses/logout',[AuthController::class,'logout']);
+
+Route::get('/reset/sandi',[AuthController::class,'editsandi']);
+
+
 Route::get('/register',[AuthController::class,'registerrr']);
 Route::get('/register/tengkulak',[AuthController::class,'registertengku']);
-Route::post('/register/tambah-data',[AuthController::class,'savee']);
+Route::post('/register/tambah-data/user',[AuthController::class,'savee']);
 Route::post('/register/tambah-data',[AuthController::class,'saveetengku']);
 
 Route::get('/dashboard/admin', [DashController::class, 'index']);
+Route::get('/dashboard/admin/detail/{username}', [DashController::class, 'detailadmin']);
+
+
 Route::get('/api/link', [DashController::class, 'apistatus']);
 Route::get('/api/link/update', [DashController::class, 'apistatus11']);
 
@@ -105,10 +113,11 @@ Route::delete('/dashboard/admin/Penyewaan/Paket/hapus/{id}', [PembelianControlle
 
 
 // Dashboard User
+Route::get('/dashboard/user/detail-akun/{username}', [DashUserController::class, 'detailadminmm']);
 Route::get('/dashboard', [DashUserController::class, 'index'])->name('userrr');
 Route::get('/dashboard/user/upgrade', [DashUserController::class, 'upgradee']);
 
-Route::get('/dashboard/user/pengambilanstok', [DashUserController::class, 'permintaanstok']);
+Route::get('/dashboard/user/pengambilanstok', [DashUserController::class, 'permintaanstok'])->name('stokpermintaan');
 Route::get('/dashboard/user/pengambilanstok/detail/{id_stok}', [DashUserController::class, 'detailstok'])->name('user.permintaandetail');
 Route::post('/dashboard/user/pengambilanstok/take-requeststok', [DashUserController::class, 'takeRequeststok'])->name('user.permintaanstok');
 Route::post('/dashboard/user/pengambilanstok/check-user-status', [DashUserController::class, 'checkUserStatusstok']);

@@ -23,9 +23,21 @@ class PermintaanController extends Controller
         return response()->json($alldata);
     }
 
-    public function showusername($usertengku)
+    public function showusername($user)
     {
-        $data = $this->Permintaan->byekodeer($usertengku);
+        $data = $this->Permintaan->byekodeer($user);
+    
+        if (!$data) {
+            return response()->json(['message' => 'Data permintaan not found'], 404);
+        }
+    
+        return response()->json(['DataPermintaan' => $data], 200);
+    }
+
+
+        public function showuseridd($id_stok)
+    {
+        $data = $this->Permintaan->byekodeeeer($id_stok);
     
         if (!$data) {
             return response()->json(['message' => 'Data permintaan not found'], 404);
@@ -56,6 +68,20 @@ class PermintaanController extends Controller
             return response()->json(['message' => 'Data Akun berhasil ditambah', 'data' => $Permintaan], Response::HTTP_CREATED);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Gagal menambahkan data Kopi: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    public function updatepermintaan(Request $request, $id_stok)
+    {
+        try {
+            $Permintaan = Permintaan::where('id_stok', $id_stok)->firstOrFail();
+            $Permintaan->status_permintaan = $request->input('status_permintaan');
+            $Permintaan->save();
+
+            return response()->json(['message' => 'Data Permintaan berhasil diupdate', 'DataPenjadwalan' => $Permintaan], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Gagal mengupdate data: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

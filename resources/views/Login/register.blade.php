@@ -147,7 +147,7 @@
               <h4 class="mb-1 pt-2">Bikin akunmu sekarang! 🚀</h4>
               <p class="mb-4">Vmush: Monitoring dan Penjualan Jamur Tiram</p>
 
-              <form enctype="multipart/form-data" class="mb-3" action="/register/tambah-data" method="POST">
+              <form enctype="multipart/form-data" class="mb-3" action="/register/tambah-data/user" method="POST">
                 @csrf
                 <div class="mb-3">
                   <label for="username" class="form-label">Username</label>

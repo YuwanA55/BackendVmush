@@ -65,7 +65,7 @@
                             <p><strong>Alamat:</strong> {{ $p->alamat_permintaan }}</p>
                             <p><strong>Dibutuhkan:</strong> {{ $p->dibutuhkan }}</p>
                         </div>
-                        <a href="/dashboard/user/pengambilanstok/detail/{{ $p->id_stok }}" class="btn btn-success w-100">Ambil Stok</a>
+                        <a href="/dashboard/user/pengambilanstok/detail/{{ $p->id_stok }}" class="btn btn-success w-100">Ambil Permintaan</a>
                     </div>
                 </div>
             </div>

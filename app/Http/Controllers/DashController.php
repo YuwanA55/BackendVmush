@@ -40,16 +40,13 @@ public function index()
     return view('admin.dashboard', $data);
 }
 
-// public function detailadmin($user){
-//     if(!session('login')){
-//         return redirect('/');
-//     }else{
-//     $data = [
-//         'main' => $this->akun->detailadmin($user),
-//     ];
-//     return view('admin.detailadmin', $data);
-// }
-// }
+public function detailadmin($username){
+
+    $data = [
+        'main' => $this->Akun->detailadmin($username),
+    ];
+    return view('admin.detailadmin', $data);
+}
 
 // public function edittadmin($user){
 //     if(!session('login')){

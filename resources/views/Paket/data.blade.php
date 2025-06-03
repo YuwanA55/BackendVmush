@@ -122,9 +122,9 @@ if ($newNumber < 10) {
           <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#largeModal{{$p->id_paket}}"
               >
               <i class="ti ti-list-details me-1"></i></i> Detail Data</button>
-            <a class="dropdown-item ssedtt" href="/DataLink/Firebase/edit/{{$p->id_paket}}"
+            {{-- <a class="dropdown-item ssedtt" href="/DataLink/Firebase/edit/{{$p->id_paket}}"
            
-              ><i class="ti ti-pencil me-1"></i> Edit Data</a>
+              ><i class="ti ti-pencil me-1"></i> Edit Data</a> --}}
               <a class="dropdown-item ssdele" href="javascript:void(0);"
             data-id="{{$p->id_paket}}"
             data-nama="{{$p->nama_paket}}">

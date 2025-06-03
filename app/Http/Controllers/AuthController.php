@@ -192,5 +192,9 @@ public function auth()
         
     }
     
+        public function editsandi(){
+
+        return view('Login.resetpw');
+    }
 
 }

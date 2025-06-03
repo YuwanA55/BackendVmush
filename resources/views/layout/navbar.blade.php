@@ -447,7 +447,7 @@
                     </li>
                     <li>
                     
-                      <a class="dropdown-item" href="/detail/admin/{{session('username')}}">
+                      <a class="dropdown-item" href="/dashboard/admin/detail/{{session('username')}}">
                         <i class="ti ti-user-check me-2 ti-sm"></i>
                         <span class="align-middle">My Profile</span>
                       </a>

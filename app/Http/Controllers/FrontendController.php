@@ -25,6 +25,8 @@ class FrontendController extends Controller
     public function index(){
        $alldata = [
         'alldata'=>$this->DataPaket->alldata(),
+        't_stok'=>$this->PermintaanStok->alldataddd(),
+        't_stokPending'=>$this->PermintaanStok->alldatap(),
         ];
         return view('Frontend.Frontend', $alldata);
     // }
@@ -106,23 +108,23 @@ public function pembayaran($id_paket)
     }
 
 
-    public function permintaanjamur(){
-    if (!session('login')) {
-        // Simpan URL tujuan untuk redirect setelah login
-        session(['url.intended' => url()->current()]);
-        return redirect('/logintengku')->with('error', 'Silakan login terlebih dahulu.');
+public function permintaanjamur()
+    {
+        if (!session('login')) {
+            session(['url.intended' => url()->current()]);
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        if (session('status') !== 'Tengkulak') {
+            abort(404);
+        }
+
+        // Fetch permintaan_stok data for the logged-in user
+        $permintaan = DB::select("SELECT * FROM permintaan_stok WHERE username = ?", [session('username')]);
+        \Log::info('Permintaan data: ', (array)$permintaan); // Debug log
+
+        return view('tengkulak.reqtengkulak', ['permintaan' => $permintaan]);
     }
-
-    if (session('status') !== 'Tengkulak') {
-        abort(404); // Jika bukan Admin, tampilkan 404
-    }
-
-  $permintaan = DB::select("SELECT * FROM Permintaan_stok WHERE username = ?", [session('username')]);
-
-  return view('tengkulak.reqtengkulak', ['permintaan' => $permintaan]);
-    // return view('tengkulak.reqtengkulak', $permintaan );
-
-}
 
 
 public function savepermintaan(){  
@@ -148,7 +150,7 @@ public function savepermintaan(){
         'username' => request()->username,
         'jumlah_stok' => request()->jumlah,
         'alamat_permintaan' => request()->alamat,
-        'status_permintaan' => 'Pending',
+        'status_permintaan' => 'Tersedia',
         'tanggal_permintaan' => request()->tgl,
         'dibutuhkan' => request()->dibutuhkan,
     ];
@@ -176,5 +178,15 @@ public function hapusData($id_stok){
         }
     // }
     }
+
+
+    public function editjamurr($id_stok){
+       $data = [
+            'main'=>$this->PermintaanStok->editstokk($id_stok),
+        ];
+
+    return view('tengkulak.edittengkulak', $data);
+
+}
     
 }

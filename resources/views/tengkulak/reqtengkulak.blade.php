@@ -1,14 +1,12 @@
-
-
 @extends('tengkulak.linkaset')
 @section('kontentengkulak')
 
 <?php
-$query = DB::select("SELECT * FROM permintaan_stok");
+$query = DB::select("SELECT * FROM permintaan_stok ORDER BY id_stok DESC LIMIT 1");
 $lastCode = "STK0000";
 
 if ($query) {
-    $lastCode = $query[count($query) - 1]->id_stok;
+    $lastCode = $query[0]->id_stok;
 }
 
 $lastNumber = (int)substr($lastCode, 3);
@@ -21,155 +19,136 @@ if ($newNumber < 10) {
 } else {
     $newCode = "STK0" . $newNumber;
 }
-
 ?>
 
-<link rel="stylesheet" href="{{asset('assetsadmin')}}/vendor/libs/animate-css/animate.css" />
-<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-<link rel="stylesheet" href="{{asset('assetsadmin')}}/vendor/libs/sweetalert2/sweetalert2.css" />
+<!-- Styles -->
+<link rel="stylesheet" href="{{ asset('assetsadmin/vendor/libs/animate-css/animate.css') }}" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+<link rel="stylesheet" href="{{ asset('assetsadmin/vendor/libs/sweetalert2/sweetalert2.css') }}" />
+<link rel="stylesheet" href="{{ asset('assetsadmin/vendor/libs/flatpickr/flatpickr.css') }}" />
 
-<!-- build:js assets/vendor/js/core.js -->
-<script src="{{asset('assetsadmin')}}/vendor/libs/jquery/jquery.js"></script>
-<script src="{{asset('assetsadmin')}}/vendor/libs/popper/popper.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-<script src="{{asset('assetsadmin')}}/js/ui-modals.js"></script>
-<script src="{{asset('assetsadmin')}}/vendor/libs/sweetalert2/sweetalert2.js"></script>
-<script src="{{asset('assetsadmin')}}/vendor/libs/flatpickr/flatpickr.js"></script>
-<link rel="stylesheet" href="{{asset('assetsadmin')}}/vendor/libs/flatpickr/flatpickr.css" />
-
-
-
-      <!-- alert data berhasil -->
-     
-  <div class="alert alert-success" role="alert" style="display: none;">Data Permintaan Jamur Telah Ditambahkan!</div>
-  <script>
-      $(document).ready(function() {
-          // Tangkap parameter alert dari URL dan tampilkan alert jika ada
-          var urlParams = new URLSearchParams(window.location.search);
-          var alertParam = urlParams.get('alert');
-          if (alertParam === 'success') {
-              $('.alert').fadeIn().delay(5000).fadeOut(); // Tampilkan alert, kemudian hilangkan setelah 5 detik
-          }
-      });
-  </script>
-
-<script>
-    function showAlerte() {
-        Swal.fire({
-            title: 'Fitur Segera Hadir!',
-            text: 'Bersabar Yah...',
-            icon: 'error',
-            showConfirmButton: false,
-            timer: 2500
-        });
-    }
-    </script>
-
+<!-- Custom CSS -->
 <style>
-
-    .ssedtt{
-    cursor:pointer;
+    .card {
+        margin: 0px auto;
+        max-width: 100%;
     }
-    
-    </style>
+    .card-header {
+        padding: 1rem;
+        /* background-color: #1a2330; */
+        color: #fff;
+    }
+    .table-responsive {
+        padding: 0 5px; /* Jarak kiri dan kanan */
+    }
+    .ssedtt:hover { background-color: #53B956; color: #eaeaea; }
+    .ssedtvt:hover { background-color: #EAE041; color: #fff; }
+    .ssdelee:hover { background-color: #DE3163; color: #eaeaea; }
+    .dt-buttons { display: none; }
+    div.dataTables_length { float: left; }
+    div.dataTables_filter { float: right; }
+    div.dataTables_info { float: left; }
+    div.dataTables_paginate { float: right; }
+</style>
 
+<!-- Scripts -->
+<script src="{{ asset('assetsadmin/vendor/libs/jquery/jquery.js') }}"></script>
+<script src="{{ asset('assetsadmin/vendor/libs/popper/popper.js') }}"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="{{ asset('assetsadmin/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+<script src="{{ asset('assetsadmin/vendor/libs/flatpickr/flatpickr.js') }}"></script>
 
+<!-- Success Alert -->
+<div class="alert alert-success" role="alert" style="display: none; margin: 10px;">
+    Data Permintaan Jamur Telah Ditambahkan!
+</div>
+<script>
+    $(document).ready(function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('alert') === 'success') {
+            $('.alert').fadeIn().delay(5000).fadeOut();
+        }
+    });
+</script>
 
-
-<div class="card">
-    <div class="card-header">
-<div class=" d-flex flex-column mb-3 flex-md-row justify-content-between align-items-center"> <!-- Menambahkan class align-items-center -->
-<h2>Data Permintaan Jamur</h2>
-<div >
-
-
-    <div class="btn btn-label-primary dropdown-toggle me-2" data-bs-toggle="dropdown" ><i class="ti ti-file-export me-sm-1"></i> <span class="d-none d-sm-inline-block">Export</span></div>
-    <button type="button" data-bs-toggle="modal" class="btn btn-primary" data-bs-target="#tambahModal"><i class="ti ti-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Tambah Data</span></button>
-
-    <div class="dropdown-menu">
-     {{-- <a class="dropdown-item" href="javascript:void(0);" id="printTable"
-     ><i class="ti ti-copy me-1" ></i>Copy</a> --}}
-     <a class="dropdown-item ssedtt" href="javascript:void(0);" id="csvTable"
-     ><i class="ti ti-file-spreadsheet me-1" ></i>Exel</a>
-     <a class="dropdown-item ssedtvt" href="javascript:void(0);" id="excelTable"
-      ><i class="ti ti-file-text me-1"></i>CSV</a>
-      <a class="dropdown-item ssdelee" href="javascript:void(0);" id="pdfTable"
-      ><i class="ti ti-file-description me-1"></i>Pdf</a>
-      <a class="dropdown-item ssdelee" href="javascript:void(0);"  id="copyTable"
-      ><i class="ti ti-printer me-1" ></i>Print</a>
+<div class="card p-2">
+    <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <h2 class="mb-0">Data Permintaan Jamur</h2>
+        <div class="d-flex align-items-center mt-2 mt-md-0">
+            <div class="btn btn-label-primary dropdown-toggle me-2" data-bs-toggle="dropdown">
+                <i class="ti ti-file-export me-sm-1"></i> <span class="d-none d-sm-inline-block">Export</span>
+            </div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahModal">
+                <i class="ti ti-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Tambah Data</span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item ssedtt" href="javascript:void(0);" id="csvTable">
+                    <i class="ti ti-file-spreadsheet me-1"></i>Excel
+                </a>
+                <a class="dropdown-item ssedtvt" href="javascript:void(0);" id="excelTable">
+                    <i class="ti ti-file-text me-1"></i>CSV
+                </a>
+                <a class="dropdown-item ssdelee" href="javascript:void(0);" id="pdfTable">
+                    <i class="ti ti-file-description me-1"></i>Pdf
+                </a>
+                <a class="dropdown-item ssdelee" href="javascript:void(0);" id="copyTable">
+                    <i class="ti ti-copy me-1"></i>Copy
+                </a>
+                <a class="dropdown-item ssdelee" href="javascript:void(0);" id="printTable">
+                    <i class="ti ti-printer me-1"></i>Print
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="table-user" class="table table-hover display">
+                <thead class="table-light">
+                    <tr>
+                        <th>No</th>
+                        <th>Username</th>
+                        <th>Jumlah (KG)</th>
+                        <th>Status</th>
+                        <th>Tanggal</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @if(count($permintaan) > 0)
+                        @foreach($permintaan as $p)
+                            <tr>
+                                <td>{{ $p->id_stok }}</td>
+                                <td class="p-3">{{ $p->username ?? 'N/A' }}</td>
+                                <td>{{ $p->jumlah_stok }}</td>
+                                <td>
+                                    @if($p->status_permintaan == 'Selesai')
+                                        <span class="badge bg-success">Selesai</span>
+                                    @elseif($p->status_permintaan == 'Ditolak')
+                                        <span class="badge bg-danger">Ditolak</span>
+                                    @elseif($p->status_permintaan == 'Pending')
+                                        <span class="badge bg-warning">Pending</span>
+                                    @else
+                                        <span class="badge bg-primary">Masih Tersedia</span>
+                                    @endif
+                                </td>
+                                <td>{{ $p->tanggal_permintaan }}</td>
+                                <td></td> <!-- Kolom Aksi dikosongkan, akan diisi oleh DataTables -->
+                            </tr>
+                        @endforeach
+                    @endif
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-</div>
 
-
-<div class="table-responsive text-nowrap mb-2">
-<table id="table-user" class="table table-hove display">
-<thead class="table-light">
-  <tr>
-    <th>No</th>
-    <th>Username</th>
-    <th>Jumlah (KG)</th>
-    <th>Status</th>
-    {{-- <th>Alamat</th> --}}
-    <th>Tanggal</th>
-    <th>Aksi</th>
-  </tr>
-</thead>
-<tbody class="table-border-bottom-0 mb-5">
-            @if(count($permintaan) > 0)
-                @foreach($permintaan as $p)
-                <tr>
-                    <th>{{ $p->id_stok }}</th>
-                    <td class="p-3">{{ $p->username }}</td>
-                    <td>{{ $p->jumlah_stok }} KG</td>
-                         <td>
-  @if($p->status_permintaan == 'Selesai')
-    <span class="badge bg-success">Selesai</span>
-  @elseif($p->status_permintaan == 'Ditolak')
-    <span class="badge bg-danger">Ditolak</span>
-  @else
-    <span class="badge bg-primary">Pending</span>
-  @endif
-</td>
-                    {{-- <td>{{ $p->alamat_permintaan }}</td> --}}
-                    <td>{{ $p->tanggal_permintaan }}</td>
-                    <td>
-                        {{-- <div class="dropdown">
-                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                <i class="ti ti-dots-vertical"></i>
-                            </button> --}}
-                            <div class="d-flex">
-                                <button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#largeModal{{ $p->username }}">
-                                    <i class="ti ti-list-details me-1"></i>
-                                </button>
-                                <a class="btn btn-warning me-3" href="/akun/edit/{{ $p->username }}">
-                                    <i class="ti ti-pencil me-1"></i>
-                                </a>
-                                <a class="btn btn-danger hapusdataa me-3" href="javascript:void(0);" 
-                                   data-user="{{ $p->id_stok }}" 
-                                   data-nama="{{ $p->jumlah_stok }}"
-                                   >
-                                    <i class="ti ti-trash me-1"></i>
-                                </a>
-                            </div>
-                        {{-- </div> --}}
-                    </td>
-                </tr>
-                @endforeach
-            @else
-                <tr>
-                    <td colspan="6" class="text-center">No data available</td>
-                </tr>
-            @endif
-        </tbody>
-
-</table >
-</div>
-</div>
-
-
-                    
 <!-- Modal Tambah -->
 <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -184,13 +163,13 @@ if ($newNumber < 10) {
                     <hr class="my-0 mb-3" />
 
                     <!-- Hidden field untuk id_stok -->
-                    <input type="text" value="{{ $newCode }}" hidden id="id_stok"  name="id_stok" />
+                    <input type="text" value="{{ $newCode }}" hidden id="id_stok" name="id_stok" />
 
                     <!-- Username -->
                     <div class="row">
                         <div class="col mb-3">
                             <label for="username" class="form-label">Username</label>
-                            <input type="text" name="username" value="{{session('username')}}" readonly required class="form-control" placeholder="namakamu12" />
+                            <input type="text" name="username" value="{{ session('username') }}" readonly required class="form-control" placeholder="namakamu12" />
                             @error('username')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -208,12 +187,12 @@ if ($newNumber < 10) {
                         </div>
                     </div>
 
-                 <!-- tanggal -->
+                    <!-- Tanggal Dibutuhkan -->
                     <div class="row">
                         <div class="col mb-3">
-                          <label for="alamat" class="form-label">Butuh Berapa Lama</label>
-                        <input type="text" placeholder="YYYY-MM-DD" name="dibutuhkan" id="flatpickr-date" class="form-control" />
-                            @error('alamat')
+                            <label for="dibutuhkan" class="form-label">Butuh Berapa Lama</label>
+                            <input type="text" placeholder="YYYY-MM-DD" name="dibutuhkan" id="flatpickr-date" class="form-control" />
+                            @error('dibutuhkan')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -230,26 +209,20 @@ if ($newNumber < 10) {
                         </div>
                     </div>
 
-                    <!-- Tanggal (otomatis terisi dengan waktu saat ini) -->
-                            <input type="datetime-local" hidden id="tgl"  name="tgl" />
-
-                    <!-- Script untuk mengisi tanggal otomatis -->
-                  <script>
-                    // Fungsi untuk mengatur nilai elemen input datetime-local menjadi tanggal dan waktu saat ini
-                    function setDateTime() {
-                        var now = new Date(); // Mendapatkan tanggal dan waktu saat ini
-                        var year = now.getFullYear();
-                        var month = (now.getMonth() + 1).toString().padStart(2, '0'); // Bulan dimulai dari 0
-                        var day = now.getDate().toString().padStart(2, '0');
-                        var hours = now.getHours().toString().padStart(2, '0');
-                        var minutes = now.getMinutes().toString().padStart(2, '0');
-                        var dateTimeString = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
-                        document.getElementById('tgl').value = dateTimeString; // Mengatur nilai elemen input
-                    }
-            
-                    // Panggil fungsi setDateTime saat halaman dimuat
-                    setDateTime();
-                </script>
+                    <!-- Tanggal (otomatis) -->
+                    <input type="datetime-local" hidden id="tgl" name="tgl" />
+                    <script>
+                        function setDateTime() {
+                            var now = new Date();
+                            var year = now.getFullYear();
+                            var month = (now.getMonth() + 1).toString().padStart(2, '0');
+                            var day = now.getDate().toString().padStart(2, '0');
+                            var hours = now.getHours().toString().padStart(2, '0');
+                            var minutes = now.getMinutes().toString().padStart(2, '0');
+                            document.getElementById('tgl').value = `${year}-${month}-${day}T${hours}:${minutes}`;
+                        }
+                        setDateTime();
+                    </script>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -259,34 +232,15 @@ if ($newNumber < 10) {
         </div>
     </div>
 </div>
-<!-- /Modal Tambah -->
-
-                  <script>
-                    // Fungsi untuk mengatur nilai elemen input datetime-local menjadi tanggal dan waktu saat ini
-                    function setDateTime() {
-                        var now = new Date(); // Mendapatkan tanggal dan waktu saat ini
-                        var year = now.getFullYear();
-                        var month = (now.getMonth() + 1).toString().padStart(2, '0'); // Bulan dimulai dari 0
-                        var day = now.getDate().toString().padStart(2, '0');
-                        var hours = now.getHours().toString().padStart(2, '0');
-                        var minutes = now.getMinutes().toString().padStart(2, '0');
-                        var dateTimeString = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
-                        document.getElementById('tgl').value = dateTimeString; // Mengatur nilai elemen input
-                    }
-            
-                    // Panggil fungsi setDateTime saat halaman dimuat
-                    setDateTime();
-                </script>
 
 
-
-                  <!-- Detail Modal -->
-                  {{-- @foreach ($alldata as $p)
-                  <div class="modal fade" id="largeModal{{$p->username}}" tabindex="-1" aria-hidden="true">
+                   @if(count($permintaan) > 0)
+                   @foreach($permintaan as $p)
+                  <div class="modal fade" id="largeModal{{$p->id_stok}}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h3 class="modal-title" id="exampleModalLabel3">Detail Akun</h3>
+                          <h3 class="modal-title" id="exampleModalLabel3">Detail Permintaan Stok</h3>
                           <button
                             type="button"
                             class="btn-close"
@@ -297,49 +251,58 @@ if ($newNumber < 10) {
                         <hr class="my-0" />
                         <div class="modal-body">
                         <div class="d-flex align-items-start align-items-sm-center mb-3 gap-4">
-                    <img
-                      src="{{$p->gambar}}"
-                      alt="user-avatar"
-                      class="d-block w-px-100 h-px-100 rounded"
-                      id="uploadedAvatar" />
 
+                      </a>
                   </div>
                           <div class="row">
                             <div class="col mb-3">
-                              <label for="nameLarge" class="form-label">username</label>
+                              <label for="nameLarge" class="form-label">ID Permintaan</label>
+                              <input type="text" readonly class="form-control" placeholder="" value="{{$p->id_stok}}" />
+                            </div>
+                          </div>
+                          <div class="row g-2 mb-3">
+                            <div class="col mb-0">
+                              <label for="dobLarge" class="form-label">Username</label>
                               <input type="text" readonly class="form-control" placeholder="" value="{{$p->username}}" />
                             </div>
-                          </div>
-                          <div class="row g-2 mb-3">
                             <div class="col mb-0">
-                              <label for="dobLarge" class="form-label">nama</label>
-                              <input type="text" readonly class="form-control" placeholder="" value="{{$p->nama}}" />
-                            </div>
-                            <div class="col mb-0">
-                              <label for="emailLarge" class="form-label">Email</label>
-                              <input type="email" value="{{$p->email}}" readonly class="form-control" placeholder="" />
+                              <label for="emailLarge" class="form-label">Permintaan Stok</label>
+                              <input type="email" value="{{$p->jumlah_stok}} KG" readonly class="form-control" placeholder="" />
                             </div>
                           </div>
+
                           <div class="row g-2 mb-3">
-                          <div class="col mb-0">
+                          {{-- <div class="col mb-0">
                               <label for="emailLarge" class="form-label">Nomor Hp</label>
                               <input type="number" value="62{{$p->nohp}}" readonly class="form-control" placeholder="" />
-                            </div>
+                            </div> --}}
                             <div class="col mb-0">
-                              <label for="emailLarge" class="form-label">alamat</label>
-                              <input type="text" value="{{$p->alamat}}" readonly class="form-control" placeholder="" />
+                              <label for="emailLarge" class="form-label">Alamat Permintaan</label>
+                              <input type="text" value="{{$p->alamat_permintaan}}" readonly class="form-control" placeholder="" />
                             </div>
 
                             </div>
                            
                             <div class="row g-2 mb-3">
                             <div class="col mb-0">
-                              <label for="emailLarge" class="form-label">Status</label>
-                              <input type="text" value="{{$p->status}}" readonly class="form-control" placeholder="" />
+                              <label for="emailLarge" class="form-label">Status Pembayaran</label>
+                              <input type="text" value="{{$p->status_permintaan}}" readonly class="form-control" placeholder="" />
                             </div>
                             <div class="col mb-0">
-                              <label for="emailLarge" class="form-label">Tanggal Regis</label>
-                              <input type="datetime" class="form-control" value="{{$p->tanggal_create}}" readonly placeholder="" />
+                              <label for="emailLarge" class="form-label">Tanggal Permintaan</label>
+                              <input type="text" class="form-control" value="{{$p->tanggal_permintaan}} " readonly placeholder="" />
+                            </div>
+                            </div>
+
+
+                            <div class="row g-2 mb-3">
+                             <div class="col mb-0">
+                              <label for="emailLarge" class="form-label">Berakhir Permintaan</label>
+                              <input type="text" class="form-control" value="{{$p->dibutuhkan}}" readonly placeholder="" />
+                            </div>
+                            <div class="col mb-0">
+                              <label for="emailLarge" class="form-label">Pengambil Stok</label>
+                              <input type="text" value="{{$p->user}}" readonly class="form-control" placeholder="" />
                             </div>
                             </div>
                             
@@ -353,312 +316,127 @@ if ($newNumber < 10) {
                       </div>
                     </div>
                   </div>
-                  @endforeach --}}
-               
+                @endforeach
+ @endif
+    {{-- <a class="btn btn-warning me-3" href="/permintaan/jamur/edit/${row.id_stok}">
+                            <i class="ti ti-pencil me-1"></i>
+                         </a>  --}}
 
-
-<style>
-.ssdele:hover{
-background-color:#DE3163;
-color:#eaeaea;
-}
-
-.ssdelee:hover{
-background-color:#DE3163;
-color:#eaeaea;
-}
-
-.ssedtt:hover{
-background-color:#53B956;
-color:#eaeaea;
-}
-.ssedtvt:hover{
-background-color:#EAE041;
-color: #fff;;
-}
-#table-controls {
-margin-bottom: 10px;
-}
-
-/* Menyembunyikan tombol-tombol JS bawaan DataTables */
-.dt-buttons {
-display: none;
-z-index: 100;
-}
-
-div.dataTables_length {
-float: left;
-}
-div.dataTables_filter {
-float: right;
-}
-
-
-div.dataTables_info {
-float: left;
-}
-div.dataTables_paginate {
-float: right;
-}
-
-</style>
-
-
-<script>
-
-function validateInput(inputElement) {
-  const inputValue = inputElement.value;
-  const forbiddenCharacters = /[@1234567890!#^&*]/g; // Karakter yang tidak diinginkan
-
-  if (forbiddenCharacters.test(inputValue)) {
-    document.getElementById('error-message').textContent = 'Tidak boleh mengandung karakter tertentu, seperti @, angka, atau karakter lainnya.';
-    inputElement.value = inputValue.replace(forbiddenCharacters, ''); // Menghapus karakter yang tidak diinginkan
-  } else {
-    document.getElementById('error-message').textContent = '';
-  }
-}
-
-
-document.addEventListener('DOMContentLoaded', function () {
-(function () {
-// Update/reset user image on the account page
-const accountUserImage = document.getElementById('uploadedAvatar');
-const fileInput = document.querySelector('.account-file-input');
-const resetFileInput = document.querySelector('.account-image-reset');
-
-if (accountUserImage) {
-  const resetImage = accountUserImage.src;
-
-  fileInput.onchange = () => {
-    if (fileInput.files[0]) {
-      accountUserImage.src = window.URL.createObjectURL(fileInput.files[0]);
-    }
-  };
-
-  resetFileInput.onclick = () => {
-    fileInput.value = '';
-    accountUserImage.src = resetImage;
-  };
-}
-})();
-});
-
-</script>
-
-
-<script>
-    $(document).ready(function () {
-        // Initialize Flatpickr for date selection
-        flatpickr("#flatpickr-datee", { monthSelectorType: 'static' });
-        flatpickr("#flatpickr-date", { monthSelectorType: 'static' });
-
-        $('#editForm').submit(function (e) {
-            e.preventDefault();
-
-            Swal.fire({
-                title: 'Apakah Anda yakin ingin mengedit data?',
-                text: "Tindakan ini tidak dapat dibatalkan!",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, Edit Data!',
-                cancelButtonText: 'Tidak',
-                showClass: {
-                    popup: 'animate__animated animate__tada'
-                },
-                customClass: {
-                    confirmButton: 'btn btn-primary me-3',
-                    cancelButton: 'btn btn-danger '
-                },
-                buttonsStyling: false
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    var formData = new FormData($(this)[0]);
-                    $.ajax({
-                        url: $(this).attr('action'),
-                        type: 'POST',
-                        data: formData,
-                        async: false,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        success: function (response) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Sukses!',
-                                text: response.message,
-                                showConfirmButton: false,
-                                timer: 1700
-                            }).then(() => {
-                                window.location.href = "{{ route('datapembelian') }}";
-                            });
-                        },
-                        error: function (xhr, status, error) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: xhr.responseText
-                            });
-                        }
-                    });
-                }
-            });
-            return false;
-        });
-    });
-</script>
-
-
+<!-- DataTables Initialization -->
 <script>
 $(document).ready(function() {
+    // Initialize Flatpickr
+    flatpickr("#flatpickr-date", { dateFormat: "Y-m-d", monthSelectorType: 'static' });
 
+    // Initialize DataTables
+    var table = $('#table-user').DataTable({
+        "language": {
+            "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+            "paginate": {
+                "previous": "Sebelumnya",
+                "next": "Selanjutnya"
+            },
+            "emptyTable": "Tidak ada data yang tersedia"
+        },
+        "lengthMenu": [10, 25, 50],
+        dom: '<"top"Blfr>t<"bottom"ip>',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+        "columnDefs": [
+            { "targets": 0, "data": "id_stok", "searchable": true, "orderable": true, "render": function(data) { return data || ''; } },
+            { "targets": 1, "data": "username", "searchable": true, "orderable": true, "render": function(data) { return data || 'N/A'; } },
+            { "targets": 2, "data": "jumlah_stok", "searchable": true, "orderable": true, "render": function(data) { return data ? data + ' KG' : ''; } },
+            { "targets": 3, "data": "status_permintaan", "searchable": true, "orderable": true, "render": function(data) {
+                // Konfigurasi status dan kelas badge
+                const statusConfig = {
+                    'Selesai': 'success',
+                    'Ditolak': 'danger',
+                    'Pending': 'warning',
+                    'Masih Tersedia': 'primary'
+                };
+                // Tentukan kelas badge dan teks status
+                const badgeClass = statusConfig[data] || 'secondary';
+                const statusText = data || 'Tidak Diketahui';
+                return `<span class="">${statusText}</span>`;
+            }},
+            { "targets": 4, "data": "tanggal_permintaan", "searchable": true, "orderable": true, "render": function(data) { return data || ''; } },
+            { "targets": 5, "data": null, "searchable": false, "orderable": false, "render": function(data, type, row) {
+                if (!row.id_stok) return ''; // Jika tidak ada data, jangan render tombol
+                return `
+                    <div class="d-flex">
+                        <button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#largeModal${row.id_stok}">
+                            <i class="ti ti-list-details me-1"></i>
+                        </button>
+                        <a class="btn btn-danger hapusdataa me-3" href="javascript:void(0);" 
+                           data-user="${row.id_stok}" 
+                           data-nama="${row.username}">
+                            <i class="ti ti-trash me-1"></i>
+                        </a>
+                    </div>
+                `;
+            }}
+        ],
+        "drawCallback": function(settings) {
+            // Re-attach event listeners after DataTables redraw
+            $('.hapusdataa').off('click').on('click', function() {
+                var user = $(this).data('user');
+                var nama = $(this).data('nama');
 
-  $('.hapusdataa').click(function() {
-      var user = $(this).data('user');
-      var nama = $(this).data('nama');
-
-      Swal.fire({
-  title: 'Apakah Anda yakin ingin menghapus data id ' + user + ' dengan jumlah '+ nama +'KG?',
-  text: "Tindakan ini tidak dapat dibatalkan!",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  confirmButtonText: 'Ya, Hapus Data!',
-  cancelButtonText: 'Tidak',
-  showClass: {
-      popup: 'animate__animated animate__tada'
-  },
-  customClass: {
-      confirmButton: 'btn btn-primary me-3',
-      cancelButton: 'btn btn-danger'
-  },
-  buttonsStyling: false
-}).then((result) => {
-          if (result.isConfirmed) {
-              $.ajax({
-                  type: 'DELETE', // Ubah method menjadi DELETE
-                  url: '/permintaan/jamur/hapus-data/' + user,
-                  data: {
-                      _token: '{{ csrf_token() }}'
-                  },
-                  success: function(response) {
-                    if (response.error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: response.message,
-                            showConfirmButton: false,
-                            timer: 2500
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Sukses!',
-                            text: response.message,
-                            showConfirmButton: false,
-                            timer: 1800
-                        }).then(() => {
-                            window.location.href = "{{ route('permintaanjamur') }}";
+                Swal.fire({
+                    title: `Apakah Anda yakin ingin menghapus data id ${user} dengan jumlah ${nama} KG?`,
+                    text: "Tindakan ini tidak dapat dibatalkan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Hapus Data!',
+                    cancelButtonText: 'Tidak',
+                    customClass: {
+                        confirmButton: 'btn btn-primary me-3',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'DELETE',
+                            url: '/permintaan/jamur/hapus-data/' + user,
+                            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                            success: function(response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Sukses!',
+                                    text: response.message,
+                                    showConfirmButton: false,
+                                    timer: 1800
+                                }).then(() => {
+                                    window.location.href = "{{ route('permintaanjamur') }}";
+                                });
+                            },
+                            error: function(xhr) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: xhr.responseJSON?.message || 'Terjadi kesalahan!',
+                                    showConfirmButton: false,
+                                    timer: 2500
+                                });
+                            }
                         });
                     }
-                },
-                  error: function(xhr, status, error) {
-                      Swal.fire({
-                          icon: 'error',
-                          title: 'Oops...',
-                          text: xhr.responseText
-                      });
-                  }
-              });
-          }
-      });
-  });
-});
-</script>
-
-
-
-<script>
-
-document.addEventListener('DOMContentLoaded', function (e) {
-(function () {
-// Update/reset user image of account page
-const accountUserImage = document.getElementById('uploadedAvatar');
-const fileInput = document.querySelector('.account-file-input');
-const resetFileInput = document.querySelector('.account-image-reset');
-
-if (accountUserImage) {
-  const resetImage = accountUserImage.src;
-
-  fileInput.onchange = () => {
-    if (fileInput.files[0]) {
-      accountUserImage.src = window.URL.createObjectURL(fileInput.files[0]);
-    }
-  };
-
-  resetFileInput.onclick = () => {
-    fileInput.value = '';
-    accountUserImage.src = resetImage;
-  };
-}
-})();
-});
-
-
-
-$(document).ready(function() {
-// Inisialisasi DataTables
-var table = $('#table-user').DataTable({
-    "language": {
-        "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
-        "paginate": {
-            "previous": "Sebelumnya",
-            "next": "Selanjutnya"
-        },
-    },
-    "format": {
-        body: function (inner, coldex, rowdex) {
-            if (!inner) return inner;
-            var el = $.parseHTML(inner);
-            var result = '';
-
-            el.forEach(function (item) {
-                if (item.classList !== undefined && item.classList.contains('user-name')) {
-                    result += item.textContent;
-                } else {
-                    result += item.innerText || item.textContent;
-                }
+                });
             });
+        }
+    });
 
-            return result;
-        },
-    },
-    "lengthMenu": [10, 25, 50],
-    dom: '<"top"Blfr>t<"bottom"ip>',
-});
+    // Hide default DataTables buttons
+    $('.dt-button').remove();
 
-
-// Hapus tombol-tombol JS yang ingin Anda sembunyikan
-$('.dt-button').remove();
-
-// Tambahkan fungsi klik untuk tombol dropdown menu ke tombol DataTables yang sudah ada
-$("#printTable").on('click', function() {
-    table.button('0').trigger();
-});
-$("#csvTable").on('click', function() {
-    table.button('1').trigger();
-});
-$("#excelTable").on('click', function() {
-    table.button('2').trigger();
-});
-$("#pdfTable").on('click', function() {
-    table.button('3').trigger();
-});
-$("#copyTable").on('click', function() {
-    table.button('4').trigger();
-});
+    // Map dropdown menu clicks to DataTables buttons
+    $("#copyTable").on('click', function() { table.button('0').trigger(); });
+    $("#csvTable").on('click', function() { table.button('1').trigger(); });
+    $("#excelTable").on('click', function() { table.button('2').trigger(); });
+    $("#pdfTable").on('click', function() { table.button('3').trigger(); });
+    $("#printTable").on('click', function() { table.button('4').trigger(); });
 });
 </script>
-
 
 @endsection

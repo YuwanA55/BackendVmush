@@ -150,11 +150,11 @@ if (session()->has('username')) {
                 <div>
                     <h2 class="card-title">Permintaan Stok Jamur Tiram</h2>
                     @if($isRequestCompleted)
-                        <span class="badge bg-secondary fs-6">{{ $statusPermintaan }}</span>
-                    @elseif(in_array(strtolower($statusPermintaan), ['diproses', 'diambil']))
-                        <span class="badge bg-primary fs-6">{{ $statusPermintaan }}</span>
-                    @else
                         <span class="badge bg-success fs-6">{{ $statusPermintaan }}</span>
+                    @elseif(in_array(strtolower($statusPermintaan), ['Pending', 'diambil']))
+                        <span class="badge bg-warning fs-6">{{ $statusPermintaan }}</span>
+                    @else
+                        <span class="badge bg-primary fs-6">{{ $statusPermintaan }}</span>
                     @endif
                 </div>
                 <div class="text-muted">ID: #{{ $idStok ?? 'N/A' }}</div>
@@ -354,7 +354,7 @@ function takeRequest(idStok, username) {
 function markRequestAsCompleted(idStok) {
     Swal.fire({
         title: 'Selesaikan Permintaan Ini?',
-        html: `Anda akan menandai permintaan stok dengan ID: <strong>#${idStok}</strong> sebagai "Selesai".<br>Tindakan ini akan mengubah status permintaan. Lanjutkan?`,
+        html: ``,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Ya, Selesaikan',
@@ -449,7 +449,7 @@ function markRequestAsCompletedELETED(idStok) {
             .then(data => {
                 if (data.success) {
                     Swal.fire({ icon: 'success', title: 'Berhasil!', text: data.message || 'Permintaan stok Dibatalkan.', showConfirmButton: false, timer: 2000, timerProgressBar: true })
-                        .then(() => { window.location.reload(); });
+                        window.location.href = "{{ route('stokpermintaan') }}";
                 } else {
                     Swal.fire({ icon: 'error', title: 'Gagal!', text: data.message || 'Gagal menandai permintaan selesai.', confirmButtonColor: '#1ca17d' });
                 }

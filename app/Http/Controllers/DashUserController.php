@@ -60,7 +60,7 @@ public function permintaanstok(){
 $permintaan = DB::select("SELECT ps.*, au.gambar, au.alamat, au.nama, au.nohp, au.email, au.status
 FROM permintaan_stok ps
 JOIN akun_user au ON ps.username = au.username
-WHERE ps.status_permintaan = 'Pending' AND (ps.user = '' OR ps.user IS NULL)");
+WHERE ps.status_permintaan = 'Tersedia' AND (ps.user = '' OR ps.user IS NULL)");
 
   return view('tengkulak.trimaRequest', ['permintaan' => $permintaan]);
 
@@ -109,6 +109,7 @@ try {
             }
 
             $stockRequest->user = $request->user;
+            $stockRequest->status_permintaan = 'Pending';
             $stockRequest->save();
 
             return response()->json(['success' => true, 'message' => 'Permintaan berhasil diambil']);
@@ -224,6 +225,7 @@ public function markAsCompletedeleted(Request $request){
             }
 
             $permintaan->user = ''; // Set status menjadi "Selesai" (Pastikan string ini konsisten)
+            $permintaan->status_permintaan = 'Pending'; // Set status menjadi "Selesai" (Pastikan string ini konsisten)
             $permintaan->save();
 
             return response()->json(['success' => true, 'message' => 'Permintaan stok berhasil ditandai sebagai Selesai.']);
@@ -236,5 +238,16 @@ public function markAsCompletedeleted(Request $request){
             return response()->json(['success' => false, 'message' => 'Terjadi kesalahan pada server saat menyelesaikan permintaan. Silakan cek log.'], 500);
         }
     }
+
+
+public function detailadminmm($username){
+
+    $data = [
+        'main' => $this->Akun->detailadmin($username),
+    ];
+    return view('layoutUser.detailuser', $data);
+}
+
+
 
 }

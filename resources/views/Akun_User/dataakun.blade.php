@@ -105,9 +105,9 @@
           <div class="dropdown-menu">
           <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#largeModal{{$p->username}}"
               ><i class="ti ti-list-details me-1"></i></i> Detail Data</button>
-            <a class="dropdown-item ssedtt" href="/akun/edit/{{$p->username}}"
+            {{-- <a class="dropdown-item ssedtt" href="/akun/edit/{{$p->username}}"
            
-              ><i class="ti ti-pencil me-1"></i> Edit Data</a>
+              ><i class="ti ti-pencil me-1"></i> Edit Data</a> --}}
               <a class="dropdown-item ssdele" href="javascript:void(0);"
             data-user="{{$p->username}}"
             data-nama="{{$p->nama}}">

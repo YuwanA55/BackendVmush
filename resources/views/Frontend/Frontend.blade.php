@@ -337,6 +337,17 @@
     </style>
 </head>
 <body>
+
+                    <?php $jmlh_Pembelian = 0 ?>
+                @foreach ($t_stok as $item)
+                    <?php $jmlh_Pembelian = $jmlh_Pembelian + 1 ?>
+                @endforeach
+
+                <?php $jmlh_Pending = 0 ?>
+                @foreach ($t_stokPending as $item)
+                    <?php $jmlh_Pending = $jmlh_Pending + 1 ?>
+                @endforeach
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container">
@@ -364,9 +375,9 @@
                         <a class="nav-link" href="#about">Tentang Kami</a>
                     </li>
                  <!-- Sebelumnya: <li class="nav-item dropdown"> ... </li> -->
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="#market">Market</a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a href="/login" class="btn btn-primary">Login</a>
                     </li>
@@ -407,14 +418,16 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="market-metric">
-                                    <div class="label">Permintaan Pasar</div>
-                                    <div class="value text-success">Sedang</div>
+                                    <div class="label">Total Permintaan</div>
+                                    <div class="value text-success">
+                                        {{$jmlh_Pembelian}}
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="market-metric">
-                                    <div class="label">Pembeli Aktif</div>
-                                    <div class="value">999999</div>
+                                    <div class="label">Permintaan Pending</div>
+                                    <div class="value">{{$jmlh_Pending}}</div>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -507,7 +520,7 @@
                     <div class="testimonial-card">
                         <div class="testimonial-author">
                             <div class="author-image">
-                                <img src="/api/placeholder/50/50" alt="User Avatar" class="img-fluid">
+                                <img src="https://i.pinimg.com/736x/4e/38/e7/4e38e73208c8a9c2410e4f1d9cb90ee5.jpg" alt="User Avatar" class="img-fluid">
                             </div>
                             <div class="author-info">
                                 <h4>Ahmad Budiman</h4>
@@ -521,7 +534,7 @@
                     <div class="testimonial-card">
                         <div class="testimonial-author">
                             <div class="author-image">
-                                <img src="/api/placeholder/50/50" alt="User Avatar" class="img-fluid">
+                                <img src="https://i.pinimg.com/736x/4e/38/e7/4e38e73208c8a9c2410e4f1d9cb90ee5.jpg" alt="User Avatar" class="img-fluid">
                             </div>
                             <div class="author-info">
                                 <h4>Dewi Santoso</h4>
@@ -535,7 +548,7 @@
                     <div class="testimonial-card">
                         <div class="testimonial-author">
                             <div class="author-image">
-                                <img src="/api/placeholder/50/50" alt="User Avatar" class="img-fluid">
+                                <img src="https://i.pinimg.com/736x/4e/38/e7/4e38e73208c8a9c2410e4f1d9cb90ee5.jpg" alt="User Avatar" class="img-fluid">
                             </div>
                             <div class="author-info">
                                 <h4>Budi Hartono</h4>

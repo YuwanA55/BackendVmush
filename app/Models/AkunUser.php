@@ -21,9 +21,11 @@ class akunuser extends Model
         return DB::table('akun_user')->where('username',$username)->first();
     }
 
-//     public function detailadmin($user){
-//         return DB::table('data_user')->where('user', $user)->first();
-//      }
+    public function detailadmin($username){
+        return DB::table('akun_user')
+        ->where('username', $username)
+        ->first();
+     }
 
 
 //      public function editakunuser($user){

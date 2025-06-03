@@ -83,8 +83,10 @@ Route::delete('/Data/Tengkulak/hapus-Data/{username}', [TengkulakController::cla
 
 // API Permintaan Stok
 Route::get('/Data/Permintaan/data-tampil', [PermintaanController::class, 'index']);
-Route::get('/Data/Permintaan/data-tampil/{username}', [PermintaanController::class, 'showusername']);
+Route::get('/Data/Permintaan/data-tampil/{user}', [PermintaanController::class, 'showusername']);
+Route::get('/Data/Permintaan/data-tampil/id/{id_stok}', [PermintaanController::class, 'showuseridd']);
 Route::post('/Data/Permintaan/tambah-Data', [PermintaanController::class, 'store']);
+Route::put('/Data/Permintaan/edit-Data/id/{id_stok}', [PermintaanController::class, 'updatepermintaan']);
 Route::delete('/Data/Permintaan/hapus-Data/user/{username}', [PermintaanController::class, 'deleteuser']);
 Route::delete('/Data/Permintaan/hapus-Data/id/{id_stok}', [PermintaanController::class, 'deleteid']);
 
